@@ -15,11 +15,12 @@ buildscript {
     }
 }
 
-defaultTasks 'clean', 'build', 'javadocJar', 'install'
+defaultTasks 'clean', 'build', 'javadocJar', 'install', 'publish'
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
+    apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow' // Shadow jar
     apply plugin: 'net.kyori.blossom' // Token replacer
     apply plugin: 'com.github.ben-manes.versions' // Dependencies version checker
@@ -108,11 +109,12 @@ subprojects {
         archives javadocJar
     }
 
-    uploadArchives {
+    publishing {
         repositories {
-            mavenDeployer {
-                repository(url: 'https://repo.codemc.org/repository/maven-releases/')
-                snapshotRepository(url: 'https://repo.codemc.org/repository/maven-snapshots/')
+            maven {
+                def releasesRepoUrl = "https://repo.codemc.org/repository/maven-releases/"
+                def snapshotsRepoUrl = "https://repo.codemc.org/repository/maven-snapshots/"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             }
         }
     }

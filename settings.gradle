@@ -1,0 +1,4 @@
+rootProject.name = 'adp-core'
+include 'common'
+include 'bukkit'
+

@@ -1,0 +1,87 @@
+package com.alessiodp.core.common.bootstrap;
+
+import com.alessiodp.core.common.logging.ConsoleColor;
+import com.alessiodp.core.common.user.OfflineUser;
+import com.alessiodp.core.common.user.User;
+import lombok.AllArgsConstructor;
+
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.UUID;
+
+@AllArgsConstructor
+public abstract class AbstractADPPlugin implements ADPBootstrap {
+	private final ADPBootstrap bootstrap;
+	
+	@Override
+	public ADPBootstrap getBootstrap() {
+		return bootstrap;
+	}
+	
+	@Override
+	public Path getFolder() {
+		return bootstrap.getFolder();
+	}
+	
+	@Override
+	public String getVersion() {
+		return bootstrap.getVersion();
+	}
+	
+	@Override
+	public void stopPlugin() {
+		bootstrap.stopPlugin();
+	}
+	
+	@Override
+	public InputStream getResource(String resource) {
+		return bootstrap.getResource(resource);
+	}
+	
+	@Override
+	public User getPlayer(UUID uuid) {
+		return bootstrap.getPlayer(uuid);
+	}
+	
+	@Override
+	public User getPlayerByName(String name) {
+		return bootstrap.getPlayerByName(name);
+	}
+	
+	@Override
+	public OfflineUser getOfflinePlayer(UUID uuid) {
+		return bootstrap.getOfflinePlayer(uuid);
+	}
+	
+	@Override
+	public List<User> getOnlinePlayers() {
+		return bootstrap.getOnlinePlayers();
+	}
+	
+	@Override
+	public void logConsole(String message, boolean isWarning) {
+		bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning);
+	}
+	
+	/**
+	 * Get plugin name
+	 *
+	 * @return the name of the plugin
+	 */
+	public abstract String getPluginName();
+	
+	/**
+	 * Get plugin fallback name
+	 *
+	 * @return the fallback name of the plugin
+	 */
+	public abstract String getPluginFallbackName();
+	
+	/**
+	 * Get the console color of the plugin
+	 *
+	 * @return the console color of the plugin
+	 */
+	protected abstract ConsoleColor getConsoleColor();
+}

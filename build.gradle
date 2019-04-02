@@ -1,0 +1,110 @@
+buildscript {
+    repositories {
+        // Shadow
+        jcenter()
+
+        // Blossom & Gradle Versions
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+        classpath 'gradle.plugin.net.kyori:blossom:1.1.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
+    }
+}
+
+defaultTasks 'clean', 'build', 'javadocJar', 'install'
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'com.github.johnrengelman.shadow' // Shadow jar
+    apply plugin: 'net.kyori.blossom' // Token replacer
+    apply plugin: 'com.github.ben-manes.versions' // Dependencies version checker
+
+
+    group 'com.alessiodp.core'
+    version '1.0.0'
+
+    sourceCompatibility = 1.8
+
+    // Development
+    ext.lombok = '1.18.6'
+
+    // Libraries
+    ext.bstats = '1.4'
+    ext.configurate = '3.6'
+    ext.gson = '2.8.4'
+    ext.guava = '21.0'
+    ext.hikaricp = '3.3.1'
+    ext.slf4j = '1.7.25'
+    ext.spigot = '1.13.2-R0.1-SNAPSHOT'
+    ext.sqlitejdbc = '3.27.2.1'
+
+    repositories {
+        mavenCentral()
+        
+        // Spigot repository for Spigot & Bukkit
+        maven {
+            name = 'spigot-repo'
+            url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
+        }
+
+        // JitPack repo
+        maven {
+            name = 'jitpack.io'
+            url = 'https://jitpack.io'
+        }
+
+        // Sponge repository for configurate
+        maven {
+            name = 'sponge'
+            url = 'https://repo.spongepowered.org/maven'
+        }
+    }
+
+    dependencies {
+        compile group: 'com.google.guava', name: 'guava', version: project.ext.guava
+
+        compileOnly group: 'org.projectlombok', name: 'lombok', version: project.ext.lombok
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: project.ext.lombok
+    }
+
+    jar {
+        enabled = false
+        dependsOn shadowJar
+    }
+    
+    task javadocJar(type: Jar) {
+        archiveClassifier = 'javadoc'
+        from javadoc
+    }
+
+    dependencyUpdates.resolutionStrategy = {
+        componentSelection { rules ->
+            rules.all { ComponentSelection selection ->
+                boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm', 'SNAPSHOT'].any { qualifier ->
+                    selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+                }
+
+                boolean snapshots = ['spigot-api', 'bukkit'].any { name ->
+                    selection.candidate.module == name
+                }
+                if ((selection.candidate.module == 'guava' && selection.candidate.version != project.ext.guava)
+                    || (selection.candidate.module == 'gson' && selection.candidate.version != project.ext.gson)) {
+                    selection.reject('Module unsupported')
+                }
+
+                if (rejected && !snapshots) {
+                    selection.reject('Release candidate')
+                }
+            }
+        }
+    }
+
+    artifacts {
+        archives javadocJar
+    }
+}

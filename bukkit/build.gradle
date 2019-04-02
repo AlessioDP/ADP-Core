@@ -1,0 +1,18 @@
+dependencies {
+    compile project(':common')
+
+    compile group: 'org.spigotmc', name: 'spigot-api', version: project.ext.spigot
+    compile group: 'org.bukkit', name: 'bukkit', version: project.ext.spigot
+    compile group: 'com.github.Bastian.bStats-Metrics', name: 'bstats-bukkit', version: project.ext.bstats
+}
+
+shadowJar {
+    archiveClassifier = null
+
+    dependencies {
+        include(dependency('com.alessiodp.core.bukkit:.*'))
+        include(dependency('com.github.Bastian.bStats-Metrics:bstats-bukkit'))
+    }
+
+    relocate("org.bstats", "com.alessiodp.core.bukkit.addons.external.bstats")
+}

@@ -1,0 +1,22 @@
+dependencies {
+    compileOnly group: 'org.spongepowered', name: 'configurate-yaml', version: project.ext.configurate
+    compileOnly group: 'com.google.code.gson', name: 'gson', version: project.ext.gson
+    compileOnly group: 'com.zaxxer', name: 'HikariCP', version: project.ext.hikaricp
+    compileOnly group: 'org.xerial', name: 'sqlite-jdbc', version: project.ext.sqlitejdbc
+}
+
+shadowJar {
+    archiveClassifier = null
+
+    dependencies {
+        include(dependency('com.alessiodp.core.common:.*'))
+    }
+}
+
+blossom {
+    def lib = 'src/main/java/com/alessiodp/core/common/addons/libraries/ILibrary.java'
+    replaceToken '%CONFIGURATE%', project.ext.configurate, lib
+    replaceToken '%HIKARICP%', project.ext.hikaricp, lib
+    replaceToken '%SLF4J%', project.ext.slf4j, lib
+    replaceToken '%SQLITEJDBC%', project.ext.sqlitejdbc, lib
+}

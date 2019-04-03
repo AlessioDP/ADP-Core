@@ -6,7 +6,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
         classpath 'gradle.plugin.net.kyori:blossom:1.1.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
     }

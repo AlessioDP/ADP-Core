@@ -7,10 +7,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class NoneDispatcher implements IDatabaseDispatcher {
 	@Override
-	public void init(StorageType type) {}
+	public void init(StorageType type) {
+		// Nothing to initialize
+	}
 	
 	@Override
-	public void stop() {}
+	public void stop() {
+		// Nothing to stop
+	}
 	
 	@Override
 	public boolean isFailed() {

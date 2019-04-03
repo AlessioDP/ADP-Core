@@ -1,20 +1,20 @@
 package com.alessiodp.core.bukkit.configuration.adapter;
 
 import com.alessiodp.core.common.configuration.adapter.ConfigurationSectionAdapter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.List;
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class BukkitConfigurationSectionAdapter implements ConfigurationSectionAdapter {
 	private final ConfigurationSection configurationSection;
 	
-	public BukkitConfigurationSectionAdapter(ConfigurationSection configurationSection) {
-		this.configurationSection = configurationSection;
-	}
-	
 	@Override
-	public void reload() {}
+	public void reload() {
+		// Reload not required
+	}
 	
 	@Override
 	public boolean contains(String path) {

@@ -43,11 +43,12 @@ public abstract class CommandUtils {
 	/**
 	 * Handle on/off commands
 	 *
-	 * @param ret the default value
+	 * @param value the default value
 	 * @param args the command arguments
 	 * @return true if the result is on
 	 */
-	public Boolean handleOnOffCommand(Boolean ret, String[] args) {
+	public Boolean handleOnOffCommand(Boolean value, String[] args) {
+		Boolean ret = value;
 		if (args.length > 1) {
 			if (args[1].equalsIgnoreCase(commandOn))
 				ret = true;

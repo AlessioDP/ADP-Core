@@ -2,11 +2,8 @@ buildscript {
     repositories {
         // Shadow
         jcenter()
-
         // Blossom & Gradle Versions
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
@@ -15,7 +12,7 @@ buildscript {
     }
 }
 
-defaultTasks 'clean', 'build', 'javadocJar'
+defaultTasks 'clean', 'build', 'publish'
 
 subprojects {
     apply plugin: 'java'
@@ -32,6 +29,7 @@ subprojects {
 
     // Development
     ext.lombok = '1.18.6'
+    ext.powermock = '2.0.0'
 
     // Libraries
     ext.bstats = '1.4'
@@ -59,6 +57,9 @@ subprojects {
 
         compileOnly group: 'org.projectlombok', name: 'lombok', version: project.ext.lombok
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: project.ext.lombok
+
+        testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: project.ext.powermock
+        testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: project.ext.powermock
     }
 
     dependencyUpdates.resolutionStrategy = {

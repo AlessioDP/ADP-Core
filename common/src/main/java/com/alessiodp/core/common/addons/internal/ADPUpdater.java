@@ -88,17 +88,17 @@ public class ADPUpdater {
 	 */
 	private void checkUpdates() {
 		foundVersion = "";
-		String version = getVersionInfo();
+		String remoteVersion = getVersionInfo();
 		
-		if (version == null) {
+		if (remoteVersion == null) {
 			plugin.getLoggerManager().log(Constants.UPDATER_FALLBACK_WARN
 					.replace("{plugin}", plugin.getPluginName()), true);
-			version = getVersionFallback();
+			remoteVersion = getVersionFallback();
 		}
 		
-		if (checkVersion(version, plugin.getVersion())) {
+		if (checkVersion(remoteVersion, plugin.getVersion())) {
 			// New version found
-			foundVersion = version;
+			foundVersion = remoteVersion;
 			
 			plugin.getLoggerManager().log(Constants.UPDATER_FOUND
 					.replace("{plugin}", pluginName)
@@ -177,14 +177,14 @@ public class ADPUpdater {
 	/**
 	 * Parse latest version
 	 *
-	 * @param ver current version
-	 * @param compareWith string version to compare with the current one
+	 * @param remoteVersion current version
+	 * @param currentVersion string version to compare with the current one
 	 * @return true if the version is newer than the given one
 	 */
-	private boolean checkVersion(String ver, String compareWith) {
+	private boolean checkVersion(String remoteVersion, String currentVersion) {
 		boolean ret = false;
-		String[] splitVer = splitVersion(ver);
-		String[] splitCompareWith = splitVersion(compareWith);
+		String[] splitVer = splitVersion(remoteVersion);
+		String[] splitCompareWith = splitVersion(currentVersion);
 		
 		try {
 			for (int c=0; c < splitVer.length && !ret; c++) {
@@ -204,11 +204,11 @@ public class ADPUpdater {
 	/**
 	 * Split version into string array
 	 *
-	 * @param value version string
-	 * @return the version splitted as array of strings
+	 * @param version version string
+	 * @return the version split as array of strings
 	 */
-	private String[] splitVersion(String value) {
-		value = value.split(Constants.UPDATER_DELIMITER_TYPE)[0];
-		return value.split(Constants.UPDATER_DELIMITER_VERSION);
+	private String[] splitVersion(String version) {
+		String ret = version.split(Constants.UPDATER_DELIMITER_TYPE)[0];
+		return ret.split(Constants.UPDATER_DELIMITER_VERSION);
 	}
 }

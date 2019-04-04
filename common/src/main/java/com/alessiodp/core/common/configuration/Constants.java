@@ -42,6 +42,7 @@ public class Constants {
 	public static final String DEBUG_ADDON_HOOKED = "Hooked into {addon}";
 	public static final String DEBUG_ADDON_FAILED = "Failed to hook into {addon}, disabled its features";
 	public static final String DEBUG_ADDON_OUTDATED = "Failed to hook into {addon}, you are using an old version of that plugin";
+	public static final String DEBUG_ADDON_METRICS_INIT = "Initializing metrics handler...";
 	
 	public static final String DEBUG_CMD_SETUP_PREPARE = "Preparing commands...";
 	public static final String DEBUG_CMD_SETUP_REGISTER = "Registering commands...";

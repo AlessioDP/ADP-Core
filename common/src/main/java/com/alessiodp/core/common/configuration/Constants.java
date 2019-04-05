@@ -1,12 +1,15 @@
 package com.alessiodp.core.common.configuration;
 
 public class Constants {
+	
 	// Libraries
 	public static final String LIBRARY_FOLDER = "libs/";
 	public static final String LIBRARY_URL = "https://repo1.maven.org/maven2/%package%/%name%/%version%/%file%";
 	
+	
 	// Database
 	public static final String DATABASE_SCHEMA_DIVIDER = "\\/\\*START\\_([a-z]+)\\*\\/([^\\/\\*]*)\\/\\*END\\_\\1\\*\\/";
+	
 	
 	// Updater
 	public static final String UPDATER_FOUND = "{plugin} v{currentVersion} found a new version: {newVersion}";
@@ -20,8 +23,10 @@ public class Constants {
 	public static final String UPDATER_DELIMITER_TYPE = "\\-";
 	public static final String UPDATER_DELIMITER_VERSION = "\\.";
 	
+	
 	// Common messages
 	public static final String ONLY_PLAYERS = "You must be a player to use this command.";
+	
 	
 	// Common SQL queries
 	public static final String QUERY_CHECKVERSION_SET_MYSQL = "INSERT INTO {table_versions} (`name`, `version`) VALUES (?,?) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `version`=VALUES(`version`);";
@@ -31,12 +36,15 @@ public class Constants {
 	public static final String QUERY_GENERIC_SELECTALL = "SELECT * FROM {table};";
 	public static final String QUERY_GENERIC_DROP = "DROP TABLE {table};";
 	
+	
 	// Debug messages
 	public static final String DEBUG_PLUGIN_ENABLING = "Initializing {plugin} {version}";
 	public static final String DEBUG_PLUGIN_ENABLED = "{plugin} v{version} enabled";
 	public static final String DEBUG_PLUGIN_DISABLING = "Disabling {plugin}";
 	public static final String DEBUG_PLUGIN_DISABLED = "{plugin} disabled";
 	public static final String DEBUG_PLUGIN_DISABLED_LOG = "========== {plugin} disabled - End of Log ==========";
+	public static final String DEBUG_PLUGIN_REGISTERING = "Registering listeners...";
+	public static final String DEBUG_PLUGIN_RELOADING = "Reloading plugin...";
 	
 	public static final String DEBUG_ADDON_INIT = "Initializing addons...";
 	public static final String DEBUG_ADDON_HOOKED = "Hooked into {addon}";

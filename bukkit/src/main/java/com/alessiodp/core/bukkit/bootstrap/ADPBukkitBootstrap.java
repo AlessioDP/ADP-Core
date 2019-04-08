@@ -40,6 +40,11 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	}
 	
 	@Override
+	public String getAuthor() {
+		return super.getDescription().getAuthors().get(0);
+	}
+	
+	@Override
 	public String getVersion() {
 		return super.getDescription().getVersion();
 	}

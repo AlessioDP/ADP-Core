@@ -24,6 +24,13 @@ public interface ADPBootstrap {
 	Path getFolder();
 	
 	/**
+	 * Get plugin author
+	 *
+	 * @return the author of the plugin
+	 */
+	String getAuthor();
+	
+	/**
 	 * Get plugin version
 	 *
 	 * @return the version of the plugin

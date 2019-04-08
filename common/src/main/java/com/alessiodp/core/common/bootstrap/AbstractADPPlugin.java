@@ -25,6 +25,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
+	public String getAuthor() {
+		return bootstrap.getAuthor();
+	}
+	
+	@Override
 	public String getVersion() {
 		return bootstrap.getVersion();
 	}

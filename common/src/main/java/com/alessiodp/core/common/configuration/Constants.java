@@ -29,6 +29,7 @@ public class Constants {
 	
 	
 	// Common SQL queries
+	public static final String QUERY_CHECKVERSION = "SELECT * FROM {table_versions} WHERE `name`=?;";
 	public static final String QUERY_CHECKVERSION_SET_MYSQL = "INSERT INTO {table_versions} (`name`, `version`) VALUES (?,?) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `version`=VALUES(`version`);";
 	public static final String QUERY_CHECKVERSION_SET_SQLITE = "INSERT OR REPLACE INTO {table_versions} (`name`, `version`) VALUES (?,?);";
 	public static final String QUERY_RENAME_MYSQL = "RENAME TABLE {table} TO {newtable};";

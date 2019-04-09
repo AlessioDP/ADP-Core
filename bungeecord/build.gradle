@@ -1,0 +1,17 @@
+dependencies {
+    compile project(':common')
+
+    compile group: 'net.md-5', name: 'bungeecord-api', version: project.ext.bungeecord
+    compile group: 'com.github.Bastian.bStats-Metrics', name: 'bstats-bungeecord', version: project.ext.bstats
+}
+
+shadowJar {
+    archiveClassifier = null
+
+    dependencies {
+        include(dependency('com.alessiodp.core.bungeecord:.*'))
+        include(dependency('com.github.Bastian.bStats-Metrics:bstats-bungeecord'))
+    }
+
+    relocate("org.bstats", "com.alessiodp.core.bungeecord.addons.external.bstats")
+}

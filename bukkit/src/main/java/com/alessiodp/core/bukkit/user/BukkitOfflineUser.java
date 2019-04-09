@@ -3,7 +3,6 @@ package com.alessiodp.core.bukkit.user;
 import com.alessiodp.core.common.user.OfflineUser;
 import lombok.NonNull;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 
 import java.util.UUID;
 

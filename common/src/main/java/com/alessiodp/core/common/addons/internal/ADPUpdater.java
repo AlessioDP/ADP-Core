@@ -96,17 +96,16 @@ public class ADPUpdater {
 			remoteVersion = getVersionFallback();
 		}
 		
-		if (remoteVersion != null) {
-			if (checkVersion(remoteVersion, plugin.getVersion())) {
-				// New version found
-				foundVersion = remoteVersion;
-				
-				plugin.getLoggerManager().log(Constants.UPDATER_FOUND
-						.replace("{plugin}", plugin.getPluginName())
-						.replace("{currentVersion}", plugin.getVersion())
-						.replace("{newVersion}", foundVersion), true);
-				alertPlayers();
-			}
+		if (remoteVersion != null
+				&& checkVersion(remoteVersion, plugin.getVersion())) {
+			// New version found
+			foundVersion = remoteVersion;
+			
+			plugin.getLoggerManager().log(Constants.UPDATER_FOUND
+					.replace("{plugin}", plugin.getPluginName())
+					.replace("{currentVersion}", plugin.getVersion())
+					.replace("{newVersion}", foundVersion), true);
+			alertPlayers();
 		}
 	}
 	

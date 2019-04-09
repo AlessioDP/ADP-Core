@@ -23,7 +23,7 @@ subprojects {
 
 
     group 'com.alessiodp.core'
-    version '1.0.3'
+    version '1.0.4-SNAPSHOT'
 
     sourceCompatibility = 1.8
 

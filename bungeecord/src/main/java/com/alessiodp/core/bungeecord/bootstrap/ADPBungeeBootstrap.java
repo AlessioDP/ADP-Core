@@ -9,6 +9,7 @@ import com.alessiodp.core.common.user.User;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -53,6 +54,11 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 		this.onDisable();
 		super.getProxy().getPluginManager().unregisterCommands(this);
 		super.getProxy().getPluginManager().unregisterListeners(this);
+	}
+	
+	@Override
+	public InputStream getResource(String resource) {
+		return super.getResourceAsStream(resource);
 	}
 	
 	@Override

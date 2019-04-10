@@ -13,8 +13,6 @@ import org.bukkit.plugin.Plugin;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
-import static com.alessiodp.core.common.configuration.Constants.MESSAGING_CHANNEL;
-
 public abstract class BukkitMessageDispatcher extends MessageDispatcher {
 	
 	public BukkitMessageDispatcher(@NonNull ADPPlugin plugin) {
@@ -25,7 +23,7 @@ public abstract class BukkitMessageDispatcher extends MessageDispatcher {
 	public void register() {
 		if (!registered) {
 			Plugin bukkitPlugin = (Plugin) plugin.getBootstrap();
-			bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, MESSAGING_CHANNEL);
+			bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, Constants.MESSAGING_CHANNEL);
 			registered = true;
 		}
 	}

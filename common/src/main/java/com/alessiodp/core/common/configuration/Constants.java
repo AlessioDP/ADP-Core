@@ -7,6 +7,10 @@ public class Constants {
 	public static final String LIBRARY_URL = "https://repo1.maven.org/maven2/%package%/%name%/%version%/%file%";
 	
 	
+	// Messaging
+	public static final String MESSAGING_CHANNEL = "BungeeCord";
+	
+	
 	// Database
 	public static final String DATABASE_SCHEMA_DIVIDER = "\\/\\*START\\_([a-z]+)\\*\\/([^\\/\\*]*)\\/\\*END\\_\\1\\*\\/";
 	
@@ -80,6 +84,8 @@ public class Constants {
 	public static final String DEBUG_LIB_FAILED_LOAD = "Failed to download the library '{lib}' v{version}:";
 	
 	public static final String DEBUG_LOG_RELOADED = "Logger manager reloaded";
+	
+	public static final String DEBUG_LOG_MESSAGING_FAILED = "Failed to send a plugin message: {message}";
 	
 	public static final String DEBUG_SCHEDULER_SHUTDOWN = "Shutting down scheduler...";
 	

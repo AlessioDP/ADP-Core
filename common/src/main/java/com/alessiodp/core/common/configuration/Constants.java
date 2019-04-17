@@ -83,7 +83,7 @@ public class Constants {
 	public static final String DEBUG_LIB_FAILED_DL = "Failed to download the library '{lib}' v{version}: {message}";
 	public static final String DEBUG_LIB_FAILED_LOAD = "Failed to download the library '{lib}' v{version}:";
 	
-	public static final String DEBUG_LOG_RELOADED = "Logger manager reloaded";
+	public static final String DEBUG_LOG_LOADED = "Logger manager loaded";
 	
 	public static final String DEBUG_LOG_MESSAGING_FAILED = "Failed to send a plugin message: {message}";
 	

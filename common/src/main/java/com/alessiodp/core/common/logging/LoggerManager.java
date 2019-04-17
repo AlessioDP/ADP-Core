@@ -51,7 +51,7 @@ public class LoggerManager {
 			ex.printStackTrace();
 			this.saveToFile = false;
 		}
-		logDebug(Constants.DEBUG_LOG_RELOADED, true);
+		logDebug(Constants.DEBUG_LOG_LOADED, true);
 	}
 	
 	/**

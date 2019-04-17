@@ -36,8 +36,9 @@ public class BungeeConfigurationAdapter implements ConfigurationAdapter {
 	
 	@Override
 	public ConfigurationSectionAdapter getConfigurationSection(String path) {
-		Configuration conf = yaml.getSection(path);
-		return conf != null ? new BungeeConfigurationSectionAdapter(conf) : null;
+		// Warning: yaml.getANY, will automatically create the path, so you can't
+		//          use yaml.contains after that.
+		return yaml.contains(path) ? new BungeeConfigurationSectionAdapter(yaml.getSection(path)) : null;
 	}
 	
 	@Override

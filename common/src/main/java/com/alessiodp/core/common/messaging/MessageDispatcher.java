@@ -18,4 +18,12 @@ public abstract class MessageDispatcher {
 	 * Unregister dispatcher
 	 */
 	public abstract void unregister();
+	
+	/**
+	 * Send a packet
+	 *
+	 * @param packet the packet to send
+	 * @return Returns true if sent successfully
+	 */
+	public abstract boolean sendPacket(ADPPacket packet);
 }

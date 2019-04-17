@@ -7,10 +7,6 @@ public class Constants {
 	public static final String LIBRARY_URL = "https://repo1.maven.org/maven2/%package%/%name%/%version%/%file%";
 	
 	
-	// Messaging
-	public static final String MESSAGING_CHANNEL = "BungeeCord";
-	
-	
 	// Database
 	public static final String DATABASE_SCHEMA_DIVIDER = "\\/\\*START\\_([a-z]+)\\*\\/([^\\/\\*]*)\\/\\*END\\_\\1\\*\\/";
 	
@@ -85,7 +81,9 @@ public class Constants {
 	
 	public static final String DEBUG_LOG_LOADED = "Logger manager loaded";
 	
-	public static final String DEBUG_LOG_MESSAGING_FAILED = "Failed to send a plugin message: {message}";
+	public static final String DEBUG_LOG_MESSAGING_FAILED_SEND = "Failed to send a plugin message: {message}";
+	public static final String DEBUG_LOG_MESSAGING_FAILED_VERSION = "Failed to read packet because version mismatching: {current} != {version}";
+	public static final String DEBUG_LOG_MESSAGING_FAILED_READ = "Failed to read the packet: {message}";
 	
 	public static final String DEBUG_SCHEDULER_SHUTDOWN = "Shutting down scheduler...";
 	

@@ -23,7 +23,8 @@ public class BungeeConfigurationSectionAdapter implements ConfigurationSectionAd
 	
 	@Override
 	public ConfigurationSectionAdapter getConfigurationSection(String path) {
-		return new BungeeConfigurationSectionAdapter(configurationSection.getSection(path));
+		Configuration conf = configurationSection.getSection(path);
+		return conf != null ? new BungeeConfigurationSectionAdapter(conf) : null;
 	}
 	
 	@Override

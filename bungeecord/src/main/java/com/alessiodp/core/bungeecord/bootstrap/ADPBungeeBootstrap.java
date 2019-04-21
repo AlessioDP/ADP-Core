@@ -100,6 +100,7 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	
 	@Override
 	public void logConsole(String message, boolean isWarning) {
-		super.getProxy().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message);
+		if (!message.isEmpty())
+			super.getProxy().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message);
 	}
 }

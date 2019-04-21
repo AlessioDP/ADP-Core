@@ -98,6 +98,7 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	
 	@Override
 	public void logConsole(String message, boolean isWarning) {
-		super.getServer().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message);
+		if (!message.isEmpty())
+			super.getServer().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message);
 	}
 }

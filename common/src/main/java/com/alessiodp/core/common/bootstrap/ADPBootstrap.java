@@ -31,6 +31,13 @@ public interface ADPBootstrap {
 	String getAuthor();
 	
 	/**
+	 * Get used plugin platform (e.g. Bukkit, BungeeCord)
+	 *
+	 * @return the platform name
+	 */
+	String getPlatform();
+	
+	/**
 	 * Get plugin version
 	 *
 	 * @return the version of the plugin
@@ -49,6 +56,14 @@ public interface ADPBootstrap {
 	 * @return the resource found
 	 */
 	InputStream getResource(String resource);
+	
+	/**
+	 * Is the plugin enabled?
+	 *
+	 * @param pluginName the name of the plugin
+	 * @return true if the given plugin is enabled
+	 */
+	boolean isPluginEnabled(String pluginName);
 	
 	/**
 	 * Get player with given uuid

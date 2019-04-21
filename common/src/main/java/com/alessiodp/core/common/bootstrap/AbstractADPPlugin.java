@@ -30,6 +30,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
+	public String getPlatform() {
+		return bootstrap.getPlatform();
+	}
+	
+	@Override
 	public String getVersion() {
 		return bootstrap.getVersion();
 	}
@@ -42,6 +47,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	@Override
 	public InputStream getResource(String resource) {
 		return bootstrap.getResource(resource);
+	}
+	
+	@Override
+	public boolean isPluginEnabled(String pluginName) {
+		return bootstrap.isPluginEnabled(pluginName);
 	}
 	
 	@Override

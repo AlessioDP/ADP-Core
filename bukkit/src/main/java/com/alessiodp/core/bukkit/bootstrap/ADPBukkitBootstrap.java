@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -45,6 +46,11 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	}
 	
 	@Override
+	public String getPlatform() {
+		return "Bukkit";
+	}
+	
+	@Override
 	public String getVersion() {
 		return super.getDescription().getVersion();
 	}
@@ -52,6 +58,16 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	@Override
 	public void stopPlugin() {
 		super.getPluginLoader().disablePlugin(this);
+	}
+	
+	@Override
+	public boolean isPluginEnabled(String pluginName) {
+		return super.getServer().getPluginManager().isPluginEnabled(pluginName);
+	}
+	
+	@Override
+	public InputStream getResource(String resource) {
+		return super.getResource(resource);
 	}
 	
 	@Override

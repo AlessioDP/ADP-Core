@@ -45,6 +45,11 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	}
 	
 	@Override
+	public String getPlatform() {
+		return "BungeeCord";
+	}
+	
+	@Override
 	public String getVersion() {
 		return super.getDescription().getVersion();
 	}
@@ -54,6 +59,11 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 		this.onDisable();
 		super.getProxy().getPluginManager().unregisterCommands(this);
 		super.getProxy().getPluginManager().unregisterListeners(this);
+	}
+	
+	@Override
+	public boolean isPluginEnabled(String pluginName) {
+		return super.getProxy().getPluginManager().getPlugin(pluginName) != null;
 	}
 	
 	@Override

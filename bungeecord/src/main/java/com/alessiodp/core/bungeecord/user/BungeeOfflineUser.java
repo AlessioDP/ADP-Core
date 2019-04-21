@@ -10,7 +10,7 @@ public class BungeeOfflineUser implements OfflineUser {
 	private final ProxiedPlayer player;
 	private final UUID uuid;
 	
-	public BungeeOfflineUser(@NonNull ProxiedPlayer player, UUID uuid) {
+	public BungeeOfflineUser(ProxiedPlayer player, UUID uuid) {
 		this.player = player;
 		this.uuid = uuid;
 	}

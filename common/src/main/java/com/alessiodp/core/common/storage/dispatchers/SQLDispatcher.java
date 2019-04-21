@@ -5,8 +5,8 @@ import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseDispatcher;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseSQL;
-import com.alessiodp.core.common.storage.interfaces.ISQLUpgradeManager;
 import com.alessiodp.core.common.storage.sql.ISQLTable;
+import com.alessiodp.core.common.storage.sql.mysql.SQLUpgradeManager;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +26,7 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	
 	protected IDatabaseSQL database;
 	protected StorageType databaseType;
-	
-	protected ISQLUpgradeManager upgradeManager;
+	protected SQLUpgradeManager upgradeManager;
 	
 	@Override
 	public final void stop() {
@@ -40,11 +39,41 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 		return database == null || database.isFailed();
 	}
 	
+	/**
+	 * Get the database connection
+	 *
+	 * @return the database connection
+	 */
 	public final Connection getConnection() {
 		return database.getConnection();
 	}
 	
-	protected void createTable(Connection connection, ISQLTable table) {
+	protected void initTables(Connection connection, LinkedList<ISQLTable> tables) {
+		try {
+			DatabaseMetaData metadata = connection.getMetaData();
+			for (ISQLTable table : tables) {
+				try (ResultSet rs = metadata.getTables(null, null, table.getTableName(), null)) {
+					if (rs.next()) {
+						upgradeManager.checkForUpgrades(connection, table); // Checking for porting
+					} else {
+						createTable(connection, table); // Create table
+					}
+				} catch (SQLException ex) {
+					plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR, ex);
+				}
+			}
+		} catch (Exception ex) {
+			plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR, ex);
+		}
+	}
+	
+	/**
+	 * Create a table
+	 *
+	 * @param connection the connection to use
+	 * @param table the table that must be created
+	 */
+	public void createTable(Connection connection, ISQLTable table) {
 		try (Statement statement = connection.createStatement()) {
 			// MySQL
 			String versionQuery = Constants.QUERY_CHECKVERSION_SET_MYSQL;
@@ -72,26 +101,16 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 		}
 	}
 	
-	protected void initTables(Connection connection, LinkedList<ISQLTable> tables) {
-		try {
-			DatabaseMetaData metadata = connection.getMetaData();
-			for (ISQLTable table : tables) {
-				try (ResultSet rs = metadata.getTables(null, null, table.getTableName(), null)) {
-					if (rs.next()) {
-						upgradeManager.checkUpgrades(this, connection, table, databaseType); // Checking for porting
-					} else {
-						createTable(connection, table); // Create table
-					}
-				} catch (SQLException ex) {
-					plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR, ex);
-				}
-			}
-		} catch (Exception ex) {
-			plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR, ex);
-		}
-	}
-	
-	protected String renameTable(Connection connection, String table, String tableSuffix) throws SQLException {
+	/**
+	 * Rename a table
+	 *
+	 * @param connection the connection to use
+	 * @param table the table that must be renamed
+	 * @param tableSuffix the suffix of the renamed table
+	 * @return the new table name
+	 * @throws SQLException if something goes wrong
+	 */
+	public String renameTable(Connection connection, String table, String tableSuffix) throws SQLException {
 		String ret;
 		// Load existing tables
 		List<String> listTables = new ArrayList<>();

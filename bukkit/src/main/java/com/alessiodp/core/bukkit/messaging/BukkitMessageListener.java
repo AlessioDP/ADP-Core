@@ -11,7 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public abstract class BukkitMessageListener extends MessageListener {
-	private PluginMessageListener listener;
+	private final PluginMessageListener listener;
 	
 	public BukkitMessageListener(@NonNull ADPPlugin plugin) {
 		super(plugin);

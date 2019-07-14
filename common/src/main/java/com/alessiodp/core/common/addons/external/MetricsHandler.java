@@ -2,7 +2,6 @@ package com.alessiodp.core.common.addons.external;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.Constants;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 public abstract class MetricsHandler {

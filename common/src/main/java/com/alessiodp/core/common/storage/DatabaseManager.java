@@ -29,7 +29,7 @@ public abstract class DatabaseManager {
 	/**
 	 * Reload database manager
 	 */
-	public final void reload() {
+	public void reload() {
 		// Stop if already initialized
 		stop();
 		

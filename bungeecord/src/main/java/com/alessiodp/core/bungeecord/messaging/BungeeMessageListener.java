@@ -11,7 +11,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 
 public abstract class BungeeMessageListener extends MessageListener {
-	private Listener listener;
+	private final Listener listener;
 	public BungeeMessageListener(@NonNull ADPPlugin plugin) {
 		super(plugin);
 		listener = new PacketListener();

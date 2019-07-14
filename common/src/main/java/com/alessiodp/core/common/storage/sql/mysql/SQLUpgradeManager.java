@@ -14,6 +14,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * This is the utility class that handles SQL database upgrades.
+ *
+ * Basically, you have a table that contains other tables versions.
+ * The plugin will check if that version number is up to date, if not, it will re-create the table
+ *   and will copy the data from the old one (depending on the new table) into the new one.
+ *
+ * An example below:
+ * You have A, B and C into the table version 1.
+ * If you have a new table, version 2, that adds a D, you have to get from the old table A, B, C
+ *   and add D, with default value, into the create query.
+ */
 @RequiredArgsConstructor
 public abstract class SQLUpgradeManager {
 	@NonNull protected final ADPPlugin plugin;

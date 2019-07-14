@@ -1,5 +1,6 @@
 package com.alessiodp.core.bukkit.addons.internal.json;
 
+import com.alessiodp.core.common.addons.internal.JsonHandler;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -18,12 +19,14 @@ public class SpigotJsonHandler implements JsonHandler {
 	}
 	
 	@Override
-	public boolean sendMessage(Player player, String jsonMessage) {
+	public boolean sendMessage(Object user, String jsonMessage) {
 		boolean ret = false;
-		try {
-			player.spigot().sendMessage(ComponentSerializer.parse(jsonMessage));
-			ret = true;
-		} catch (Exception ignored) {
+		Player player = (Player) user;
+		if (player != null) {
+			try {
+				player.spigot().sendMessage(ComponentSerializer.parse(jsonMessage));
+				ret = true;
+			} catch (Exception ignored) {}
 		}
 		return ret;
 	}

@@ -1,6 +1,7 @@
 package com.alessiodp.core.common;
 
 import com.alessiodp.core.common.addons.AddonManager;
+import com.alessiodp.core.common.addons.internal.JsonHandler;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.bootstrap.AbstractADPPlugin;
 import com.alessiodp.core.common.logging.LoggerManager;
@@ -33,6 +34,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	// Utils
 	@Getter protected ADPUpdater adpUpdater;
 	@Getter protected IColorUtils colorUtils;
+	@Getter protected JsonHandler jsonHandler;
 	@Getter protected IPlayerUtils playerUtils;
 	
 	protected ADPPlugin(ADPBootstrap bootstrap) {
@@ -115,6 +117,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		}
 		
 		adpUpdater = new ADPUpdater(this);
+		initializeJsonHandler();
 	}
 	
 	/**
@@ -136,4 +139,9 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 * Reload the configuration
 	 */
 	public abstract void reloadConfiguration();
+	
+	/**
+	 * Initialize Json Handler instance
+	 */
+	protected abstract void initializeJsonHandler();
 }

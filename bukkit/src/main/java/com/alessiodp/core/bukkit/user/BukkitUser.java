@@ -1,8 +1,6 @@
 package com.alessiodp.core.bukkit.user;
 
-import com.alessiodp.core.bukkit.addons.internal.json.BukkitJsonHandler;
-import com.alessiodp.core.bukkit.addons.internal.json.SpigotJsonHandler;
-import com.alessiodp.core.bukkit.addons.internal.json.JsonHandler;
+import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
 import lombok.NonNull;
 import org.bukkit.ChatColor;
@@ -55,8 +53,8 @@ public class BukkitUser implements User {
 	
 	@Override
 	public void sendMessage(String message, boolean colorTranslation) {
-		if (isPlayer() && jsonHandler.isJson(message))
-			jsonHandler.sendMessage((Player) sender, message);
+		if (isPlayer() && getPlugin().getJsonHandler().isJson(message))
+			getPlugin().getJsonHandler().sendMessage(sender, message);
 		else
 			sender.sendMessage(colorTranslation ? ChatColor.translateAlternateColorCodes('&', message) : message);
 	}

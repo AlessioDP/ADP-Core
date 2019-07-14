@@ -1,16 +1,14 @@
-package com.alessiodp.core.bukkit.addons.internal.json;
-
-import org.bukkit.entity.Player;
+package com.alessiodp.core.common.addons.internal;
 
 public interface JsonHandler {
 	/**
-	 * Send a json message to the player
+	 * Send a json message to the user
 	 *
-	 * @param player player that receive the message
+	 * @param user user that receive the message
 	 * @param jsonMessage message formatted as json
 	 * @return true if the message has been sent
 	 */
-	boolean sendMessage(Player player, String jsonMessage);
+	boolean sendMessage(Object user, String jsonMessage);
 	
 	/**
 	 * Is the message json formatted?

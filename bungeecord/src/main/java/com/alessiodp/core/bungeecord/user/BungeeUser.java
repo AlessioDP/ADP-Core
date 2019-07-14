@@ -1,6 +1,6 @@
 package com.alessiodp.core.bungeecord.user;
 
-import com.alessiodp.core.bungeecord.addons.internal.json.JsonHandler;
+import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
 import lombok.NonNull;
 import net.md_5.bungee.api.ChatColor;
@@ -41,8 +41,8 @@ public class BungeeUser implements User {
 	
 	@Override
 	public void sendMessage(String message, boolean colorTranslation) {
-		if (isPlayer() && jsonHandler.isJson(message))
-			jsonHandler.sendMessage((ProxiedPlayer) sender, message);
+		if (isPlayer() && getPlugin().getJsonHandler().isJson(message))
+			getPlugin().getJsonHandler().sendMessage(sender, message);
 		else
 			sender.sendMessage(TextComponent.fromLegacyText(colorTranslation ? ChatColor.translateAlternateColorCodes('&', message) : message));
 	}

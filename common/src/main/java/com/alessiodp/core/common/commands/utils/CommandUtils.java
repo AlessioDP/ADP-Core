@@ -63,6 +63,23 @@ public abstract class CommandUtils {
 	}
 	
 	/**
+	 * Handle string into a command, get the entire string since start to end of arguments
+	 *
+	 * @param args the command arguments
+	 * @param start the start of the string
+	 * @return the string
+	 */
+	public String handleCommandString(String[] args, int start) {
+		StringBuilder sb = new StringBuilder();
+		for (int word = start; word < args.length; word++) {
+			if (sb.length() > 0)
+				sb.append(" ");
+			sb.append(args[word]);
+		}
+		return sb.toString();
+	}
+	
+	/**
 	 * Parse tab complete command list
 	 *
 	 * @param commands the list of commands

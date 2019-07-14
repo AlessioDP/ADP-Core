@@ -22,7 +22,7 @@ public class BukkitCommandUtils extends CommandUtils {
 	public RegisterResult register(@NonNull ADPMainCommand command) {
 		RegisterResult ret = RegisterResult.FAILED;
 		try {
-			BukkitCommandImpl bukkitCommandImplementation = new BukkitCommandImpl(command);
+			BukkitCommandImpl bukkitCommandImplementation = new BukkitCommandImpl(plugin, command);
 			
 			final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 			bukkitCommandMap.setAccessible(true);

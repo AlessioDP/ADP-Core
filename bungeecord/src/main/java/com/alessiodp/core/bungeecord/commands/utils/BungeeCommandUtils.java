@@ -17,7 +17,7 @@ public class BungeeCommandUtils extends CommandUtils {
 		RegisterResult ret = RegisterResult.FAILED;
 		try {
 			Plugin bungeePlugin = (Plugin) plugin.getBootstrap();
-			BungeeCommandImpl bungeeCommandImplementation = new BungeeCommandImpl(command);
+			BungeeCommandImpl bungeeCommandImplementation = new BungeeCommandImpl(plugin, command);
 			
 			bungeePlugin.getProxy().getPluginManager().registerCommand(bungeePlugin, bungeeCommandImplementation);
 			ret = RegisterResult.SUCCESSFUL;

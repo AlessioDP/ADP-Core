@@ -1,6 +1,7 @@
 package com.alessiodp.core.bukkit.commands.utils;
 
 import com.alessiodp.core.bukkit.user.BukkitUser;
+import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.commands.utils.ADPMainCommand;
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,10 +13,12 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public class BukkitCommandImpl extends Command implements CommandExecutor {
+	private final ADPPlugin plugin;
 	@Setter @Getter private ADPMainCommand mainCommand;
 	
-	public BukkitCommandImpl(@NonNull ADPMainCommand mainCommand) {
+	public BukkitCommandImpl(@NonNull ADPPlugin plugin, @NonNull ADPMainCommand mainCommand) {
 		super(mainCommand.getCommandName());
+		this.plugin = plugin;
 		this.mainCommand = mainCommand;
 		super.description = mainCommand.getDescription();
 	}
@@ -27,11 +30,11 @@ public class BukkitCommandImpl extends Command implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender commandSender, Command command, String cmd, String[] args) {
-		return mainCommand.onCommand(new BukkitUser(commandSender), cmd, args);
+		return mainCommand.onCommand(new BukkitUser(plugin, commandSender), cmd, args);
 	}
 	
 	@Override
 	public List<String> tabComplete(CommandSender commandSender, String alias, String[] args) {
-		return mainCommand.onTabComplete(new BukkitUser(commandSender), args);
+		return mainCommand.onTabComplete(new BukkitUser(plugin, commandSender), args);
 	}
 }

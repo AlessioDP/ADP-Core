@@ -6,6 +6,7 @@ import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
+import lombok.NonNull;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -18,12 +19,13 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap {
-	protected ADPPlugin plugin;
+	@NonNull protected ADPPlugin plugin;
 	
 	@Override
 	public void onEnable() {
 		plugin.enabling();
 	}
+	
 	@Override
 	public void onDisable() {
 		plugin.disabling();
@@ -74,26 +76,26 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	@Override
 	public User getPlayer(UUID uuid) {
 		ProxiedPlayer player = super.getProxy().getPlayer(uuid);
-		return player != null ? new BungeeUser(player) : null;
+		return player != null ? new BungeeUser(plugin, player) : null;
 	}
 	
 	@Override
 	public User getPlayerByName(String name) {
 		ProxiedPlayer player = super.getProxy().getPlayer(name);
-		return player != null ? new BungeeUser(player) : null;
+		return player != null ? new BungeeUser(plugin, player) : null;
 	}
 	
 	@Override
 	public OfflineUser getOfflinePlayer(UUID uuid) {
 		ProxiedPlayer player = super.getProxy().getPlayer(uuid);
-		return new BungeeOfflineUser(player, uuid);
+		return new BungeeOfflineUser(plugin, player, uuid);
 	}
 	
 	@Override
 	public List<User> getOnlinePlayers() {
 		List<User> ret = new ArrayList<>();
 		for (ProxiedPlayer player : super.getProxy().getPlayers()) {
-			ret.add(new BungeeUser(player));
+			ret.add(new BungeeUser(plugin, player));
 		}
 		return ret;
 	}

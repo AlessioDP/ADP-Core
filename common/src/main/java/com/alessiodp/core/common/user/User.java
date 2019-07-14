@@ -35,4 +35,13 @@ public interface User extends OfflineUser {
 	 * @param message the message to send
 	 */
 	void chat(String message);
+	
+	/**
+	 * Play a sound
+	 *
+	 * @param sound the name of the sound
+	 * @param volume the volume of the sound
+	 * @param pitch the pitch of the sound
+	 */
+	void playSound(String sound, float volume, float pitch);
 }

@@ -2,7 +2,7 @@ package com.alessiodp.core.bungeecord.user;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
-import lombok.NonNull;
+import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,14 +10,10 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class BungeeUser implements User {
+	private final ADPPlugin plugin;
 	private final CommandSender sender;
-	private final JsonHandler jsonHandler;
-	
-	public BungeeUser(@NonNull CommandSender commandSender) {
-		sender = commandSender;
-		jsonHandler = new JsonHandler();
-	}
 	
 	@Override
 	public UUID getUUID() {
@@ -51,5 +47,15 @@ public class BungeeUser implements User {
 	public void chat(String messageToSend) {
 		if (isPlayer())
 			((ProxiedPlayer) sender).chat(messageToSend);
+	}
+	
+	@Override
+	public void playSound(String sound, float volume, float pitch) {
+		// Not supported
+	}
+	
+	@Override
+	public ADPPlugin getPlugin() {
+		return plugin;
 	}
 }

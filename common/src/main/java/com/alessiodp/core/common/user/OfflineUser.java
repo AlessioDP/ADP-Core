@@ -1,5 +1,7 @@
 package com.alessiodp.core.common.user;
 
+import com.alessiodp.core.common.ADPPlugin;
+
 import java.util.UUID;
 
 public interface OfflineUser {
@@ -23,4 +25,11 @@ public interface OfflineUser {
 	 * @return the name of the user
 	 */
 	String getName();
+	
+	/**
+	 * Get plugin instance
+	 *
+	 * @return the plugin instance
+	 */
+	ADPPlugin getPlugin();
 }

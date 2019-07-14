@@ -1,17 +1,17 @@
 package com.alessiodp.core.bukkit.user;
 
+import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.OfflineUser;
-import lombok.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.OfflinePlayer;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class BukkitOfflineUser implements OfflineUser {
+	@Getter private final ADPPlugin plugin;
 	private final OfflinePlayer player;
-	
-	public BukkitOfflineUser(@NonNull OfflinePlayer offlinePlayer) {
-		player = offlinePlayer;
-	}
 	
 	@Override
 	public UUID getUUID() {

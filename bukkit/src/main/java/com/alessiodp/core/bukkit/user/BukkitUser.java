@@ -2,34 +2,18 @@ package com.alessiodp.core.bukkit.user;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
-import lombok.NonNull;
+import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class BukkitUser implements User {
+	private final ADPPlugin plugin;
 	private final CommandSender sender;
-	private final JsonHandler jsonHandler;
-	
-	public BukkitUser(@NonNull CommandSender commandSender) {
-		sender = commandSender;
-		if (isSpigot())
-			jsonHandler = new SpigotJsonHandler();
-		else
-			jsonHandler = new BukkitJsonHandler();
-	}
-	
-	// Used to check if is running Spigot
-	private boolean isSpigot() {
-		boolean ret = false;
-		try {
-			Class.forName("net.md_5.bungee.chat.ComponentSerializer");
-			ret = true;
-		} catch (ClassNotFoundException ignored) {}
-		return ret;
-	}
 	
 	@Override
 	public UUID getUUID() {
@@ -63,5 +47,18 @@ public class BukkitUser implements User {
 	public void chat(String messageToSend) {
 		if (isPlayer())
 			((Player) sender).chat(messageToSend);
+	}
+	
+	@Override
+	public void playSound(String sound, float volume, float pitch) {
+		try {
+			Sound s = Sound.valueOf(sound);
+			((Player) sender).playSound(((Player) sender).getLocation(), s, volume, pitch);
+		} catch (IllegalArgumentException ignored) {}
+	}
+	
+	@Override
+	public ADPPlugin getPlugin() {
+		return plugin;
 	}
 }

@@ -1,19 +1,18 @@
 package com.alessiodp.core.bungeecord.user;
 
+import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.OfflineUser;
-import lombok.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class BungeeOfflineUser implements OfflineUser {
+	@Getter private final ADPPlugin plugin;
 	private final ProxiedPlayer player;
 	private final UUID uuid;
-	
-	public BungeeOfflineUser(ProxiedPlayer player, UUID uuid) {
-		this.player = player;
-		this.uuid = uuid;
-	}
 	
 	@Override
 	public UUID getUUID() {
@@ -29,5 +28,4 @@ public class BungeeOfflineUser implements OfflineUser {
 	public String getName() {
 		return player != null ? player.getName() : "";
 	}
-	
 }

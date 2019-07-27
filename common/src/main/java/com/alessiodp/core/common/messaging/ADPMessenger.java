@@ -10,9 +10,9 @@ public abstract class ADPMessenger {
 	@Getter protected MessageDispatcher messageDispatcher;
 	@Getter protected MessageListener messageListener;
 	
-	public ADPMessenger(@NonNull ADPPlugin plugin) {
+	public ADPMessenger(@NonNull ADPPlugin plugin, boolean bungeeCordChannel) {
 		this.plugin = plugin;
-		channel = plugin.getPluginFallbackName() + ":main";
+		channel = bungeeCordChannel ? "BungeeCord" : plugin.getPluginFallbackName() + ":main";
 	}
 	
 	public abstract void reload();

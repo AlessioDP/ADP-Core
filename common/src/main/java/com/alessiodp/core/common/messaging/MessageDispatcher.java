@@ -26,4 +26,13 @@ public abstract class MessageDispatcher {
 	 * @return Returns true if sent successfully
 	 */
 	public abstract boolean sendPacket(ADPPacket packet);
+	
+	/**
+	 * Send a forward packet that will be dispatched to every server.
+	 * This is supported by BungeeCord channel only.
+	 *
+	 * @param packet the packet to send
+	 * @return Returns true if sent successfully
+	 */
+	public abstract boolean sendForwardPacket(ADPPacket packet);
 }

@@ -23,6 +23,7 @@ public abstract class BukkitMessageListener extends MessageListener {
 		if (!registered) {
 			Plugin bukkitPlugin = (Plugin) plugin.getBootstrap();
 			bukkitPlugin.getServer().getMessenger().registerIncomingPluginChannel(bukkitPlugin, plugin.getMessenger().getChannel(), listener);
+			registered = true;
 		}
 	}
 	
@@ -31,6 +32,7 @@ public abstract class BukkitMessageListener extends MessageListener {
 		if (registered) {
 			Plugin bukkitPlugin = (Plugin) plugin.getBootstrap();
 			bukkitPlugin.getServer().getMessenger().unregisterIncomingPluginChannel(bukkitPlugin);
+			registered = false;
 		}
 	}
 	
@@ -39,18 +41,21 @@ public abstract class BukkitMessageListener extends MessageListener {
 	public class PacketListener implements PluginMessageListener {
 		@EventHandler
 		public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
-			if (channel.equals(plugin.getMessenger().getChannel()))  {
+			boolean isBungeeCord = channel.equalsIgnoreCase("BungeeCord");
+			if (isBungeeCord || channel.equals(plugin.getMessenger().getChannel()))  {
 				ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
-				String subchannel = input.readUTF();
-				// Check subchannel
-				if (subchannel.equals(plugin.getPluginName())) {
-					plugin.getScheduler().runAsync(() -> {
-						short packetLength = input.readShort();
-						byte[] packetBytes = new byte[packetLength];
-						input.readFully(packetBytes);
-						handlePacket(packetBytes);
-					});
+				if (isBungeeCord) {
+					String subchannel = input.readUTF();
+					if (!subchannel.equals(plugin.getPluginFallbackName()))
+						return;
 				}
+				
+				plugin.getScheduler().runAsync(() -> {
+					short packetLength = input.readShort();
+					byte[] packetBytes = new byte[packetLength];
+					input.readFully(packetBytes);
+					handlePacket(packetBytes);
+				});
 			}
 		}
 	}

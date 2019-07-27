@@ -58,4 +58,31 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 		}
 		return ret;
 	}
+	
+	@Override
+	public boolean sendForwardPacket(ADPPacket packet) {
+		boolean ret = false;
+		Player dummyPlayer = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+		if (dummyPlayer != null) {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			DataOutputStream out = new DataOutputStream(baos);
+			try {
+				out.writeUTF("Forward");
+				out.writeUTF("ALL");
+				// Set sub channel as plugin name
+				out.writeUTF(plugin.getPluginFallbackName());
+				
+				byte[] bytes = packet.build();
+				out.writeShort(bytes.length);
+				out.write(bytes);
+				
+				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), plugin.getMessenger().getChannel(), baos.toByteArray());
+				ret = true;
+			} catch (Exception ex) {
+				plugin.getLoggerManager().printError(Constants.DEBUG_LOG_MESSAGING_FAILED_SEND
+						.replace("{message}", ex.getMessage() != null ? ex.getMessage() : ex.getStackTrace()[0].toString()));
+			}
+		}
+		return ret;
+	}
 }

@@ -65,19 +65,19 @@ public abstract class ConfigurationFile {
 	 *
 	 * @return the configuration file name
 	 */
-	protected abstract String getFileName();
+	public abstract String getFileName();
 	
 	/**
 	 * Get the configuration file path
 	 *
 	 * @return the configuration resource name
 	 */
-	protected abstract String getResourceName();
+	public abstract String getResourceName();
 	
 	/**
 	 * Get latest version of the configuration
 	 *
 	 * @return the latest configuration version
 	 */
-	protected abstract int getLatestVersion();
+	public abstract int getLatestVersion();
 }

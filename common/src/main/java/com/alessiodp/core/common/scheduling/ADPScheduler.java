@@ -42,6 +42,15 @@ public abstract class ADPScheduler {
 	}
 	
 	/**
+	 * Get asynchronous executor
+	 *
+	 * @return the asynchronous executor
+	 */
+	public Executor getAsyncExecutor() {
+		return pool;
+	}
+	
+	/**
 	 * Get synchronous executor
 	 *
 	 * @return the synchronous server executor
@@ -55,7 +64,7 @@ public abstract class ADPScheduler {
 	 * @return void
 	 */
 	public CompletableFuture<Void> runAsync(@NonNull Runnable runnable) {
-		return CompletableFuture.runAsync(runnable, pool).exceptionally(ex -> {
+		return CompletableFuture.runAsync(runnable, getAsyncExecutor()).exceptionally(ex -> {
 			ex.printStackTrace();
 			return null;
 		});
@@ -68,7 +77,7 @@ public abstract class ADPScheduler {
 	 * @return the response of the supplier
 	 */
 	public <T> CompletableFuture<T> runSupplyAsync(@NonNull Supplier<T> supplier) {
-		return CompletableFuture.supplyAsync(supplier, pool).exceptionally(ex -> {
+		return CompletableFuture.supplyAsync(supplier, getAsyncExecutor()).exceptionally(ex -> {
 			ex.printStackTrace();
 			return null;
 		});

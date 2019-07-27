@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
@@ -57,5 +58,26 @@ public class BungeeUser implements User {
 	@Override
 	public ADPPlugin getPlugin() {
 		return plugin;
+	}
+	
+	/**
+	 * Get server name of the user
+	 *
+	 * @return the server name
+	 */
+	public String getServerName() {
+		if (isPlayer())
+			return ((ProxiedPlayer) sender).getServer().getInfo().getName();
+		return "";
+	}
+	
+	/**
+	 * Force the user to connect to the given server
+	 *
+	 * @param serverInfo the server info
+	 */
+	public void connectTo(ServerInfo serverInfo) {
+		if (isPlayer())
+			((ProxiedPlayer) sender).connect(serverInfo);
 	}
 }

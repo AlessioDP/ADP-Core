@@ -4,7 +4,7 @@ public class Constants {
 	
 	// Libraries
 	public static final String LIBRARY_FOLDER = "libs/";
-	public static final String LIBRARY_URL = "https://repo1.maven.org/maven2/%package%/%name%/%version%/%file%";
+	public static final String LIBRARY_MAVEN = "%package%/%name%/%version%/%file%";
 	
 	
 	// Database

@@ -75,10 +75,10 @@ public class LibraryManager {
 			}
 			ret = true;
 		} catch (Exception ex) {
-			plugin.getLoggerManager().logDebug(Constants.DEBUG_LIB_FAILED_DL
+			plugin.getLoggerManager().printError(Constants.DEBUG_LIB_FAILED_DL
 					.replace("{lib}", library.getName())
 					.replace("{version}", library.getVersion())
-					.replace("{message}", ex.getMessage()), true);
+					.replace("{message}", ex.getMessage()));
 		}
 		return ret;
 	}
@@ -95,9 +95,9 @@ public class LibraryManager {
 				m.invoke(plugin.getClass().getClassLoader(), filePath.toUri().toURL());
 				ret = true;
 			} catch (Exception ex) {
-				plugin.getLoggerManager().logDebug(Constants.DEBUG_LIB_FAILED_LOAD
+				plugin.getLoggerManager().printError(Constants.DEBUG_LIB_FAILED_LOAD
 						.replace("{lib}", library.getName())
-						.replace("{version}", library.getVersion()), true);
+						.replace("{version}", library.getVersion()));
 				ex.printStackTrace();
 			}
 		}

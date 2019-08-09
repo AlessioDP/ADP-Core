@@ -6,7 +6,6 @@ import com.alessiodp.core.common.commands.utils.CommandUtils;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 
@@ -44,7 +43,7 @@ public class BukkitCommandUtils extends CommandUtils {
 				} else {
 					// Unknown command - overwrite it
 					if (bukkitCommand instanceof PluginCommand) {
-						((PluginCommand) bukkitCommand).setExecutor((CommandExecutor) bukkitCommandImplementation.getMainCommand());
+						((PluginCommand) bukkitCommand).setExecutor(bukkitCommandImplementation);
 						ret = RegisterResult.OVERWRITTEN;
 					}
 				}

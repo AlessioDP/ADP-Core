@@ -40,12 +40,15 @@ public abstract class ConfigurationFile {
 	 * Check the version of the configuration
 	 *
 	 * @param confAdapter the configuration adapter
+	 * @return Return true if outdated
 	 */
-	public void checkVersion(@NonNull ConfigurationAdapter confAdapter) {
+	public boolean checkVersion(@NonNull ConfigurationAdapter confAdapter) {
 		if (confAdapter.getInt("dont-edit-this.version", -1) < getLatestVersion()) {
 			plugin.getLoggerManager().printError(Constants.DEBUG_CONFIG_OUTDATED
 					.replace("{name}", getFileName()));
+			return true;
 		}
+		return false;
 	}
 	
 	/**

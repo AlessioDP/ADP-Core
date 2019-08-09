@@ -23,7 +23,7 @@ subprojects {
 
 
     group 'com.alessiodp.core'
-    version '1.2.1'
+    version '1.2.2'
 
     sourceCompatibility = 1.8
 
@@ -44,7 +44,7 @@ subprojects {
 
     repositories {
         mavenCentral()
-        
+
         // Spigot repository for Spigot & Bukkit
         maven { url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
         // OSS Sonatype repository for Bungeecord

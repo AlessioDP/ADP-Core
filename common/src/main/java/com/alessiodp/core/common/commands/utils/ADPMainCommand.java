@@ -24,7 +24,7 @@ public abstract class ADPMainCommand {
 	/**
 	 * Description of the command
 	 */
-	@Getter protected String description;
+	@Getter protected String description = "";
 	
 	/**
 	 * List of sub commands

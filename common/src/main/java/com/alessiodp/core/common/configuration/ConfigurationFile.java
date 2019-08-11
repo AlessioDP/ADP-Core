@@ -3,7 +3,6 @@ package com.alessiodp.core.common.configuration;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.adapter.ConfigurationAdapter;
 import com.google.common.io.ByteStreams;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -47,10 +46,7 @@ public abstract class ConfigurationFile {
 	 * @return Return true if outdated
 	 */
 	public boolean checkVersion(@NonNull ConfigurationAdapter confAdapter) {
-		if (confAdapter.getInt("dont-edit-this.version", -1) < getLatestVersion()) {
-			return true;
-		}
-		return false;
+		return confAdapter.getInt("dont-edit-this.version", -1) < getLatestVersion();
 	}
 	
 	/**

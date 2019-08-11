@@ -11,6 +11,7 @@ import com.alessiodp.core.common.commands.CommandManager;
 import com.alessiodp.core.common.configuration.ConfigurationManager;
 import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.messaging.ADPMessenger;
+import com.alessiodp.core.common.players.LoginAlertsManager;
 import com.alessiodp.core.common.scheduling.ADPScheduler;
 import com.alessiodp.core.common.storage.DatabaseManager;
 import com.alessiodp.core.common.utils.IColorUtils;
@@ -28,6 +29,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	@Getter protected DatabaseManager databaseManager;
 	@Getter protected LibraryManager libraryManager;
 	@Getter protected LoggerManager loggerManager;
+	@Getter protected LoginAlertsManager loginAlertsManager;
 	@Getter protected ADPMessenger messenger;
 	@Getter protected ADPScheduler scheduler;
 	
@@ -102,6 +104,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	protected final void preHandle() {
 		loggerManager = new LoggerManager(this);
 		libraryManager = new LibraryManager(this);
+		loginAlertsManager = new LoginAlertsManager();
 		initializeCore();
 	}
 	

@@ -4,14 +4,18 @@ import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.adapter.ConfigurationAdapter;
 import com.google.common.io.ByteStreams;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public abstract class ConfigurationFile {
 	@NonNull protected final ADPPlugin plugin;
+	@Getter @Setter private boolean outdated = false;
 	
 	/**
 	 * Save default configuration to path
@@ -44,8 +48,6 @@ public abstract class ConfigurationFile {
 	 */
 	public boolean checkVersion(@NonNull ConfigurationAdapter confAdapter) {
 		if (confAdapter.getInt("dont-edit-this.version", -1) < getLatestVersion()) {
-			plugin.getLoggerManager().printError(Constants.DEBUG_CONFIG_OUTDATED
-					.replace("{name}", getFileName()));
 			return true;
 		}
 		return false;

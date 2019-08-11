@@ -34,7 +34,7 @@ public abstract class ConfigurationManager {
 			ConfigurationAdapter cfCA = initializeConfigurationAdapter(cfPath);
 			
 			// Check version
-			cf.checkVersion(cfCA);
+			cf.setOutdated(cf.checkVersion(cfCA));
 			
 			// Load configuration
 			if (Files.exists(cfPath))
@@ -56,4 +56,17 @@ public abstract class ConfigurationManager {
 	 * Perform any change to the settings or other classes at the end of configuration load
 	 */
 	protected abstract void performChanges();
+	
+	protected void checkOutdatedConfigs(String outdatedMessage) {
+		// Check if outdated
+		for (ConfigurationFile cf : configs) {
+			if (cf.isOutdated()) {
+				plugin.getLoginAlertsManager().getLoginAlerts().add(outdatedMessage
+						.replace("%config%", cf.getFileName()));
+				
+				plugin.getLoggerManager().printError(Constants.DEBUG_CONFIG_OUTDATED
+						.replace("{name}", cf.getFileName()));
+			}
+		}
+	}
 }

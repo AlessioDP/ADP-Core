@@ -53,13 +53,11 @@ public class ADPUpdater {
 	/**
 	 * Alert all players
 	 */
-	private void alertPlayers() {
+	private void alertPlayers(String message) {
 		if (warnUpdates && !foundVersion.isEmpty()) {
 			for (User player : plugin.getOnlinePlayers()) {
 				if (player.hasPermission(warnPermission)) {
-					player.sendMessage(warnMessage
-							.replace("%version%", foundVersion)
-							.replace("%thisversion%", plugin.getVersion()), true);
+					player.sendMessage(message, true);
 				}
 			}
 		}
@@ -101,11 +99,20 @@ public class ADPUpdater {
 			// New version found
 			foundVersion = remoteVersion;
 			
+			String message = warnMessage
+					.replace("%version%", foundVersion)
+					.replace("%thisversion%", plugin.getVersion());
+			
 			plugin.getLoggerManager().log(Constants.UPDATER_FOUND
 					.replace("{plugin}", plugin.getPluginName())
 					.replace("{currentVersion}", plugin.getVersion())
 					.replace("{newVersion}", foundVersion), true);
-			alertPlayers();
+			alertPlayers(message);
+			
+			// Add the message into login alerts
+			if (!plugin.getLoginAlertsManager().getLoginAlerts().contains(message)) {
+				plugin.getLoginAlertsManager().getLoginAlerts().add(message);
+			}
 		}
 	}
 	

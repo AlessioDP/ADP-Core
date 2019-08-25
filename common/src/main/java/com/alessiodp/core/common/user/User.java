@@ -15,6 +15,15 @@ public interface User extends OfflineUser {
 	boolean hasPermission(String permission);
 	
 	/**
+	 * Get a specific permission that starts with given string
+	 * and returns that permission without the starter part
+	 *
+	 * @param startsWith the start of the permission to find
+	 * @return permission name
+	 */
+	String getDynamicPermission(String startsWith);
+	
+	/**
 	 * Is a player? (Check if is a player or a console user)
 	 *
 	 * @return true if is a player

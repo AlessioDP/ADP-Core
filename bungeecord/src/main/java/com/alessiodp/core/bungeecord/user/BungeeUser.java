@@ -27,6 +27,16 @@ public class BungeeUser implements User {
 	}
 	
 	@Override
+	public String getDynamicPermission(String startsWith) {
+		for (String perm : sender.getPermissions()) {
+			if (perm.startsWith(startsWith)) {
+				return perm.substring(startsWith.length());
+			}
+		}
+		return null;
+	}
+	
+	@Override
 	public boolean isPlayer() {
 		return (sender instanceof ProxiedPlayer);
 	}

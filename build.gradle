@@ -33,6 +33,7 @@ subprojects {
 
     // Libraries
     ext.bstats = '1.5'
+    ext.commons = '2.6'
     ext.configurate = '3.6.1'
     ext.gson = '2.8.4'
     ext.guava = '21.0'

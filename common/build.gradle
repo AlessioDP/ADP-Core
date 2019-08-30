@@ -1,6 +1,7 @@
 dependencies {
     compile group: 'org.spongepowered', name: 'configurate-yaml', version: project.ext.configurate
     compile group: 'com.google.code.gson', name: 'gson', version: project.ext.gson
+    compile group: 'commons-lang', name: 'commons-lang', version: project.ext.commons
     compile group: 'com.zaxxer', name: 'HikariCP', version: project.ext.hikaricp
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: project.ext.sqlitejdbc
 

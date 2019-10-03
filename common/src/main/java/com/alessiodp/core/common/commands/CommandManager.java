@@ -2,16 +2,17 @@ package com.alessiodp.core.common.commands;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.commands.list.ADPCommand;
+import com.alessiodp.core.common.commands.utils.ADPMainCommand;
 import com.alessiodp.core.common.commands.utils.CommandData;
 import com.alessiodp.core.common.commands.utils.CommandUtils;
 import com.alessiodp.core.common.configuration.Constants;
-import com.alessiodp.core.common.commands.utils.ADPMainCommand;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 public abstract class CommandManager {
@@ -70,7 +71,7 @@ public abstract class CommandManager {
 			LinkedList<ADPCommand> newEnabledSubCommands = new LinkedList<>();
 			// Iterate command order list
 			for (String command : commandOrder) {
-				String[] splittedCommand = command.toLowerCase().split(":");
+				String[] splittedCommand = command.toLowerCase(Locale.ENGLISH).split(":");
 				if (splittedCommand.length == 2) {
 					// Iterate main commands
 					for (ADPMainCommand mainCommand : mainCommands) {

@@ -8,11 +8,7 @@ import com.alessiodp.core.common.storage.sql.ISQLTable;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * This is the utility class that handles SQL database upgrades.

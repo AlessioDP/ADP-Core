@@ -10,12 +10,7 @@ import com.alessiodp.core.common.storage.sql.mysql.SQLUpgradeManager;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.alessiodp.core.common.addons.internal;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.configuration.Constants;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;

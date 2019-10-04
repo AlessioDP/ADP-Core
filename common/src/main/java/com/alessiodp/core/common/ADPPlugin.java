@@ -1,15 +1,15 @@
 package com.alessiodp.core.common;
 
 import com.alessiodp.core.common.addons.AddonManager;
-import com.alessiodp.core.common.addons.internal.ADPUpdater;
 import com.alessiodp.core.common.addons.internal.JsonHandler;
-import com.alessiodp.core.common.addons.libraries.LibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.bootstrap.AbstractADPPlugin;
+import com.alessiodp.core.common.logging.LoggerManager;
+import com.alessiodp.core.common.addons.internal.ADPUpdater;
+import com.alessiodp.core.common.addons.libraries.LibraryManager;
 import com.alessiodp.core.common.commands.CommandManager;
 import com.alessiodp.core.common.configuration.ConfigurationManager;
 import com.alessiodp.core.common.configuration.Constants;
-import com.alessiodp.core.common.logging.LoggerManager;
 import com.alessiodp.core.common.messaging.ADPMessenger;
 import com.alessiodp.core.common.players.LoginAlertsManager;
 import com.alessiodp.core.common.scheduling.ADPScheduler;

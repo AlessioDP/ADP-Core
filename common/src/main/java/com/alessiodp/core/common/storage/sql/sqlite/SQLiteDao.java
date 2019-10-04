@@ -1,10 +1,10 @@
 package com.alessiodp.core.common.storage.sql.sqlite;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.addons.libraries.ILibrary;
-import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseSQL;
+import com.alessiodp.core.common.addons.libraries.ILibrary;
+import com.alessiodp.core.common.configuration.Constants;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 public abstract class ADPMainCommand {
@@ -64,7 +65,7 @@ public abstract class ADPMainCommand {
 			List<String> commands = new ArrayList<>();
 			for (ADPCommand pc : plugin.getPlayerUtils().getAllowedCommands(sender)) {
 				if (enabledSubCommands.contains(pc))
-					commands.add(pc.getCommand().toLowerCase());
+					commands.add(pc.getCommand().toLowerCase(Locale.ENGLISH));
 			}
 			
 			if (args.length > 1) {
@@ -86,9 +87,9 @@ public abstract class ADPMainCommand {
 	 */
 	protected final void register(@NonNull ADPCommand command, @NonNull ADPSubCommand subCommand) {
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_REGISTER_SUBCOMMAND
-				.replace("{sub}", command.getCommand().toLowerCase())
-				.replace("{main}", getCommandName().toLowerCase()), true);
-		subCommands.put(command.getCommand().toLowerCase(), subCommand);
+				.replace("{sub}", command.getCommand().toLowerCase(Locale.ENGLISH))
+				.replace("{main}", getCommandName().toLowerCase(Locale.ENGLISH)), true);
+		subCommands.put(command.getCommand().toLowerCase(Locale.ENGLISH), subCommand);
 		enabledSubCommands.add(command);
 	}
 	

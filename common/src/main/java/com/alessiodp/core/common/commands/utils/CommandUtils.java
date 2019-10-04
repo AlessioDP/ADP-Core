@@ -7,6 +7,7 @@ import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @AllArgsConstructor
 public abstract class CommandUtils {
@@ -89,7 +90,7 @@ public abstract class CommandUtils {
 	public List<String> tabCompleteParser(List<String> commands, String word) {
 		List<String> ret = new ArrayList<>();
 		for (String s : commands) {
-			if (s.toLowerCase().startsWith(word.toLowerCase())) {
+			if (s.toLowerCase(Locale.ENGLISH).startsWith(word.toLowerCase(Locale.ENGLISH))) {
 				ret.add(s);
 			}
 		}

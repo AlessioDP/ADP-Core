@@ -4,10 +4,10 @@ import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.Constants;
 import lombok.NonNull;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -117,10 +117,12 @@ public class LoggerManager {
 			if (!Files.exists(filePath))
 				Files.createFile(filePath);
 			
-			Files.write(filePath, logFormat
-					.replace("%date%", date)
-					.replace("%time%", time)
-					.replace("%message%", message).getBytes(), StandardOpenOption.APPEND);
+			try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
+				writer.write(logFormat
+						.replace("%date%", date)
+						.replace("%time%", time)
+						.replace("%message%", message));
+			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} finally {

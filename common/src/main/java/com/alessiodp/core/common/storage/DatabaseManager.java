@@ -22,11 +22,6 @@ public abstract class DatabaseManager {
 	@Getter @Setter private StorageType databaseType;
 	
 	/**
-	 * The plugin is shutting down?
- 	 */
-	@Getter private boolean shuttingDown = false;
-	
-	/**
 	 * Reload database manager
 	 */
 	public void reload() {
@@ -36,7 +31,7 @@ public abstract class DatabaseManager {
 		// Check if storages are valid
 		if (getDatabaseType() == null) {
 			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_NOTFOUND);
-			shuttingDown = true;
+			plugin.setPluginDisabled(true);
 			return;
 		}
 		
@@ -48,7 +43,8 @@ public abstract class DatabaseManager {
 		
 		// Check if something gone wrong, if so stop the plugin
 		if (database == null) {
-			shuttingDown = true;
+			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED);
+			plugin.setPluginDisabled(true);
 		}
 	}
 	

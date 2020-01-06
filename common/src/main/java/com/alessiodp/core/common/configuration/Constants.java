@@ -8,17 +8,17 @@ public class Constants {
 	
 	
 	// Database
-	public static final String DATABASE_SCHEMA_DIVIDER = "\\/\\*START\\_([a-z]+)\\*\\/([^\\/\\*]*)\\/\\*END\\_\\1\\*\\/";
+	public static final String DATABASE_SCHEMA_DIVIDER = "\\/\\*START\\_([a-z0-9\\_]+)\\*\\/([^\\/\\*]*)\\/\\*END\\_\\1\\*\\/";
 	
 	
 	// Updater
 	public static final String UPDATER_FOUND = "{plugin} v{currentVersion} found a new version: {newVersion}";
-	public static final String UPDATER_FAILED_IO = "{plugin} could not contact alessiodp.com for updating.";
-	public static final String UPDATER_FAILED_GENERAL = "{plugin} could not check for updates.";
+	public static final String UPDATER_FAILED_ADP = "{plugin} could not contact alessiodp.com to check for updates.";
+	public static final String UPDATER_FAILED_SPIGOT = "{plugin} could not contact spigotmc.org to check for updates.";
 	public static final String UPDATER_URL = "https://api.alessiodp.com/version.php?plugin={plugin}&version={version}";
 	public static final String UPDATER_FALLBACK_URL = "https://www.spigotmc.org/api/general.php";
 	public static final String UPDATER_FALLBACK_KEY = "98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4";
-	public static final String UPDATER_FALLBACK_WARN = "{plugin} will check updates manually via Spigot API.";
+	public static final String UPDATER_FALLBACK_WARN = "{plugin} will manually check for updates via Spigot API.";
 	public static final String UPDATER_FIELD_VERSION = "version";
 	public static final String UPDATER_DELIMITER_TYPE = "\\-";
 	public static final String UPDATER_DELIMITER_VERSION = "\\.";
@@ -62,6 +62,7 @@ public class Constants {
 	public static final String DEBUG_CMD_SETUP_OVERWRITTEN = "'{command}' was registered by another plugin, trying to overwrite it. If you have any problem you should change it";
 	
 	public static final String DEBUG_CONFIG_OUTDATED = "The file {name} is outdated!";
+	public static final String DEBUG_CONFIG_NOTFOUND = "The configuration key '{key}' in '{config}' was not found, configuration outdated?";
 	public static final String DEBUG_CONFIG_SAVE_ERROR = "Error in {class} at {method}_{line}: {type} > {message} \n{stacktrace}";
 	
 	public static final String DEBUG_DB_INIT = "Trying to initialize database '{db}'";

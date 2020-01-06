@@ -1,8 +1,8 @@
 dependencies {
-    compile project(':common')
+    api project(':common')
 
-    compile group: 'net.md-5', name: 'bungeecord-api', version: project.ext.bungeecord
-    compile group: 'com.github.Bastian.bStats-Metrics', name: 'bstats-bungeecord', version: project.ext.bstats
+    api group: 'net.md-5', name: 'bungeecord-api', version: project.ext.bungeecord
+    api group: 'com.github.Bastian.bStats-Metrics', name: 'bstats-bungeecord', version: project.ext.bstats
 }
 
 shadowJar {

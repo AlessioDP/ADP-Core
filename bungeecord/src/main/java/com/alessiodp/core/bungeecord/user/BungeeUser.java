@@ -61,7 +61,7 @@ public class BungeeUser implements User {
 	}
 	
 	@Override
-	public void playSound(String sound, float volume, float pitch) {
+	public void playSound(String sound, double volume, double pitch) {
 		// Not supported
 	}
 	

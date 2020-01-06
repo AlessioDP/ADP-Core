@@ -52,5 +52,5 @@ public interface User extends OfflineUser {
 	 * @param volume the volume of the sound
 	 * @param pitch the pitch of the sound
 	 */
-	void playSound(String sound, float volume, float pitch);
+	void playSound(String sound, double volume, double pitch);
 }

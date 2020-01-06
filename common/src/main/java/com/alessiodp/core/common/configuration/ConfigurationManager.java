@@ -1,12 +1,9 @@
 package com.alessiodp.core.common.configuration;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.configuration.adapter.ConfigurationAdapter;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,35 +25,29 @@ public abstract class ConfigurationManager {
 			cf.loadDefaults();
 			
 			// Initialize config
-			Path cfPath = cf.saveDefaultConfiguration(plugin.getFolder());
-			
-			// Initialize ConfigurationAdapter
-			ConfigurationAdapter cfCA = initializeConfigurationAdapter(cfPath);
+			cf.initializeConfiguration(plugin.getFolder());
 			
 			// Check version
-			cf.setOutdated(cf.checkVersion(cfCA));
+			cf.setOutdated(cf.checkVersion());
 			
 			// Load configuration
-			if (Files.exists(cfPath))
-				cf.loadConfiguration(cfCA);
+			if (cf.exists())
+				cf.loadConfiguration();
 		}
 		
 		performChanges();
 	}
 	
 	/**
-	 * Initialize configuration adapter
-	 *
-	 * @param configurationFile the configuration path to initialize
-	 * @return a new configuration adapter
-	 */
-	protected abstract ConfigurationAdapter initializeConfigurationAdapter(@NonNull Path configurationFile);
-	
-	/**
 	 * Perform any change to the settings or other classes at the end of configuration load
 	 */
 	protected abstract void performChanges();
 	
+	/**
+	 * Check for outdated configs
+	 *
+	 * @param outdatedMessage The outdated message to print
+	 */
 	protected void checkOutdatedConfigs(String outdatedMessage) {
 		// Check if outdated
 		for (ConfigurationFile cf : configs) {

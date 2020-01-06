@@ -17,10 +17,12 @@ import com.alessiodp.core.common.storage.DatabaseManager;
 import com.alessiodp.core.common.utils.IColorUtils;
 import com.alessiodp.core.common.utils.IPlayerUtils;
 import lombok.Getter;
+import lombok.Setter;
 
 public abstract class ADPPlugin extends AbstractADPPlugin {
 	// Plugin fields
 	@Getter private static ADPPlugin instance;
+	@Getter @Setter private boolean isPluginDisabled;
 	
 	// Common fields
 	@Getter protected AddonManager addonManager;
@@ -49,24 +51,29 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	public void enabling() {
 		// Init
 		instance = this;
+		isPluginDisabled = false;
 		logConsole(Constants.DEBUG_PLUGIN_ENABLING
 				.replace("{plugin}", this.getPluginName())
 				.replace("{version}", this.getVersion()), false);
 		
-		// Pre-handle
+		// Pre handle
 		preHandle();
 		
 		// Handle
-		handle();
+		if (!isPluginDisabled)
+			handle();
 		
-		// Check if plugin failed to start
-		if (!getDatabaseManager().isShuttingDown()) {
+		// Post handle
+		if (!isPluginDisabled)
 			postHandle();
-			
-			getLoggerManager().log(Constants.DEBUG_PLUGIN_ENABLED
-					.replace("{plugin}", this.getPluginName())
-					.replace("{version}", this.getVersion()), true);
+		
+		if (isPluginDisabled) {
+			super.getBootstrap().stopPlugin();
 		}
+		
+		getLoggerManager().log(Constants.DEBUG_PLUGIN_ENABLED
+				.replace("{plugin}", this.getPluginName())
+				.replace("{version}", this.getVersion()), true);
 	}
 	
 	/**
@@ -78,7 +85,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		
 		onDisabling();
 		
-		if (databaseManager != null && !databaseManager.isShuttingDown()) {
+		if (databaseManager != null) {
 			// This is not a force close
 			getDatabaseManager().stop();
 		}
@@ -113,11 +120,6 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 */
 	protected final void handle() {
 		loadCore();
-		if (getDatabaseManager().isShuttingDown()) {
-			// Storage error, shutdown plugin
-			getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED);
-			super.getBootstrap().stopPlugin();
-		}
 		
 		adpUpdater = new ADPUpdater(this);
 		initializeJsonHandler();

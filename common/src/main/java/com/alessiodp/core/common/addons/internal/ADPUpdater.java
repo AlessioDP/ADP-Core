@@ -10,7 +10,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 public class ADPUpdater {
 	@NonNull private final ADPPlugin plugin;
 	
-	private String pluginName;
 	private String pluginResourceId;
 	private boolean checkForUpdates;
 	private boolean warnUpdates;
@@ -42,7 +40,6 @@ public class ADPUpdater {
 	 * @param warnMessage the warning message
 	 */
 	public void reload(String pluginName, String pluginResourceId, boolean checkForUpdates, boolean warnUpdates, String warnPermission, String warnMessage) {
-		this.pluginName = pluginName;
 		this.pluginResourceId = pluginResourceId;
 		this.checkForUpdates = checkForUpdates;
 		this.warnUpdates = warnUpdates;
@@ -88,7 +85,7 @@ public class ADPUpdater {
 		foundVersion = "";
 		String remoteVersion = getVersionInfo();
 		
-		if (remoteVersion == null) {
+		if (remoteVersion == null && !pluginResourceId.isEmpty()) {
 			plugin.getLoggerManager().log(Constants.UPDATER_FALLBACK_WARN
 					.replace("{plugin}", plugin.getPluginName()), true);
 			remoteVersion = getVersionFallback();
@@ -121,16 +118,22 @@ public class ADPUpdater {
 	 *
 	 * @return the latest version string
 	 */
+	@SuppressWarnings("ConstantConditions")
 	private String getVersionInfo() {
 		String ret = null;
 		try {
-			URLConnection conn = new URL(Constants.UPDATER_URL
+			String url = Constants.UPDATER_URL
 					.replace("{plugin}", plugin.getPluginFallbackName())
-					.replace("{version}", plugin.getVersion())).openConnection();
+					.replace("{version}", plugin.getVersion());
+			if (!("%%__USER_%%".startsWith("%%")))
+				url = url.concat("&user=%%__USER__%%");
+			if (!("%%__NONCE__%%".startsWith("%%")))
+				url = url.concat("&nonce=%%__NONCE__%%");
+			URLConnection conn = new URL(url).openConnection();
 			conn.setConnectTimeout(10000);
 			conn.addRequestProperty("User-Agent", "ADP Updater");
 			
-			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
 			JsonObject response = new JsonParser().parse(br.readLine()).getAsJsonObject();
 			// Get the version string
 			if (response != null)
@@ -138,11 +141,8 @@ public class ADPUpdater {
 						.replace("{plugin}", plugin.getPluginName())).getAsString();
 			
 			br.close();
-		} catch (IOException ex) {
-			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_IO
-					.replace("{plugin}", plugin.getPluginName()));
 		} catch (Exception ex) {
-			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_GENERAL
+			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_ADP
 					.replace("{plugin}", plugin.getPluginName()));
 		}
 		return ret;
@@ -167,16 +167,13 @@ public class ADPUpdater {
 					pluginResourceId;
 			conn.getOutputStream().write(postContent.getBytes(StandardCharsets.UTF_8));
 			
-			String response = new BufferedReader(new InputStreamReader(conn.getInputStream())).readLine();
+			String response = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)).readLine();
 			// Check if is a correct version and not a message
 			if (response.length() < 10) {
 				ret = response;
 			}
-		} catch (IOException ex) {
-			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_IO
-					.replace("{plugin}", plugin.getPluginName()));
 		} catch (Exception ex) {
-			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_GENERAL
+			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_SPIGOT
 					.replace("{plugin}", plugin.getPluginName()));
 		}
 		return ret;

@@ -95,7 +95,7 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 					preStatement.executeUpdate();
 				}
 			}
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR_TABLE
 					.replace("{table}", table.getTypeName()), ex);
 		}

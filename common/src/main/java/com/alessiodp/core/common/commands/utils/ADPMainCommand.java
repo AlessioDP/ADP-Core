@@ -85,7 +85,7 @@ public abstract class ADPMainCommand {
 	 * @param command the main command
 	 * @param subCommand the sub command to register
 	 */
-	protected final void register(@NonNull ADPCommand command, @NonNull ADPSubCommand subCommand) {
+	public final void register(@NonNull ADPCommand command, @NonNull ADPSubCommand subCommand) {
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_REGISTER_SUBCOMMAND
 				.replace("{sub}", command.getCommand().toLowerCase(Locale.ENGLISH))
 				.replace("{main}", getCommandName().toLowerCase(Locale.ENGLISH)), true);

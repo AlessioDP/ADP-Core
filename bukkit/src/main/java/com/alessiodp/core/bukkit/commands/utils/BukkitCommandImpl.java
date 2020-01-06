@@ -16,7 +16,7 @@ public class BukkitCommandImpl extends Command implements CommandExecutor {
 	private final ADPPlugin plugin;
 	@Setter @Getter private ADPMainCommand mainCommand;
 	
-	public BukkitCommandImpl(@NonNull ADPPlugin plugin, @NonNull ADPMainCommand mainCommand) {
+	public BukkitCommandImpl(ADPPlugin plugin, @NonNull ADPMainCommand mainCommand) {
 		super(mainCommand.getCommandName());
 		this.plugin = plugin;
 		this.mainCommand = mainCommand;

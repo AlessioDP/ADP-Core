@@ -18,8 +18,8 @@ import java.util.Locale;
 public abstract class CommandManager {
 	@NonNull protected final ADPPlugin plugin;
 	
-	protected List<ADPMainCommand> mainCommands;
-	protected LinkedList<String> commandOrder;
+	@Getter protected List<ADPMainCommand> mainCommands;
+	@Getter protected LinkedList<String> commandOrder;
 	@Getter protected CommandUtils commandUtils;
 	
 	/**

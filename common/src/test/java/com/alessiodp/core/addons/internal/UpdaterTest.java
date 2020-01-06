@@ -16,7 +16,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 @PrepareForTest(ADPUpdater.class)
 public class UpdaterTest {
 	private ADPUpdater updater;
-	private final String currentVersion = "2.5.10";
+	private final static String currentVersion = "2.5.10";
 	
 	@Before
 	public void setUp() {

@@ -1,9 +1,9 @@
 dependencies {
-    compile project(':common')
+    api project(':common')
 
-    compile group: 'org.spigotmc', name: 'spigot-api', version: project.ext.spigot
-    compile group: 'org.bukkit', name: 'bukkit', version: project.ext.spigot
-    compile group: 'com.github.Bastian.bStats-Metrics', name: 'bstats-bukkit', version: project.ext.bstats
+    api group: 'org.spigotmc', name: 'spigot-api', version: project.ext.spigot
+    api group: 'org.bukkit', name: 'bukkit', version: project.ext.spigot
+    api group: 'org.bstats', name: 'bstats-bukkit', version: project.ext.bstats
 }
 
 shadowJar {
@@ -11,8 +11,8 @@ shadowJar {
 
     dependencies {
         include(dependency('com.alessiodp.core.bukkit:.*'))
-        include(dependency('com.github.Bastian.bStats-Metrics:bstats-bukkit'))
+        include(dependency('org.bstats:bstats-bukkit'))
     }
 
-    relocate("org.bstats", "com.alessiodp.core.bukkit.addons.external.bstats")
+    relocate 'org.bstats', 'com.alessiodp.core.bukkit.addons.external.bstats'
 }

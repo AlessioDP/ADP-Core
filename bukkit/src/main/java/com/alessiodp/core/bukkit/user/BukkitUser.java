@@ -62,10 +62,10 @@ public class BukkitUser implements User {
 	}
 	
 	@Override
-	public void playSound(String sound, float volume, float pitch) {
+	public void playSound(String sound, double volume, double pitch) {
 		try {
 			Sound s = Sound.valueOf(sound);
-			((Player) sender).playSound(((Player) sender).getLocation(), s, volume, pitch);
+			((Player) sender).playSound(((Player) sender).getLocation(), s, (float) volume, (float) pitch);
 		} catch (IllegalArgumentException ignored) {}
 	}
 	

@@ -141,7 +141,7 @@ public abstract class ConfigurationFile {
 					Object value = yf.get(co.path());
 					if (value != null) {
 						f.set(null, value);
-					} else {
+					} else if (!co.nullable()) {
 						plugin.getLoggerManager().printError(Constants.DEBUG_CONFIG_NOTFOUND
 								.replace("{key}", co.path())
 								.replace("{config}", getFileName()));

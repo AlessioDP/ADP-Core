@@ -99,4 +99,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	 * @return the console color of the plugin
 	 */
 	protected abstract ConsoleColor getConsoleColor();
+	
+	/**
+	 * Get bStats plugin id
+	 *
+	 * @return the id of the plugin
+	 */
+	public abstract int getBstatsId();
 }

@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -156,16 +155,10 @@ public class ADPUpdater {
 	private String getVersionFallback() {
 		String ret = null;
 		try {
-			HttpURLConnection conn = (HttpURLConnection) new URL(Constants.UPDATER_FALLBACK_URL).openConnection();
-			conn.setRequestMethod("POST");
+			URLConnection conn = new URL(Constants.UPDATER_FALLBACK_URL
+			.replace("{id}", pluginResourceId)).openConnection();
 			conn.setConnectTimeout(10000);
 			conn.addRequestProperty("User-Agent", "ADP Updater");
-			
-			String postContent = "key=" +
-					Constants.UPDATER_FALLBACK_KEY +
-					"&resource=" +
-					pluginResourceId;
-			conn.getOutputStream().write(postContent.getBytes(StandardCharsets.UTF_8));
 			
 			String response = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)).readLine();
 			// Check if is a correct version and not a message

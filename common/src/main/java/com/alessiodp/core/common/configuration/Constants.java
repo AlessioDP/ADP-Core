@@ -16,8 +16,7 @@ public class Constants {
 	public static final String UPDATER_FAILED_ADP = "{plugin} could not contact alessiodp.com to check for updates.";
 	public static final String UPDATER_FAILED_SPIGOT = "{plugin} could not contact spigotmc.org to check for updates.";
 	public static final String UPDATER_URL = "https://api.alessiodp.com/version.php?plugin={plugin}&version={version}";
-	public static final String UPDATER_FALLBACK_URL = "https://www.spigotmc.org/api/general.php";
-	public static final String UPDATER_FALLBACK_KEY = "98BE0FE67F88AB82B4C197FAF1DC3B69206EFDCC4D3B80FC83A00037510B99B4";
+	public static final String UPDATER_FALLBACK_URL = "https://api.spigotmc.org/legacy/update.php?resource={id}";
 	public static final String UPDATER_FALLBACK_WARN = "{plugin} will manually check for updates via Spigot API.";
 	public static final String UPDATER_FIELD_VERSION = "version";
 	public static final String UPDATER_DELIMITER_TYPE = "\\-";

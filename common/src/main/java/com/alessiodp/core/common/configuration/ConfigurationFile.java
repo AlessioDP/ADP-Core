@@ -76,9 +76,10 @@ public abstract class ConfigurationFile {
 	 */
 	public void initializeConfiguration(Path folder) {
 		configurationPath = saveDefaultConfiguration(folder);
-		configuration = new YamlFile();
+		configuration = new YamlFile(configurationPath.toFile());
+		configuration.setCharset(StandardCharsets.UTF_8);
 		try {
-			configuration.load(new InputStreamReader(Files.newInputStream(configurationPath), StandardCharsets.UTF_8));
+			configuration.load();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -122,9 +123,10 @@ public abstract class ConfigurationFile {
 	 * Load config options
 	 */
 	public void loadConfigOptions() {
-		YamlFile yf = new YamlFile();
+		YamlFile yf = new YamlFile(configurationPath.toFile());
+		yf.setCharset(StandardCharsets.UTF_8);
 		try {
-			yf.load(new InputStreamReader(Files.newInputStream(configurationPath), StandardCharsets.UTF_8));
+			yf.load();
 			
 			loadFromConfiguration(yf);
 		} catch (Exception e) {

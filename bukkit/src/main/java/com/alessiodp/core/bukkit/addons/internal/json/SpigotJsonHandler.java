@@ -11,10 +11,6 @@ import org.bukkit.entity.Player;
  */
 public class SpigotJsonHandler extends JsonHandler {
 	
-	public SpigotJsonHandler() {
-		super();
-	}
-	
 	@Override
 	public boolean sendMessage(Object user, String jsonMessage) {
 		boolean ret = false;

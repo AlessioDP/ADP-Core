@@ -8,12 +8,7 @@ import org.bukkit.entity.Player;
  * Bukkit handler for JSON handling
  */
 public class BukkitJsonHandler extends JsonHandler {
-	private final String serverVersion;
-	
-	public BukkitJsonHandler() {
-		super();
-		serverVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-	}
+	private final String serverVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 	
 	@Override
 	public boolean sendMessage(Object user, String jsonMessage) {

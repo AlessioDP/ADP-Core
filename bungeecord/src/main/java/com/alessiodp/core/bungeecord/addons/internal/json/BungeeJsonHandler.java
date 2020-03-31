@@ -6,10 +6,6 @@ import net.md_5.bungee.chat.ComponentSerializer;
 
 public class BungeeJsonHandler extends JsonHandler {
 	
-	public BungeeJsonHandler() {
-		super();
-	}
-	
 	@Override
 	public boolean sendMessage(Object user, String jsonMessage) {
 		boolean ret = false;

@@ -37,7 +37,7 @@ public class MigratorTest {
 	private DSLContext queryBuilder;
 	
 	@Before
-	public void setup() throws SQLException {
+	public void setUp() throws SQLException {
 		System.getProperties().setProperty("org.jooq.no-logo", "TRUE");
 		queryBuilder = DSL.using(Driver.load().connect("jdbc:h2:mem:test", new Properties()), SQLDialect.H2);
 		migrator = Migrator.configure()

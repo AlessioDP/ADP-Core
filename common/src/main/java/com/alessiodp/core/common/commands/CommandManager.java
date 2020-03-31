@@ -2,6 +2,7 @@ package com.alessiodp.core.common.commands;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.commands.list.ADPCommand;
+import com.alessiodp.core.common.commands.utils.ADPExecutableCommand;
 import com.alessiodp.core.common.commands.utils.ADPMainCommand;
 import com.alessiodp.core.common.commands.utils.CommandData;
 import com.alessiodp.core.common.commands.utils.CommandUtils;
@@ -10,17 +11,18 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 @RequiredArgsConstructor
 public abstract class CommandManager {
 	@NonNull protected final ADPPlugin plugin;
 	
 	@Getter protected List<ADPMainCommand> mainCommands;
-	@Getter protected LinkedList<String> commandOrder;
+	@Getter protected LinkedHashMap<ADPCommand, ADPExecutableCommand> orderedCommands;
 	@Getter protected CommandUtils commandUtils;
+	protected LinkedList<String> commandOrder;
 	
 	/**
 	 * Setup commands
@@ -30,26 +32,25 @@ public abstract class CommandManager {
 		prepareCommands();
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_REGISTER, true);
 		registerCommands();
-		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_SETUP, true);
 		setupCommands();
-		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_ORDER, true);
 		orderCommands();
 	}
 	
 	/**
 	 * Prepare commands: initialize enums and utils
 	 */
-	protected abstract void prepareCommands();
+	public abstract void prepareCommands();
 	
 	/**
 	 * Register all commands: add them into mainExecutors
 	 */
-	protected abstract void registerCommands();
+	public abstract void registerCommands();
 	
 	/**
 	 * Setup commands and register them for the server
 	 */
-	private void setupCommands() {
+	public void setupCommands() {
+		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_SETUP, true);
 		for (ADPMainCommand command : mainCommands) {
 			CommandUtils.RegisterResult res = getCommandUtils().register(command);
 			
@@ -66,35 +67,37 @@ public abstract class CommandManager {
 	/**
 	 * Order commands
 	 */
-	private void orderCommands() {
+	public void orderCommands() {
+		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_ORDER, true);
+		orderedCommands = new LinkedHashMap<>();
 		if (commandOrder != null) {
-			LinkedList<ADPCommand> newEnabledSubCommands = new LinkedList<>();
 			// Iterate command order list
 			for (String command : commandOrder) {
-				String[] splittedCommand = command.toLowerCase(Locale.ENGLISH).split(":");
-				if (splittedCommand.length == 2) {
-					// Iterate main commands
-					for (ADPMainCommand mainCommand : mainCommands) {
-						// Check only found main command
-						if (splittedCommand[0].equalsIgnoreCase(mainCommand.getCommandName())) {
-							// Interate every sub command
-							for (ADPCommand subCommand : mainCommand.getEnabledSubCommands()) {
-								// If the command match add it into the list
-								if (subCommand.getOriginalName().equalsIgnoreCase(splittedCommand[1])) {
-									newEnabledSubCommands.add(subCommand);
-								}
+				// Iterate main commands
+				for (ADPMainCommand mainCommand : mainCommands) {
+					if (mainCommand.getCommand().getOriginalName().equalsIgnoreCase(command)
+							&& mainCommand.isListedInHelp()) {
+						// Match with main command
+						orderedCommands.put(mainCommand.getCommand(), mainCommand);
+					} else {
+						// Match with sub commands
+						for (ADPCommand subCommand : mainCommand.getSubCommandsByEnum().keySet()) {
+							if (subCommand.getOriginalName().equalsIgnoreCase(command)) {
+								orderedCommands.put(subCommand, mainCommand.getSubCommandsByEnum().get(subCommand));
 							}
 						}
 					}
 				}
 			}
-			
-			// Add other commands at the end
-			for (ADPMainCommand mainCommand : mainCommands) {
-				for (ADPCommand subCommand : mainCommand.getEnabledSubCommands()) {
-					if (!newEnabledSubCommands.contains(subCommand)) {
-						newEnabledSubCommands.add(subCommand);
-					}
+		}
+		
+		// Add other commands at the end
+		for (ADPMainCommand mainCommand : mainCommands) {
+			if (!orderedCommands.containsKey(mainCommand.getCommand()) && mainCommand.isListedInHelp())
+				orderedCommands.put(mainCommand.getCommand(), mainCommand);
+			for (ADPCommand subCommand : mainCommand.getSubCommandsByEnum().keySet()) {
+				if (!orderedCommands.containsKey(subCommand)) {
+					orderedCommands.put(subCommand, mainCommand.getSubCommandsByEnum().get(subCommand));
 				}
 			}
 		}

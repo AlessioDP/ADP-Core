@@ -28,6 +28,18 @@ public class ItemBuilder {
 		this(plugin, new ItemStack(material));
 	}
 	
+	public ItemBuilder(ADPPlugin plugin, @NonNull String materialName, Material fallbackMaterial) {
+		this(plugin, new ItemStack(parseMaterial(materialName, fallbackMaterial)));
+	}
+	
+	public static Material parseMaterial(String materialName, Material fallbackMaterial) {
+		Material ret = fallbackMaterial;
+		try {
+			ret = Material.valueOf(materialName);
+		} catch (Exception ignored) {}
+		return ret;
+	}
+	
 	public ItemStack build() {
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;

@@ -3,6 +3,7 @@ dependencies {
 
     api group: 'net.md-5', name: 'bungeecord-api', version: project.ext.bungeecord
     api group: 'org.bstats', name: 'bstats-bungeecord', version: project.ext.bstats
+    api group: 'net.byteflux', name: 'libby-bungee', version: project.ext.libby
 }
 
 shadowJar {
@@ -11,7 +12,9 @@ shadowJar {
     dependencies {
         include(dependency('com.alessiodp.core.bungeecord:.*'))
         include(dependency('org.bstats:bstats-bungeecord'))
+        include(dependency('net.byteflux:libby-bungee'))
     }
 
-    relocate("org.bstats", "com.alessiodp.core.bungeecord.addons.external.bstats")
+    relocate 'org.bstats', 'com.alessiodp.core.bungeecord.addons.external.bstats'
+    relocate 'net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby'
 }

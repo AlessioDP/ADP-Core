@@ -22,6 +22,41 @@ public abstract class DatabaseManager {
 	@Getter @Setter private StorageType databaseType;
 	
 	/**
+	 * Initialize database manager
+	 *
+	 * @param storageType the storage type to initialize
+	 * @return the database dispatcher initialized
+	 */
+	protected IDatabaseDispatcher init(StorageType storageType) {
+		// Initialize libraries
+		if (!storageType.initLibraries(plugin)) {
+			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_LIBRARIES
+					.replace("{type}", storageType.getFormattedName()));
+			return null;
+		}
+		
+		// Initialize the correct dispatcher (File/SQL)
+		IDatabaseDispatcher ret = initializeDispatcher(storageType);
+		
+		// Check if supported
+		if (ret != null) {
+			// Initialize it
+			ret.init();
+			if (ret.isFailed())
+				return null;
+		}
+		return ret;
+	}
+	
+	/**
+	 * Initialize database dispatcher
+	 *
+	 * @param storageType the storage type to initialize
+	 * @return the database dispatcher initialized
+	 */
+	protected abstract IDatabaseDispatcher initializeDispatcher(StorageType storageType);
+	
+	/**
 	 * Reload database manager
 	 */
 	public void reload() {
@@ -39,7 +74,7 @@ public abstract class DatabaseManager {
 				.replace("{db}", getDatabaseType().getFormattedName()), true);
 		
 		// Initialize storages
-		database = initializeDispatcher(getDatabaseType());
+		database = init(getDatabaseType());
 		
 		// Check if something gone wrong, if so stop the plugin
 		if (database == null) {
@@ -56,12 +91,4 @@ public abstract class DatabaseManager {
 			database.stop();
 		}
 	}
-	
-	/**
-	 * Initialize database dispatcher
-	 *
-	 * @param storageType the storage type to initialize
-	 * @return the database dispatcher initialized
-	 */
-	public abstract IDatabaseDispatcher initializeDispatcher(StorageType storageType);
 }

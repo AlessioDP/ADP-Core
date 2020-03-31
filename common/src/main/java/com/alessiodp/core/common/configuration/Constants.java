@@ -2,15 +2,6 @@ package com.alessiodp.core.common.configuration;
 
 public class Constants {
 	
-	// Libraries
-	public static final String LIBRARY_FOLDER = "libs/";
-	public static final String LIBRARY_MAVEN = "%package%/%name%/%version%/%file%";
-	
-	
-	// Database
-	public static final String DATABASE_SCHEMA_DIVIDER = "\\/\\*START\\_([a-z0-9\\_]+)\\*\\/([^\\/\\*]*)\\/\\*END\\_\\1\\*\\/";
-	
-	
 	// Updater
 	public static final String UPDATER_FOUND = "{plugin} v{currentVersion} found a new version: {newVersion}";
 	public static final String UPDATER_FAILED_ADP = "{plugin} could not contact alessiodp.com to check for updates.";
@@ -25,16 +16,6 @@ public class Constants {
 	
 	// Common messages
 	public static final String ONLY_PLAYERS = "You must be a player to use this command.";
-	
-	
-	// Common SQL queries
-	public static final String QUERY_CHECKVERSION = "SELECT * FROM {table_versions} WHERE `name`=?;";
-	public static final String QUERY_CHECKVERSION_SET_MYSQL = "INSERT INTO {table_versions} (`name`, `version`) VALUES (?,?) ON DUPLICATE KEY UPDATE `name`=VALUES(`name`), `version`=VALUES(`version`);";
-	public static final String QUERY_CHECKVERSION_SET_SQLITE = "INSERT OR REPLACE INTO {table_versions} (`name`, `version`) VALUES (?,?);";
-	public static final String QUERY_RENAME_MYSQL = "RENAME TABLE {table} TO {newtable};";
-	public static final String QUERY_RENAME_SQLITE = "ALTER TABLE {table} RENAME TO {newtable};";
-	public static final String QUERY_GENERIC_SELECTALL = "SELECT * FROM {table};";
-	public static final String QUERY_GENERIC_DROP = "DROP TABLE {table};";
 	
 	
 	// Debug messages
@@ -68,16 +49,12 @@ public class Constants {
 	public static final String DEBUG_DB_INIT_FAILED = "Failed to initialize the storage, stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_NOTFOUND = "Failed to found a valid storage type, stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_UNSUPPORTED = "Unsupported storage type '{type}', stopping plugin!";
+	public static final String DEBUG_DB_INIT_FAILED_LIBRARIES = "Failed to download required libraries for '{type}', stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_MYSQL = "Failed to initialize MySQL driver: {message}";
+	public static final String DEBUG_DB_INIT_FAILED_SQLITE = "Failed to initialize SQLite driver: {message}";
 	public static final String DEBUG_DB_FILE_CREATEFAIL = "Failed to create data file: {type} > {message}";
 	public static final String DEBUG_DB_FILE_ERROR = "Error in {class} at {method}_{line}: {type} > {message} \n{stacktrace}";
-	
-	public static final String DEBUG_LIB_INIT_INIT = "Initializing library '{lib}' v{version}";
-	public static final String DEBUG_LIB_INIT_DL = "Downloading library '{lib}' v{version}";
-	public static final String DEBUG_LIB_INIT_LOAD = "Loading library '{lib}' v{version}";
-	public static final String DEBUG_LIB_INIT_FAIL = "Cannot load library '{lib}' v{version}";
-	public static final String DEBUG_LIB_FAILED_DL = "Failed to download the library '{lib}' v{version}: {message}";
-	public static final String DEBUG_LIB_FAILED_LOAD = "Failed to download the library '{lib}' v{version}:";
+	public static final String DEBUG_DB_MIGRATOR_MIGRATING = "Migrating database with '{file}'";
 	
 	public static final String DEBUG_LOG_LOADED = "Logger manager loaded";
 	
@@ -88,11 +65,8 @@ public class Constants {
 	public static final String DEBUG_SCHEDULER_SHUTDOWN = "Shutting down scheduler...";
 	
 	public static final String DEBUG_SQL_FAILED = "Failed initialization of {type}, error: {type} > {message}";
-	public static final String DEBUG_SQL_SCHEMA_INIT = "Handling {class} schema";
-	public static final String DEBUG_SQL_SCHEMA_FOUND = "Found schema: {schema}";
 	public static final String DEBUG_SQL_CONNECTIONERROR = "Failed to connect to {storage}: {message}";
 	public static final String DEBUG_SQL_ERROR = "Error in {class} at {method}_{line}: {type} > {message} \n{stacktrace}";
 	public static final String DEBUG_SQL_ERROR_TABLE = "Error in {class} at {method}({table})_{line}: {type} > {message} \n{stacktrace}";
 	public static final String DEBUG_SQL_ERROR_UUID = "Failed to parse uuid '{uuid}' at {method}_{line}: {type} > {message}";
-	public static final String DEBUG_SQL_UPGRADING = "Upgrading the SQL table '{table}'";
 }

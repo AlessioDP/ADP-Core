@@ -3,10 +3,13 @@ package com.alessiodp.core.bungeecord.bootstrap;
 import com.alessiodp.core.bungeecord.user.BungeeOfflineUser;
 import com.alessiodp.core.bungeecord.user.BungeeUser;
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
+import lombok.Getter;
 import lombok.NonNull;
+import net.byteflux.libby.BungeeLibraryManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -20,9 +23,11 @@ import java.util.logging.Level;
 
 public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap {
 	@NonNull protected ADPPlugin plugin;
+	@Getter private ADPLibraryManager libraryManager;
 	
 	@Override
 	public void onEnable() {
+		libraryManager = new ADPLibraryManager(plugin, new BungeeLibraryManager(this));
 		plugin.enabling();
 	}
 	

@@ -4,6 +4,7 @@ dependencies {
     api group: 'org.spigotmc', name: 'spigot-api', version: project.ext.spigot
     api group: 'org.bukkit', name: 'bukkit', version: project.ext.spigot
     api group: 'org.bstats', name: 'bstats-bukkit', version: project.ext.bstats
+    api group: 'net.byteflux', name: 'libby-bukkit', version: project.ext.libby
 }
 
 shadowJar {
@@ -12,7 +13,9 @@ shadowJar {
     dependencies {
         include(dependency('com.alessiodp.core.bukkit:.*'))
         include(dependency('org.bstats:bstats-bukkit'))
+        include(dependency('net.byteflux:libby-bukkit'))
     }
 
     relocate 'org.bstats', 'com.alessiodp.core.bukkit.addons.external.bstats'
+    relocate 'net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby'
 }

@@ -1,5 +1,6 @@
 package com.alessiodp.core.common.bootstrap;
 
+import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.logging.ConsoleColor;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
@@ -45,6 +46,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
+	public ADPLibraryManager getLibraryManager() {
+		return bootstrap.getLibraryManager();
+	}
+	
+	@Override
 	public InputStream getResource(String resource) {
 		return bootstrap.getResource(resource);
 	}
@@ -76,7 +82,8 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	
 	@Override
 	public void logConsole(String message, boolean isWarning) {
-		bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning);
+		if (message != null && !message.isEmpty())
+			bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning);
 	}
 	
 	/**
@@ -106,4 +113,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	 * @return the id of the plugin
 	 */
 	public abstract int getBstatsId();
+	
+	/**
+	 * Get the package name
+	 *
+	 * @return the package name
+	 */
+	public abstract String getPackageName();
 }

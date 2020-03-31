@@ -14,28 +14,27 @@ import java.util.List;
 import java.util.Locale;
 
 @RequiredArgsConstructor
-public abstract class ADPMainCommand {
+public abstract class ADPMainCommand implements ADPExecutableCommand {
 	@NonNull protected final ADPPlugin plugin;
 	
-	/**
-	 * Name of this command
-	 */
-	@Getter protected String commandName;
+	@Getter @NonNull protected final ADPCommand command;
+	@Getter @NonNull protected final String commandName;
+	@Getter protected final boolean executableByConsole;
+	@Getter protected boolean listedInHelp = false;
 	
-	/**
-	 * Description of the command
-	 */
 	@Getter protected String description = "";
+	
+	@Getter protected String help = "";
+	
+	@Getter protected String syntax = "";
+	
+	@Getter protected String runCommand = "";
 	
 	/**
 	 * List of sub commands
 	 */
 	protected HashMap<String, ADPSubCommand> subCommands;
-	
-	/**
-	 * List of enabled sub commands
-	 */
-	@Getter protected List<ADPCommand> enabledSubCommands;
+	@Getter protected HashMap<ADPCommand, ADPSubCommand> subCommandsByEnum;
 	
 	/**
 	 * Enable tab support for this command
@@ -64,8 +63,9 @@ public abstract class ADPMainCommand {
 		if (tabSupport) {
 			List<String> commands = new ArrayList<>();
 			for (ADPCommand pc : plugin.getPlayerUtils().getAllowedCommands(sender)) {
-				if (enabledSubCommands.contains(pc))
-					commands.add(pc.getCommand().toLowerCase(Locale.ENGLISH));
+				ADPSubCommand sc = subCommandsByEnum.get(pc);
+				if (sc != null)
+					commands.add(sc.getCommandName().toLowerCase(Locale.ENGLISH));
 			}
 			
 			if (args.length > 1) {
@@ -82,15 +82,14 @@ public abstract class ADPMainCommand {
 	/**
 	 * Register the sub command into the list
 	 *
-	 * @param command the main command
 	 * @param subCommand the sub command to register
 	 */
-	public final void register(@NonNull ADPCommand command, @NonNull ADPSubCommand subCommand) {
+	public final void register(@NonNull ADPSubCommand subCommand) {
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_REGISTER_SUBCOMMAND
-				.replace("{sub}", command.getCommand().toLowerCase(Locale.ENGLISH))
+				.replace("{sub}", subCommand.getCommandName().toLowerCase(Locale.ENGLISH))
 				.replace("{main}", getCommandName().toLowerCase(Locale.ENGLISH)), true);
-		subCommands.put(command.getCommand().toLowerCase(Locale.ENGLISH), subCommand);
-		enabledSubCommands.add(command);
+		subCommands.put(subCommand.getCommandName().toLowerCase(Locale.ENGLISH), subCommand);
+		subCommandsByEnum.put(subCommand.getCommand(), subCommand);
 	}
 	
 	/**

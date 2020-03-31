@@ -3,73 +3,78 @@ package com.alessiodp.core.common.storage.sql.mysql;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseSQL;
-import com.alessiodp.core.common.addons.libraries.ILibrary;
 import com.alessiodp.core.common.configuration.Constants;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.conf.MappedSchema;
+import org.jooq.conf.MappedTable;
+import org.jooq.conf.RenderMapping;
+import org.jooq.conf.RenderNameCase;
+import org.jooq.conf.Settings;
+import org.jooq.impl.DSL;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class MySQLDao implements IDatabaseSQL {
 	@NonNull private final ADPPlugin plugin;
 	@NonNull private final MySQLHikariConfiguration hikariConfiguration;
 	
-	private HikariDataSource hikariDataSource;
+	@Getter private HikariDataSource dataSource;
+	@Getter private DSLContext queryBuilder;
 	@Getter private boolean failed;
 	
-	/*
-	 * Connection
-	 */
 	@Override
-	public void initSQL() {
+	public void initSQL(Map<String, String> placeholders, String charset) {
 		failed = false;
-		if (plugin.getLibraryManager().initLibrary(ILibrary.HIKARI)
-				&& plugin.getLibraryManager().initLibrary(ILibrary.SLF4J_API)
-				&& plugin.getLibraryManager().initLibrary(ILibrary.SLF4J_SIMPLE)) {
-			try {
-				hikariDataSource = hikariConfiguration.setup();
-			} catch (Exception ex) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_MYSQL
-						.replace("{message}", ex.getMessage()));
-			}
+		try {
+			hikariConfiguration.setCharacterEncoding(charset);
+			dataSource = hikariConfiguration.setup();
 			
-			// Test connection
-			if (hikariDataSource == null || !ping()) {
-				failed = true;
-			}
-		} else
-			failed = true;
-	}
-	
-	public boolean ping() {
-		boolean ret = false;
-		try (Connection conn = getConnection()) {
-			try (Statement statement = conn.createStatement()) {
-				statement.execute("/* ping */ SELECT 1;");
-				ret = true;
-			}
-		} catch (SQLException ex) {
-			plugin.getLoggerManager().printError(Constants.DEBUG_SQL_CONNECTIONERROR
-					.replace("{storage}", StorageType.MYSQL.getFormattedName())
+			List<MappedTable> mts = new ArrayList<>();
+			for (Map.Entry<String, String> e : placeholders.entrySet())
+				mts.add(new MappedTable().withInput(e.getKey().toUpperCase()).withOutput(e.getValue()));
+			
+			queryBuilder = DSL.using(
+					dataSource,
+					SQLDialect.MYSQL,
+					new Settings()
+							.withRenderNameCase(RenderNameCase.LOWER)
+							.withRenderMapping(new RenderMapping()
+									.withSchemata(new MappedSchema()
+											.withInputExpression(Pattern.compile(".*"))
+											.withTables(mts))
+							)
+			);
+		} catch (Exception ex) {
+			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_MYSQL
 					.replace("{message}", ex.getMessage()));
 		}
-		return ret;
+		
+		// Test connection
+		if (dataSource == null || !ping()) {
+			failed = true;
+		}
 	}
 	
-	@Override
-	public Connection getConnection() {
-		Connection ret = null;
+	/**
+	 * Ping the database
+	 *
+	 * @return false if the ping fails
+	 */
+	public boolean ping() {
+		boolean ret = false;
 		try {
-			ret = hikariDataSource.getConnection();
-			
-			if (ret == null)
-				throw new SQLException("Failed to get connection from Hikari CP");
-		} catch (SQLException ex) {
+			queryBuilder.execute("/* ping */ SELECT 1;");
+			ret = true;
+		} catch (Exception ex) {
 			plugin.getLoggerManager().printError(Constants.DEBUG_SQL_CONNECTIONERROR
 					.replace("{storage}", StorageType.MYSQL.getFormattedName())
 					.replace("{message}", ex.getMessage()));
@@ -79,8 +84,11 @@ public class MySQLDao implements IDatabaseSQL {
 	
 	@Override
 	public void stopSQL() {
-		if (hikariDataSource != null && !hikariDataSource.isClosed()) {
-			hikariDataSource.close();
+		if (dataSource != null && !dataSource.isClosed()) {
+			dataSource.close();
+		}
+		if (queryBuilder != null) {
+			queryBuilder.close();
 		}
 	}
 }

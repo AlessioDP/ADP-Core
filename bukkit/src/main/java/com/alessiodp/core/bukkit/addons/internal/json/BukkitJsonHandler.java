@@ -7,10 +7,11 @@ import org.bukkit.entity.Player;
 /**
  * Bukkit handler for JSON handling
  */
-public class BukkitJsonHandler implements JsonHandler {
+public class BukkitJsonHandler extends JsonHandler {
 	private final String serverVersion;
 	
 	public BukkitJsonHandler() {
+		super();
 		serverVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 	}
 	
@@ -38,16 +39,6 @@ public class BukkitJsonHandler implements JsonHandler {
 				ex.printStackTrace();
 			}
 		}
-		return ret;
-	}
-	
-	@Override
-	public boolean isJson(String jsonMessage) {
-		boolean ret = false;
-		try {
-			Class.forName("net.minecraft.server." + serverVersion + ".IChatBaseComponent$ChatSerializer").getMethod("a", String.class).invoke(null, jsonMessage);
-			ret = true;
-		} catch (Exception ignored) {}
 		return ret;
 	}
 }

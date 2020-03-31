@@ -2,6 +2,7 @@ package com.alessiodp.core.common.logging;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.Constants;
+import lombok.Getter;
 import lombok.NonNull;
 
 import java.io.BufferedWriter;
@@ -21,7 +22,7 @@ public class LoggerManager {
 	private final ReentrantLock lock = new ReentrantLock();
 	
 	// General
-	private boolean debugEnabled;
+	@Getter private boolean debugEnabled;
 	
 	// Save to file
 	private boolean saveToFile;

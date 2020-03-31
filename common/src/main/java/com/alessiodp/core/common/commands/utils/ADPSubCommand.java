@@ -1,24 +1,29 @@
 package com.alessiodp.core.common.commands.utils;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.commands.list.ADPCommand;
 import com.alessiodp.core.common.user.User;
-import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-public abstract class ADPSubCommand {
+@RequiredArgsConstructor
+public abstract class ADPSubCommand implements ADPExecutableCommand {
 	@NonNull protected final ADPPlugin plugin;
 	@NonNull protected final ADPMainCommand mainCommand;
+	@NonNull @Getter protected final ADPCommand command;
+	@NonNull @Getter protected final String permission;
+	@NonNull @Getter protected final String commandName;
+	@Getter protected final boolean executableByConsole;
+	@Getter protected boolean listedInHelp = true;
 	
-	/**
-	 * Is the command executable by console
-	 *
-	 * @return true if is executable
-	 */
-	public abstract boolean isExecutableByConsole();
+	@Getter protected String description;
+	@Getter protected String help;
+	@Getter protected String syntax;
+	@Getter protected String runCommand;
 	
 	/**
 	 * Used to check player before async execution of the command handler.
@@ -44,5 +49,14 @@ public abstract class ADPSubCommand {
 	 */
 	public List<String> onTabComplete(@NonNull User sender, String[] args){
 		return new ArrayList<>();
+	}
+	
+	/**
+	 * Used to make a base of the syntax
+	 *
+	 * @return the command syntax
+	 */
+	protected String baseSyntax() {
+		return mainCommand.getCommandName() + " " + getCommandName();
 	}
 }

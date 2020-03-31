@@ -6,7 +6,6 @@ import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.bootstrap.AbstractADPPlugin;
 import com.alessiodp.core.common.logging.LoggerManager;
 import com.alessiodp.core.common.addons.internal.ADPUpdater;
-import com.alessiodp.core.common.addons.libraries.LibraryManager;
 import com.alessiodp.core.common.commands.CommandManager;
 import com.alessiodp.core.common.configuration.ConfigurationManager;
 import com.alessiodp.core.common.configuration.Constants;
@@ -29,7 +28,6 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	@Getter protected CommandManager commandManager;
 	@Getter protected ConfigurationManager configurationManager;
 	@Getter protected DatabaseManager databaseManager;
-	@Getter protected LibraryManager libraryManager;
 	@Getter protected LoggerManager loggerManager;
 	@Getter protected LoginAlertsManager loginAlertsManager;
 	@Getter protected ADPMessenger messenger;
@@ -110,7 +108,6 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 */
 	protected final void preHandle() {
 		loggerManager = new LoggerManager(this);
-		libraryManager = new LibraryManager(this);
 		loginAlertsManager = new LoginAlertsManager();
 		initializeCore();
 	}

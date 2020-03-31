@@ -1,14 +1,10 @@
 package com.alessiodp.core.common.storage.interfaces;
 
-import com.alessiodp.core.common.storage.StorageType;
-
 public interface IDatabaseDispatcher {
 	/**
 	 * Initialize the database dispatcher
-	 *
-	 * @param type the storage type that must be initialized
 	 */
-	void init(StorageType type);
+	void init();
 	
 	/**
 	 * Stop the database dispatcher

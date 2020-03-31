@@ -1,5 +1,6 @@
 package com.alessiodp.core.common.storage;
 
+import com.alessiodp.core.common.ADPPlugin;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,28 @@ public enum StorageType {
 				ret = st;
 				break;
 			}
+		}
+		return ret;
+	}
+	
+	public boolean initLibraries(ADPPlugin plugin) {
+		boolean ret = false;
+		switch (this) {
+			case YAML:
+				plugin.getLibraryManager().setupLibrariesForYAML();
+				ret = true;
+				break;
+			case MYSQL:
+				plugin.getLibraryManager().setupLibrariesForMySQL();
+				ret = true;
+				break;
+			case SQLITE:
+				plugin.getLibraryManager().setupLibrariesForSQLite();
+				ret = true;
+				break;
+			case NONE:
+			default:
+				break;
 		}
 		return ret;
 	}

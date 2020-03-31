@@ -1,13 +1,19 @@
 package com.alessiodp.core.common.storage.interfaces;
 
-import java.sql.Connection;
+import lombok.NonNull;
+import org.jooq.DSLContext;
+
+import java.util.Map;
 
 public interface IDatabaseSQL {
 	
 	/**
 	 * Initialize the sql database dispatcher
+	 *
+	 * @param placeholders SQL placeholders
+	 * @param charset the charset encoding
 	 */
-	void initSQL();
+	void initSQL(@NonNull Map<String, String> placeholders, @NonNull String charset);
 	
 	/**
 	 * Stop the sql database dispatcher
@@ -15,16 +21,16 @@ public interface IDatabaseSQL {
 	void stopSQL();
 	
 	/**
-	 * Get a connection from the pool
-	 *
-	 * @return the connection initialized
-	 */
-	Connection getConnection();
-	
-	/**
 	 * Is the database failed to start?
 	 *
 	 * @return true if the initialization has failed
 	 */
 	boolean isFailed();
+	
+	/**
+	 * Get the query builder
+	 *
+	 * @return the query builder
+	 */
+	DSLContext getQueryBuilder();
 }

@@ -1,32 +1,32 @@
 package com.alessiodp.core.common.storage.dispatchers;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseDispatcher;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseSQL;
-import com.alessiodp.core.common.storage.sql.ISQLTable;
-import com.alessiodp.core.common.storage.sql.mysql.SQLUpgradeManager;
+import com.alessiodp.core.common.storage.sql.migrations.Migrator;
+import com.alessiodp.core.common.storage.sql.migrations.MigratorConfiguration;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.jooq.Table;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.alessiodp.core.common.jpa.Tables.SCHEMA_HISTORY;
 
 @RequiredArgsConstructor
 public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	@NonNull protected final ADPPlugin plugin;
+	@NonNull protected final StorageType storageType;
+	@Getter protected String charset;
+	@Getter protected String prefix;
 	
-	protected IDatabaseSQL database;
-	protected StorageType databaseType;
-	protected SQLUpgradeManager upgradeManager;
+	@Getter protected IDatabaseSQL database;
 	
 	@Override
 	public final void stop() {
@@ -39,105 +39,98 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 		return database == null || database.isFailed();
 	}
 	
-	/**
-	 * Get the database connection
-	 *
-	 * @return the database connection
-	 */
-	public final Connection getConnection() {
-		return database.getConnection();
-	}
-	
-	protected void initTables(Connection connection, LinkedList<ISQLTable> tables) {
-		try {
-			DatabaseMetaData metadata = connection.getMetaData();
-			for (ISQLTable table : tables) {
-				try (ResultSet rs = metadata.getTables(null, null, table.getTableName(), null)) {
-					if (rs.next()) {
-						upgradeManager.checkForUpgrades(connection, table); // Checking for porting
-					} else {
-						createTable(connection, table); // Create table
-					}
-				} catch (SQLException ex) {
-					plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR, ex);
+	@Override
+	public void init() {
+		// Initialize DAO
+		database = initDao();
+		// Set prefix
+		prefix = initPrefix();
+		// Set charset
+		charset = initCharset();
+		
+		// Check if initialized
+		if (database != null) {
+			database.initSQL(getPlaceholders(), charset);
+			
+			// Check for failures
+			if (!database.isFailed()) {
+				try {
+					MigratorConfiguration migratorConfiguration = prepareMigrator();
+					migrateTables(migratorConfiguration.load());
+				} catch (Exception ex) {
+					throw new RuntimeException(ex);
 				}
 			}
-		} catch (Exception ex) {
-			plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR, ex);
 		}
 	}
 	
 	/**
-	 * Create a table
+	 * Initialize the SQL DAO
 	 *
-	 * @param connection the connection to use
-	 * @param table the table that must be created
+	 * @return the initialized DAO
 	 */
-	public void createTable(Connection connection, ISQLTable table) {
-		try (Statement statement = connection.createStatement()) {
-			// MySQL
-			String versionQuery = Constants.QUERY_CHECKVERSION_SET_MYSQL;
-			if (databaseType == StorageType.SQLITE) {
-				// SQLite
-				versionQuery = Constants.QUERY_CHECKVERSION_SET_SQLITE;
-			}
-			
-			int versionValue = table.getVersion();
-			
-			// Create table
-			statement.executeUpdate(table.formatQuery(table.getCreateQuery()));
-			
-			// Change version into the versions table
-			if (!table.getTypeName().equalsIgnoreCase("version")) {
-				try (PreparedStatement preStatement = connection.prepareStatement(table.formatQuery(versionQuery))) {
-					preStatement.setString(1, table.getTableName());
-					preStatement.setInt(2, versionValue);
-					preStatement.executeUpdate();
-				}
-			}
-		} catch (Exception ex) {
-			plugin.getLoggerManager().printErrorStacktrace(Constants.DEBUG_SQL_ERROR_TABLE
-					.replace("{table}", table.getTypeName()), ex);
-		}
+	protected abstract IDatabaseSQL initDao();
+	
+	/**
+	 * Initialize the prefix
+	 *
+	 * @return the initialized prefix
+	 */
+	protected abstract String initPrefix();
+	
+	/**
+	 * Initialize the charset
+	 *
+	 * @return the initialized charset
+	 */
+	protected abstract String initCharset();
+	
+	/**
+	 * Get all SQL tables
+	 *
+	 * @return a list of SQL tables
+	 */
+	protected List<Table<?>> getTables() {
+		ArrayList<Table<?>> ret = new ArrayList<>();
+		ret.add(SCHEMA_HISTORY);
+		return ret;
 	}
 	
 	/**
-	 * Rename a table
+	 * Get all placeholders
 	 *
-	 * @param connection the connection to use
-	 * @param table the table that must be renamed
-	 * @param tableSuffix the suffix of the renamed table
-	 * @return the new table name
-	 * @throws SQLException if something goes wrong
+	 * @return a list of placeholders
 	 */
-	public String renameTable(Connection connection, String table, String tableSuffix) throws SQLException {
-		String ret;
-		// Load existing tables
-		List<String> listTables = new ArrayList<>();
-		DatabaseMetaData metadata = connection.getMetaData();
-		try (ResultSet rs = metadata.getTables(null, null, "%", null)) {
-			while (rs.next()) {
-				listTables.add(rs.getString(3));
-			}
-		}
-		
-		String newTable = table + tableSuffix;
-		int count = 1;
-		while (listTables.contains(newTable)) {
-			newTable = table + tableSuffix + count;
-			count++;
-		}
-		
-		try (Statement statement = connection.createStatement()) {
-			String query = Constants.QUERY_RENAME_MYSQL;
-			if (databaseType == StorageType.SQLITE)
-				query = Constants.QUERY_RENAME_SQLITE;
-			
-			statement.executeUpdate(query
-					.replace("{table}", table)
-					.replace("{newtable}", newTable));
-			ret = newTable;
+	protected Map<String, String> getPlaceholders() {
+		HashMap<String, String> ret = new HashMap<>();
+		for (Table<?> t : getTables()) {
+			ret.put(t.getName(), prefix + t.getName());
 		}
 		return ret;
+	}
+	
+	/**
+	 * Prepare the Migrator class
+	 *
+	 * @return the Migrator configuration
+	 */
+	protected MigratorConfiguration prepareMigrator() {
+		return Migrator.configure()
+				.setQueryBuilder(database.getQueryBuilder())
+				.setEncoding(charset)
+				.setLocation("db/migrations/" + storageType.name().toLowerCase() + "/")
+				.setPlaceholders(Collections.singletonMap("prefix", prefix))
+				.setSchemaHistory(prefix + "schema_history")
+				.setStartMigration(1)
+				.setBackwardMigration(0);
+	}
+	
+	/**
+	 * Start Migrator.migrate
+	 *
+	 * @param migrator the Migrator to migrate
+	 */
+	protected void migrateTables(Migrator migrator) {
+		migrator.migrate();
 	}
 }

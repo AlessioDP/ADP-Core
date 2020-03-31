@@ -1,7 +1,6 @@
 package com.alessiodp.core.common.storage.file;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.addons.libraries.ILibrary;
 import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseFile;
 import lombok.Getter;
@@ -29,15 +28,11 @@ public class YAMLDao implements IDatabaseFile {
 	@Override
 	public void initFile() {
 		failed = false;
-		if (plugin.getLibraryManager().initLibrary(ILibrary.CONFIGURATE_YAML)) {
-			try {
-				initData();
-			} catch (IOException ex) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_DB_FILE_CREATEFAIL
-						.replace("{message}", ex.getMessage()));
-				failed = true;
-			}
-		} else {
+		try {
+			initData();
+		} catch (IOException ex) {
+			plugin.getLoggerManager().printError(Constants.DEBUG_DB_FILE_CREATEFAIL
+					.replace("{message}", ex.getMessage()));
 			failed = true;
 		}
 		

@@ -1,6 +1,7 @@
 package com.alessiodp.core.common.commands.utils;
 
 import com.alessiodp.core.common.commands.list.ADPCommand;
+import com.alessiodp.core.common.user.User;
 
 public interface ADPExecutableCommand {
 	/**
@@ -44,6 +45,16 @@ public interface ADPExecutableCommand {
 	 * @return the command syntax
 	 */
 	String getSyntax();
+	
+	/**
+	 * Get the command syntax for the given user
+	 *
+	 * @param user the user for the syntax
+	 * @return the command syntax
+	 */
+	default String getSyntaxForUser(User user) {
+		return getSyntax();
+	}
 	
 	/**
 	 * Get the console command syntax

@@ -54,7 +54,8 @@ public class MySQLDao implements IDatabaseSQL {
 							)
 			);
 		} catch (Exception ex) {
-			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_MYSQL
+			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_DRIVER
+					.replace("{storage}", "MySQL")
 					.replace("{message}", ex.getMessage()));
 		}
 		

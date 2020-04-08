@@ -74,4 +74,10 @@ public class MigratorTest {
 		
 		assertEquals(queryBuilder.fetchCount(table("test_table")), 1);
 	}
+	
+	@Test
+	public void testParsePlaceholder() {
+		String query = "SELECT * FROM ${table};";
+		assertEquals(migrator.parsePlaceholders(query), query.replace("${table}", "test_table"));
+	}
 }

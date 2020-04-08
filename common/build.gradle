@@ -45,9 +45,11 @@ shadowJar {
 
 blossom {
     def lib = 'src/main/java/com/alessiodp/core/common/addons/ADPLibraryManager.java'
+    replaceToken '%APACHE_COMMONS%', project.ext.commons, lib
     replaceToken '%CONFIGURATE%', project.ext.configurate, lib
     replaceToken '%JOOQ%', project.ext.jooq, lib
     replaceToken '%JOOQ_REACTIVE%', project.ext.jooqReactive, lib
+    replaceToken '%H2%', project.ext.h2, lib
     replaceToken '%HIKARICP%', project.ext.hikaricp, lib
     replaceToken '%REFLECTIONS%', project.ext.reflections, lib
     replaceToken '%SLF4J%', project.ext.slf4j, lib

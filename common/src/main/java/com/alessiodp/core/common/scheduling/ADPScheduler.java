@@ -1,7 +1,6 @@
 package com.alessiodp.core.common.scheduling;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.configuration.Constants;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.NonNull;
 
@@ -16,6 +15,7 @@ import java.util.function.Supplier;
 
 public abstract class ADPScheduler {
 	protected final ADPPlugin plugin;
+	protected final String poolName;
 	
 	private final ExecutorService pool;
 	
@@ -25,18 +25,20 @@ public abstract class ADPScheduler {
 	
 	protected ADPScheduler(@NonNull ADPPlugin plugin) {
 		this.plugin = plugin;
+		poolName = plugin.getPluginFallbackName() + "-pool-";
 		
 		pool = Executors.newCachedThreadPool(
 				new ThreadFactoryBuilder()
-						.setNameFormat(plugin.getPluginFallbackName() + "-pool-%d")
+						.setNameFormat(poolName + "%d")
 						.setDaemon(true)
+						.setUncaughtExceptionHandler((t, e) -> e.printStackTrace())
 						.build()
 		);
-		
 		scheduler = Executors.newSingleThreadScheduledExecutor(
 				new ThreadFactoryBuilder()
 						.setNameFormat(plugin.getPluginFallbackName() + "-scheduler")
 						.setDaemon(true)
+						.setUncaughtExceptionHandler((t, e) -> e.printStackTrace())
 						.build()
 		);
 	}
@@ -64,10 +66,12 @@ public abstract class ADPScheduler {
 	 * @return void
 	 */
 	public CompletableFuture<Void> runAsync(@NonNull Runnable runnable) {
-		return CompletableFuture.runAsync(runnable, getAsyncExecutor()).exceptionally(ex -> {
-			ex.printStackTrace();
-			return null;
-		});
+		if (!Thread.currentThread().getName().startsWith(poolName)) {
+			return CompletableFuture.runAsync(runnable, getAsyncExecutor());
+		} else {
+			runnable.run();
+		}
+		return null;
 	}
 	
 	/**
@@ -77,10 +81,7 @@ public abstract class ADPScheduler {
 	 * @return the response of the supplier
 	 */
 	public <T> CompletableFuture<T> runSupplyAsync(@NonNull Supplier<T> supplier) {
-		return CompletableFuture.supplyAsync(supplier, getAsyncExecutor()).exceptionally(ex -> {
-			ex.printStackTrace();
-			return null;
-		});
+		return CompletableFuture.supplyAsync(supplier, getAsyncExecutor());
 	}
 	
 	/**
@@ -112,7 +113,7 @@ public abstract class ADPScheduler {
 	 * Shutdown the scheduler
 	 */
 	public void shutdown() {
-		plugin.getLoggerManager().logDebug(Constants.DEBUG_SCHEDULER_SHUTDOWN, true);
+		//plugin.getLoggerManager().logDebug(Constants.DEBUG_SCHEDULER_SHUTDOWN, true);
 		scheduler.shutdown();
 		pool.shutdown();
 		

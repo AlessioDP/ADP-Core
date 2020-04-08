@@ -122,7 +122,7 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 				.setPlaceholders(Collections.singletonMap("prefix", prefix))
 				.setSchemaHistory(prefix + "schema_history")
 				.setStartMigration(1)
-				.setBackwardMigration(0);
+				.setBackwardMigration(getBackwardMigration());
 	}
 	
 	/**
@@ -132,5 +132,14 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	 */
 	protected void migrateTables(Migrator migrator) {
 		migrator.migrate();
+	}
+	
+	/**
+	 * Get the backward migration file
+	 *
+	 * @return The migration file number, -1 to disable
+	 */
+	protected int getBackwardMigration() {
+		return 0;
 	}
 }

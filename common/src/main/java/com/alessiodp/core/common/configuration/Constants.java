@@ -50,8 +50,7 @@ public class Constants {
 	public static final String DEBUG_DB_INIT_FAILED_NOTFOUND = "Failed to found a valid storage type, stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_UNSUPPORTED = "Unsupported storage type '{type}', stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_LIBRARIES = "Failed to download required libraries for '{type}', stopping plugin!";
-	public static final String DEBUG_DB_INIT_FAILED_MYSQL = "Failed to initialize MySQL driver: {message}";
-	public static final String DEBUG_DB_INIT_FAILED_SQLITE = "Failed to initialize SQLite driver: {message}";
+	public static final String DEBUG_DB_INIT_FAILED_DRIVER = "Failed to initialize {storage} driver: {message}";
 	public static final String DEBUG_DB_FILE_CREATEFAIL = "Failed to create data file: {type} > {message}";
 	public static final String DEBUG_DB_FILE_ERROR = "Error in {class} at {method}_{line}: {type} > {message} \n{stacktrace}";
 	public static final String DEBUG_DB_MIGRATOR_MIGRATING = "Migrating database with '{file}'";

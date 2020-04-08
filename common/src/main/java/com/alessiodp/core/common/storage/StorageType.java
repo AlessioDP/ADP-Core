@@ -9,7 +9,8 @@ public enum StorageType {
 	NONE("None"),
 	YAML("YAML"),
 	MYSQL("MySQL"),
-	SQLITE("SQLite");
+	SQLITE("SQLite"),
+	H2("H2");
 	
 	@Getter private final String formattedName;
 	
@@ -43,6 +44,10 @@ public enum StorageType {
 				break;
 			case SQLITE:
 				plugin.getLibraryManager().setupLibrariesForSQLite();
+				ret = true;
+				break;
+			case H2:
+				plugin.getLibraryManager().setupLibrariesForH2();
 				ret = true;
 				break;
 			case NONE:

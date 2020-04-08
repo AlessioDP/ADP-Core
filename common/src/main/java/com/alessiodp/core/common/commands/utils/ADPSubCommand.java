@@ -23,7 +23,6 @@ public abstract class ADPSubCommand implements ADPExecutableCommand {
 	@Getter protected String description;
 	@Getter protected String help;
 	@Getter protected String syntax;
-	@Getter protected String runCommand;
 	
 	/**
 	 * Used to check player before async execution of the command handler.
@@ -58,5 +57,14 @@ public abstract class ADPSubCommand implements ADPExecutableCommand {
 	 */
 	protected String baseSyntax() {
 		return mainCommand.getCommandName() + " " + getCommandName();
+	}
+	
+	/**
+	 * Get the run command syntax
+	 *
+	 * @return the run command syntax
+	 */
+	public String getRunCommand() {
+		return baseSyntax() + " ";
 	}
 }

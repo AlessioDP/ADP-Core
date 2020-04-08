@@ -65,6 +65,17 @@ public class ADPLibraryManager {
 				.build());
 	}
 	
+	public void setupLibrariesForH2() {
+		setupLibrariesForSQL();
+		
+		libraryManager.loadLibrary(Library.builder()
+				.groupId("com{}h2database")
+				.artifactId("h2")
+				.version("%H2%")
+				// Unnecessary relocation
+				.build());
+	}
+	
 	private void setupLibrariesForSQL() {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}reflections")
@@ -105,5 +116,17 @@ public class ADPLibraryManager {
 				.version("%JOOQ_REACTIVE%")
 				.checksum("zAmrCxQODQSWwhZdSzLOJPTWRGwKJsXcd7Br35nuj64=")
 				.build());
+	}
+	
+	public void setupApacheCommons() {
+		try {
+			Class.forName("org.apache.commons.lang.time.DurationFormatUtils");
+		} catch (Exception ignored) {
+			libraryManager.loadLibrary(Library.builder()
+					.groupId("commons-lang")
+					.artifactId("commons-lang")
+					.version("%APACHE_COMMONS%")
+					.build());
+		}
 	}
 }

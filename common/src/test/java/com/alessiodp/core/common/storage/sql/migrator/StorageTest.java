@@ -69,8 +69,6 @@ public class StorageTest {
 		cf = getConnectionFactorySQLite();
 		create(cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class));
 		cf.stop();
-		
-		assertTrue(true);
 	}
 	
 	private void create(SchemaHistoryDao dao) {
@@ -89,8 +87,6 @@ public class StorageTest {
 		cf = getConnectionFactorySQLite();
 		insert(cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class));
 		cf.stop();
-		
-		assertTrue(true);
 	}
 	
 	private void insert(SchemaHistoryDao dao) {

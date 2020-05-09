@@ -82,8 +82,6 @@ public class MigratorTest {
 		searchScripts(prepareMigrator(getConnectionFactoryH2(), StorageType.H2));
 		
 		searchScripts(prepareMigrator(getConnectionFactorySQLite(), StorageType.SQLITE));
-		
-		assertTrue(true);
 	}
 	
 	private void searchScripts(Migrator migrator) {
@@ -103,8 +101,6 @@ public class MigratorTest {
 		handle = cf.getJdbi().open();
 		emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class), prepareMigrator(cf, StorageType.SQLITE));
 		handle.close();
-		
-		assertTrue(true);
 	}
 	
 	private void emptyDatabase(Handle handle, SchemaHistoryDao dao, Migrator migrator) throws IOException {

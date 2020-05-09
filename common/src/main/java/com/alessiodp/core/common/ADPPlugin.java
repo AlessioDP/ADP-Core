@@ -13,7 +13,6 @@ import com.alessiodp.core.common.messaging.ADPMessenger;
 import com.alessiodp.core.common.players.LoginAlertsManager;
 import com.alessiodp.core.common.scheduling.ADPScheduler;
 import com.alessiodp.core.common.storage.DatabaseManager;
-import com.alessiodp.core.common.utils.IColorUtils;
 import com.alessiodp.core.common.utils.IPlayerUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +34,6 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	
 	// Utils
 	@Getter protected ADPUpdater adpUpdater;
-	@Getter protected IColorUtils colorUtils;
 	@Getter protected JsonHandler jsonHandler;
 	@Getter protected IPlayerUtils playerUtils;
 	

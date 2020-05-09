@@ -51,8 +51,10 @@ public class Constants {
 	public static final String DEBUG_DB_INIT_FAILED_UNSUPPORTED = "Unsupported storage type '{type}', stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_LIBRARIES = "Failed to download required libraries for '{type}', stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_DRIVER = "Failed to initialize {storage} driver: {message}";
+	public static final String DEBUG_DB_QUERY_EXECUTE = "Executing query: {query}";
 	public static final String DEBUG_DB_FILE_CREATEFAIL = "Failed to create data file: {type} > {message}";
 	public static final String DEBUG_DB_FILE_ERROR = "Error in {class} at {method}_{line}: {type} > {message} \n{stacktrace}";
+	public static final String DEBUG_DB_MIGRATOR_CREATING_TABLE = "Creating schema history table";
 	public static final String DEBUG_DB_MIGRATOR_MIGRATING = "Migrating database with '{file}'";
 	
 	public static final String DEBUG_LOG_LOADED = "Logger manager loaded";

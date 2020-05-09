@@ -20,6 +20,11 @@ public class BungeeOfflineUser implements OfflineUser {
 	}
 	
 	@Override
+	public boolean isOperator() {
+		return false;
+	}
+	
+	@Override
 	public boolean isOnline() {
 		return player != null;
 	}

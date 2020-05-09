@@ -2,6 +2,7 @@ package com.alessiodp.core.bukkit.user;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.utils.Color;
 import lombok.AllArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -38,6 +39,11 @@ public class BukkitUser implements User {
 	}
 	
 	@Override
+	public boolean isOperator() {
+		return sender.isOp();
+	}
+	
+	@Override
 	public boolean isPlayer() {
 		return (sender instanceof Player);
 	}
@@ -50,9 +56,9 @@ public class BukkitUser implements User {
 	@Override
 	public void sendMessage(String message, boolean colorTranslation) {
 		if (isPlayer() && getPlugin().getJsonHandler().isJson(message))
-			getPlugin().getJsonHandler().sendMessage(sender, message);
+			getPlugin().getJsonHandler().sendMessage(sender, Color.translateAlternateColorCodes(message));
 		else
-			sender.sendMessage(colorTranslation ? ChatColor.translateAlternateColorCodes('&', message) : message);
+			sender.sendMessage(colorTranslation ? Color.translateAlternateColorCodes(message) : message);
 	}
 	
 	@Override

@@ -19,6 +19,11 @@ public class BukkitOfflineUser implements OfflineUser {
 	}
 	
 	@Override
+	public boolean isOperator() {
+		return player.isOp();
+	}
+	
+	@Override
 	public boolean isOnline() {
 		return player.isOnline();
 	}

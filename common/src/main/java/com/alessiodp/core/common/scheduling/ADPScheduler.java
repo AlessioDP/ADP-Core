@@ -113,7 +113,6 @@ public abstract class ADPScheduler {
 	 * Shutdown the scheduler
 	 */
 	public void shutdown() {
-		//plugin.getLoggerManager().logDebug(Constants.DEBUG_SCHEDULER_SHUTDOWN, true);
 		scheduler.shutdown();
 		pool.shutdown();
 		

@@ -1,6 +1,7 @@
 package com.alessiodp.core.bukkit.utils;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.utils.Color;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -55,7 +56,7 @@ public class ItemBuilder {
 	}
 	
 	public ItemBuilder setName(@NonNull String name, boolean colorTranslation) {
-		itemMeta.setDisplayName(colorTranslation ? plugin.getColorUtils().convertColors(name) : name);
+		itemMeta.setDisplayName(colorTranslation ? Color.translateAlternateColorCodes(name) : name);
 		return this;
 	}
 	
@@ -70,7 +71,7 @@ public class ItemBuilder {
 	public ItemBuilder setLore(@NonNull List<String> lore, boolean colorTranslation) {
 		if (lore.size() > 0) {
 			List<String> temp = new ArrayList<>();
-			lore.forEach((line) -> temp.add(colorTranslation ? plugin.getColorUtils().convertColors(line) : line));
+			lore.forEach((line) -> temp.add(colorTranslation ? Color.translateAlternateColorCodes(line) : line));
 			itemMeta.setLore(temp);
 		}
 		return this;

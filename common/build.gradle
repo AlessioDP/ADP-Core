@@ -1,8 +1,5 @@
-apply plugin: 'nu.studer.jooq'
-
 dependencies {
     api group: 'com.google.code.gson', name: 'gson', version: project.ext.gson
-    api group: 'commons-lang', name: 'commons-lang', version: project.ext.commons
 
     testImplementation group: 'com.google.code.gson', name: 'gson', version: project.ext.gson
 
@@ -17,16 +14,8 @@ dependencies {
     api group: 'org.xerial', name: 'sqlite-jdbc', version: project.ext.sqlitejdbc
     api group: 'com.h2database', name: 'h2', version: project.ext.h2
 
-    api group: 'org.jooq', name: 'jooq', version: project.ext.jooq
-    implementation group: 'org.jooq', name: 'jooq-meta', version: project.ext.jooq
-    implementation group: 'org.jooq', name: 'jooq-codegen', version: project.ext.jooq
-
-    jooqRuntime(project(":jpa"))
-    jooqRuntime("org.jooq:jooq-meta-extensions")
-}
-
-javadoc {
-    exclude 'com/alessiodp/core/common/jpa'
+    api group: 'org.jdbi', name: 'jdbi3-core', version: project.ext.jdbi
+    api group: 'org.jdbi', name: 'jdbi3-sqlobject', version: project.ext.jdbi
 }
 
 shadowJar {
@@ -45,39 +34,14 @@ shadowJar {
 
 blossom {
     def lib = 'src/main/java/com/alessiodp/core/common/addons/ADPLibraryManager.java'
-    replaceToken '%APACHE_COMMONS%', project.ext.commons, lib
     replaceToken '%CONFIGURATE%', project.ext.configurate, lib
-    replaceToken '%JOOQ%', project.ext.jooq, lib
-    replaceToken '%JOOQ_REACTIVE%', project.ext.jooqReactive, lib
     replaceToken '%H2%', project.ext.h2, lib
     replaceToken '%HIKARICP%', project.ext.hikaricp, lib
+    replaceToken '%JDBI%', project.ext.jdbi, lib
+    replaceToken '%JDBI_ANTLR%', project.ext.jdbiAntlr, lib
+    replaceToken '%JDBI_CAFFEINE%', project.ext.jdbiCaffeine, lib
+    replaceToken '%JDBI_GEANTYREF%', project.ext.jdbiGeantyref, lib
     replaceToken '%REFLECTIONS%', project.ext.reflections, lib
     replaceToken '%SLF4J%', project.ext.slf4j, lib
     replaceToken '%SQLITEJDBC%', project.ext.sqlitejdbc, lib
-}
-
-jooq {
-    version = project.ext.jooq
-    setup(sourceSets.main) {
-        generator {
-            name = 'org.jooq.codegen.DefaultGenerator'
-            database {
-                name = 'org.jooq.meta.extensions.jpa.JPADatabase'
-                includes = '.*'
-                excludes = ''
-                properties {
-                    property {
-                        key = 'packages'
-                        value = 'com.alessiodp.core.jpa.tables'
-                    }
-                }
-            }
-            generate {
-            }
-            target {
-                packageName = 'com.alessiodp.core.common.jpa'
-                directory = 'src/generated/java'
-            }
-        }
-    }
 }

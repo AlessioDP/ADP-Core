@@ -1,59 +1,56 @@
 package com.alessiodp.core.common.storage.dispatchers;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseDispatcher;
-import com.alessiodp.core.common.storage.interfaces.IDatabaseSQL;
-import com.alessiodp.core.common.storage.sql.migrations.Migrator;
-import com.alessiodp.core.common.storage.sql.migrations.MigratorConfiguration;
+import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
+import com.alessiodp.core.common.storage.sql.migrator.Migrator;
+import com.alessiodp.core.common.storage.sql.migrator.MigratorConfiguration;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.jooq.Table;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.alessiodp.core.common.jpa.Tables.SCHEMA_HISTORY;
+import org.jdbi.v3.core.statement.SqlLogger;
+import org.jdbi.v3.core.statement.StatementContext;
 
 @RequiredArgsConstructor
 public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	@NonNull protected final ADPPlugin plugin;
-	@NonNull protected final StorageType storageType;
-	@Getter protected String charset;
-	@Getter protected String prefix;
+	@NonNull @Getter protected final StorageType storageType;
 	
-	@Getter protected IDatabaseSQL database;
+	@Getter protected ConnectionFactory connectionFactory;
 	
 	@Override
 	public final void stop() {
 		if (!isFailed())
-			database.stopSQL();
+			connectionFactory.stop();
 	}
 	
 	@Override
 	public final boolean isFailed() {
-		return database == null || database.isFailed();
+		return connectionFactory == null || connectionFactory.isFailed();
 	}
 	
 	@Override
 	public void init() {
 		// Initialize DAO
-		database = initDao();
-		// Set prefix
-		prefix = initPrefix();
-		// Set charset
-		charset = initCharset();
+		connectionFactory = initConnectionFactory();
 		
 		// Check if initialized
-		if (database != null) {
-			database.initSQL(getPlaceholders(), charset);
+		if (connectionFactory != null) {
+			connectionFactory.init();
 			
 			// Check for failures
-			if (!database.isFailed()) {
+			if (!connectionFactory.isFailed()) {
+				// Setup logger
+				connectionFactory.getJdbi().setSqlLogger(new SqlLogger() {
+					@Override
+					public void logBeforeExecution(StatementContext context) {
+						plugin.getLoggerManager().logDebug(Constants.DEBUG_DB_QUERY_EXECUTE
+								.replace("{query}", context.getRenderedSql()), true);
+					}
+				});
+				
 				try {
 					MigratorConfiguration migratorConfiguration = prepareMigrator();
 					migrateTables(migratorConfiguration.load());
@@ -65,49 +62,11 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	}
 	
 	/**
-	 * Initialize the SQL DAO
+	 * Initialize the SQL connection factory
 	 *
-	 * @return the initialized DAO
+	 * @return the initialized connection factory
 	 */
-	protected abstract IDatabaseSQL initDao();
-	
-	/**
-	 * Initialize the prefix
-	 *
-	 * @return the initialized prefix
-	 */
-	protected abstract String initPrefix();
-	
-	/**
-	 * Initialize the charset
-	 *
-	 * @return the initialized charset
-	 */
-	protected abstract String initCharset();
-	
-	/**
-	 * Get all SQL tables
-	 *
-	 * @return a list of SQL tables
-	 */
-	protected List<Table<?>> getTables() {
-		ArrayList<Table<?>> ret = new ArrayList<>();
-		ret.add(SCHEMA_HISTORY);
-		return ret;
-	}
-	
-	/**
-	 * Get all placeholders
-	 *
-	 * @return a list of placeholders
-	 */
-	protected Map<String, String> getPlaceholders() {
-		HashMap<String, String> ret = new HashMap<>();
-		for (Table<?> t : getTables()) {
-			ret.put(t.getName(), prefix + t.getName());
-		}
-		return ret;
-	}
+	protected abstract ConnectionFactory initConnectionFactory();
 	
 	/**
 	 * Prepare the Migrator class
@@ -116,11 +75,9 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	 */
 	protected MigratorConfiguration prepareMigrator() {
 		return Migrator.configure()
-				.setQueryBuilder(database.getQueryBuilder())
-				.setEncoding(charset)
+				.setConnectionFactory(connectionFactory)
 				.setLocation("db/migrations/" + storageType.name().toLowerCase() + "/")
-				.setPlaceholders(Collections.singletonMap("prefix", prefix))
-				.setSchemaHistory(prefix + "schema_history")
+				.setStorageType(storageType)
 				.setStartMigration(1)
 				.setBackwardMigration(getBackwardMigration());
 	}

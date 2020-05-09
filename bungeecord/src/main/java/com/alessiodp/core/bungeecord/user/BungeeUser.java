@@ -37,6 +37,11 @@ public class BungeeUser implements User {
 	}
 	
 	@Override
+	public boolean isOperator() {
+		return false;
+	}
+	
+	@Override
 	public boolean isPlayer() {
 		return (sender instanceof ProxiedPlayer);
 	}

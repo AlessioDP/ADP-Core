@@ -20,6 +20,13 @@ public interface OfflineUser {
 	boolean isOnline();
 	
 	/**
+	 * Is the player an operator?
+	 *
+	 * @return true if is an operator
+	 */
+	boolean isOperator();
+	
+	/**
 	 * Get the name of the user
 	 *
 	 * @return the name of the user

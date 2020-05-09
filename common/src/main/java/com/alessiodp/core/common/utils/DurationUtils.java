@@ -32,33 +32,34 @@ public class DurationUtils {
 	
 	public static String formatMilliseconds(long durationMillis, String format) {
 		ArrayList<Token> tokens = parse(format);
+		long remainingDuration = durationMillis;
 		int days = 0;
 		int hours = 0;
 		int minutes = 0;
 		int seconds = 0;
 		int milliseconds = 0;
 		if (Token.containsTokenWithValue(tokens, Tokens.DAYS)) {
-			days = (int)(durationMillis / 86400000L);
-			durationMillis -= (long)days * 86400000L;
+			days = (int)(remainingDuration / 86400000L);
+			remainingDuration -= (long)days * 86400000L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.HOURS)) {
-			hours = (int)(durationMillis / 3600000L);
-			durationMillis -= (long)hours * 3600000L;
+			hours = (int)(remainingDuration / 3600000L);
+			remainingDuration -= (long)hours * 3600000L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.MINUTES)) {
-			minutes = (int)(durationMillis / 60000L);
-			durationMillis -= (long)minutes * 60000L;
+			minutes = (int)(remainingDuration / 60000L);
+			remainingDuration -= (long)minutes * 60000L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.SECONDS)) {
-			seconds = (int)(durationMillis / 1000L);
-			durationMillis -= (long)seconds * 1000L;
+			seconds = (int)(remainingDuration / 1000L);
+			remainingDuration -= (long)seconds * 1000L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.MILLISECONDS)) {
-			milliseconds = (int)durationMillis;
+			milliseconds = (int)remainingDuration;
 		}
 		
 		return format(tokens, 0, 0, days, hours, minutes, seconds, milliseconds);
@@ -66,27 +67,28 @@ public class DurationUtils {
 	
 	public static String format(long durationSeconds, String format) {
 		ArrayList<Token> tokens = parse(format);
+		long remainingDuration = durationSeconds;
 		int days = 0;
 		int hours = 0;
 		int minutes = 0;
 		int seconds = 0;
 		if (Token.containsTokenWithValue(tokens, Tokens.DAYS)) {
-			days = (int)(durationSeconds / 86400L);
-			durationSeconds -= (long)days * 86400L;
+			days = (int)(remainingDuration / 86400L);
+			remainingDuration -= (long)days * 86400L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.HOURS)) {
-			hours = (int)(durationSeconds / 3600L);
-			durationSeconds -= (long)hours * 3600L;
+			hours = (int)(remainingDuration / 3600L);
+			remainingDuration -= (long)hours * 3600L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.MINUTES)) {
-			minutes = (int)(durationSeconds / 60L);
-			durationSeconds -= (long)minutes * 60L;
+			minutes = (int)(remainingDuration / 60L);
+			remainingDuration -= (long)minutes * 60L;
 		}
 		
 		if (Token.containsTokenWithValue(tokens, Tokens.SECONDS)) {
-			seconds = (int)durationSeconds;
+			seconds = (int)remainingDuration;
 		}
 		
 		return format(tokens, 0, 0, days, hours, minutes, seconds, 0);
@@ -168,6 +170,7 @@ public class DurationUtils {
 						}
 						
 						buffer.append(ch);
+						break;
 				}
 				
 				if (value != null) {
@@ -189,10 +192,10 @@ public class DurationUtils {
 	}
 	
 	@AllArgsConstructor
-	static class Token {
+	private static class Token {
 		@Getter private final Object value;
 		
-		static boolean containsTokenWithValue(ArrayList<Token> tokens, Object value) {
+		private static boolean containsTokenWithValue(ArrayList<Token> tokens, Object value) {
 			for (Token token : tokens) {
 				if (token.getValue() == value)
 					return true;

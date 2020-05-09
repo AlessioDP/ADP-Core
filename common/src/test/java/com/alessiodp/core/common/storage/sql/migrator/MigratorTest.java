@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -81,6 +82,8 @@ public class MigratorTest {
 		searchScripts(prepareMigrator(getConnectionFactoryH2(), StorageType.H2));
 		
 		searchScripts(prepareMigrator(getConnectionFactorySQLite(), StorageType.SQLITE));
+		
+		assertTrue(true);
 	}
 	
 	private void searchScripts(Migrator migrator) {
@@ -100,6 +103,8 @@ public class MigratorTest {
 		handle = cf.getJdbi().open();
 		emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class), prepareMigrator(cf, StorageType.SQLITE));
 		handle.close();
+		
+		assertTrue(true);
 	}
 	
 	private void emptyDatabase(Handle handle, SchemaHistoryDao dao, Migrator migrator) throws IOException {

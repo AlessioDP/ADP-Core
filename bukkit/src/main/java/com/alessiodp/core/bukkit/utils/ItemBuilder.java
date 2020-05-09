@@ -1,6 +1,5 @@
 package com.alessiodp.core.bukkit.utils;
 
-import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.utils.Color;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -15,22 +14,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ItemBuilder {
-	private final ADPPlugin plugin;
 	private final ItemStack itemStack;
 	private final ItemMeta itemMeta;
 	
-	public ItemBuilder(@NonNull ADPPlugin plugin, @NonNull ItemStack itemStack) {
-		this.plugin = plugin;
+	public ItemBuilder(@NonNull ItemStack itemStack) {
 		this.itemStack = itemStack;
 		itemMeta = itemStack.getItemMeta() != null ? itemStack.getItemMeta() : Bukkit.getItemFactory().getItemMeta(itemStack.getType());
 	}
 	
-	public ItemBuilder(ADPPlugin plugin, @NonNull Material material) {
-		this(plugin, new ItemStack(material));
+	public ItemBuilder(@NonNull Material material) {
+		this(new ItemStack(material));
 	}
 	
-	public ItemBuilder(ADPPlugin plugin, @NonNull String materialName, Material fallbackMaterial) {
-		this(plugin, new ItemStack(parseMaterial(materialName, fallbackMaterial)));
+	public ItemBuilder(@NonNull String materialName, Material fallbackMaterial) {
+		this(new ItemStack(parseMaterial(materialName, fallbackMaterial)));
 	}
 	
 	public static Material parseMaterial(String materialName, Material fallbackMaterial) {

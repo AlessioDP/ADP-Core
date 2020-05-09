@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -68,6 +69,8 @@ public class StorageTest {
 		cf = getConnectionFactorySQLite();
 		create(cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class));
 		cf.stop();
+		
+		assertTrue(true);
 	}
 	
 	private void create(SchemaHistoryDao dao) {
@@ -86,6 +89,8 @@ public class StorageTest {
 		cf = getConnectionFactorySQLite();
 		insert(cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class));
 		cf.stop();
+		
+		assertTrue(true);
 	}
 	
 	private void insert(SchemaHistoryDao dao) {

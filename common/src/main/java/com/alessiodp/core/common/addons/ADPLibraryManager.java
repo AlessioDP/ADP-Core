@@ -50,6 +50,7 @@ public class ADPLibraryManager {
 				.version("%HIKARICP%")
 				.checksum("rnp2e/N8l5JSPtPtcitG6M8jYPVG9iUOuYyDNVrWl/k=")
 				.relocate("com{}zaxxer{}hikari", plugin.getPackageName() + ".libs.hikari")
+				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
 	}
 	

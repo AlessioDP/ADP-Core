@@ -16,6 +16,7 @@ public class MySQLConnectionFactory extends HikariConfiguration implements Conne
 	@Override
 	public void init() {
 		failed = true;
+		setDataSource("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
 		setup();
 		setupMySQLProperties();
 		

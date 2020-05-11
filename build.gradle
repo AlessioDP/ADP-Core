@@ -24,7 +24,7 @@ subprojects {
     apply plugin: 'org.checkerframework'
 
     group 'com.alessiodp.core'
-    version '1.4.2'
+    version '1.4.3'
 
     sourceCompatibility = 1.8
 

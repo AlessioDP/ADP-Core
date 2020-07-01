@@ -6,3 +6,21 @@ updates:
     interval: daily
     time: "04:00"
   open-pull-requests-limit: 10
+- package-ecosystem: gradle
+  directory: "/bukkit/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: gradle
+  directory: "/bungeecord/"
+  schedule:
+  interval: daily
+  time: "04:00"
+  open-pull-requests-limit: 10
+- package-ecosystem: gradle
+  directory: "/common/"
+  schedule:
+  interval: daily
+  time: "04:00"
+  open-pull-requests-limit: 10

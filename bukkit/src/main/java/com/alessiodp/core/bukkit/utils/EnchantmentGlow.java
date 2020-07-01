@@ -28,6 +28,7 @@ public class EnchantmentGlow extends EnchantmentWrapper {
 		return false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override @NonNull
 	public EnchantmentTarget getItemTarget() {
 		return EnchantmentTarget.ALL;

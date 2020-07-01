@@ -18,7 +18,7 @@ public abstract class CommandData {
 	 * @param permission the permission to add
 	 */
 	public void addPermission(ADPPermission permission) {
-		permissionsPayload.put(permission, sender.hasPermission(permission.toString()));
+		permissionsPayload.put(permission, sender.hasPermission(permission));
 	}
 	
 	/**

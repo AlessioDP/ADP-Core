@@ -7,6 +7,7 @@ import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import net.byteflux.libby.BungeeLibraryManager;
@@ -80,20 +81,17 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	
 	@Override
 	public User getPlayer(UUID uuid) {
-		ProxiedPlayer player = super.getProxy().getPlayer(uuid);
-		return player != null ? new BungeeUser(plugin, player) : null;
+		return CommonUtils.ifNonNullReturn(super.getProxy().getPlayer(uuid), (player) -> new BungeeUser(plugin, player), null);
 	}
 	
 	@Override
 	public User getPlayerByName(String name) {
-		ProxiedPlayer player = super.getProxy().getPlayer(name);
-		return player != null ? new BungeeUser(plugin, player) : null;
+		return CommonUtils.ifNonNullReturn(super.getProxy().getPlayer(name), (player) -> new BungeeUser(plugin, player), null);
 	}
 	
 	@Override
 	public OfflineUser getOfflinePlayer(UUID uuid) {
-		ProxiedPlayer player = super.getProxy().getPlayer(uuid);
-		return new BungeeOfflineUser(plugin, player, uuid);
+		return new BungeeOfflineUser(plugin, super.getProxy().getPlayer(uuid), uuid);
 	}
 	
 	@Override
@@ -107,7 +105,6 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	
 	@Override
 	public void logConsole(String message, boolean isWarning) {
-		if (!message.isEmpty())
-			super.getProxy().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message);
+		CommonUtils.ifNonEmptyDo(message, () -> super.getProxy().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message));
 	}
 }

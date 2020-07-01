@@ -4,6 +4,7 @@ import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.logging.ConsoleColor;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.AllArgsConstructor;
 
 import java.io.InputStream;
@@ -82,8 +83,7 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	
 	@Override
 	public void logConsole(String message, boolean isWarning) {
-		if (message != null && !message.isEmpty())
-			bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning);
+		CommonUtils.ifNonEmptyDo(message, () -> bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning));
 	}
 	
 	/**

@@ -21,13 +21,6 @@ dependencies {
 shadowJar {
     archiveClassifier = null
 
-    dependencies {
-        include(dependency('com.alessiodp.core.common:.*'))
-        include(dependency('com.github.AlessioDP:Simple-YAML'))
-
-        include(dependency('net.byteflux:libby-core'))
-    }
-
     relocate 'org.simpleyaml', 'com.alessiodp.core.common.addons.external.simpleyaml'
     relocate 'net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby'
 }

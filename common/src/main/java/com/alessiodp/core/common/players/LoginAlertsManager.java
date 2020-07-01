@@ -22,7 +22,7 @@ public class LoginAlertsManager {
 	public void sendAlerts(User user) {
 		if (user != null
 				&& permission != null
-				&& user.hasPermission(permission.toString())) {
+				&& user.hasPermission(permission)) {
 			for (String alert : loginAlerts) {
 				user.sendMessage(alert, true);
 			}

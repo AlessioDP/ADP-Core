@@ -3,13 +3,16 @@ package com.alessiodp.core.bukkit.user;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.utils.Color;
+import io.papermc.lib.PaperLib;
 import lombok.AllArgsConstructor;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @AllArgsConstructor
 public class BukkitUser implements User {
@@ -77,5 +80,9 @@ public class BukkitUser implements User {
 	@Override
 	public ADPPlugin getPlugin() {
 		return plugin;
+	}
+	
+	public CompletableFuture<Boolean> teleportAsync(Location location) {
+		return PaperLib.teleportAsync((Player) sender, location);
 	}
 }

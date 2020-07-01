@@ -2,12 +2,12 @@ package com.alessiodp.core.common.commands.utils;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @AllArgsConstructor
 public abstract class CommandUtils {
@@ -90,7 +90,7 @@ public abstract class CommandUtils {
 	public List<String> tabCompleteParser(List<String> commands, String word) {
 		List<String> ret = new ArrayList<>();
 		for (String s : commands) {
-			if (s.toLowerCase(Locale.ENGLISH).startsWith(word.toLowerCase(Locale.ENGLISH))) {
+			if (CommonUtils.toLowerCase(s).startsWith(CommonUtils.toLowerCase(word))) {
 				ret.add(s);
 			}
 		}

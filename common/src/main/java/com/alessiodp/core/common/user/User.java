@@ -1,9 +1,21 @@
 package com.alessiodp.core.common.user;
 
+import com.alessiodp.core.common.commands.utils.ADPPermission;
+
 public interface User extends OfflineUser {
 	@Override
 	default boolean isOnline() {
 		return true;
+	}
+	
+	/**
+	 * Does the user have the permission?
+	 *
+	 * @param permission the permission to check
+	 * @return true if the user have the given permission
+	 */
+	default boolean hasPermission(ADPPermission permission) {
+		return this.hasPermission(permission.toString());
 	}
 	
 	/**

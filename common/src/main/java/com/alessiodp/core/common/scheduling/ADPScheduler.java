@@ -67,7 +67,11 @@ public abstract class ADPScheduler {
 	 */
 	public CompletableFuture<Void> runAsync(@NonNull Runnable runnable) {
 		if (!Thread.currentThread().getName().startsWith(poolName)) {
-			return CompletableFuture.runAsync(runnable, getAsyncExecutor());
+			return CompletableFuture.runAsync(runnable, getAsyncExecutor())
+					.exceptionally(ex -> {
+						ex.printStackTrace();
+						return null;
+					});
 		} else {
 			runnable.run();
 		}

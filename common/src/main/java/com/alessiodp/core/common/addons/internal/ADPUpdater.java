@@ -1,6 +1,7 @@
 package com.alessiodp.core.common.addons.internal;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.commands.utils.ADPPermission;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.configuration.Constants;
 import com.google.gson.JsonObject;
@@ -23,7 +24,7 @@ public class ADPUpdater {
 	private String pluginResourceId;
 	private boolean checkForUpdates;
 	private boolean warnUpdates;
-	private String warnPermission;
+	private ADPPermission warnPermission;
 	private String warnMessage;
 	
 	@Getter private String foundVersion = "";
@@ -38,7 +39,7 @@ public class ADPUpdater {
 	 * @param warnPermission permission necessary to receive the warning
 	 * @param warnMessage the warning message
 	 */
-	public void reload(String pluginName, String pluginResourceId, boolean checkForUpdates, boolean warnUpdates, String warnPermission, String warnMessage) {
+	public void reload(String pluginName, String pluginResourceId, boolean checkForUpdates, boolean warnUpdates, ADPPermission warnPermission, String warnMessage) {
 		this.pluginResourceId = pluginResourceId;
 		this.checkForUpdates = checkForUpdates;
 		this.warnUpdates = warnUpdates;

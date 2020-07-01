@@ -9,6 +9,7 @@ import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistorySQLiteDao;
+import com.alessiodp.core.common.utils.CommonUtils;
 import org.jdbi.v3.core.Handle;
 import org.junit.Before;
 import org.junit.Rule;
@@ -70,7 +71,7 @@ public class MigratorTest {
 	
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {
 		return Migrator.configure()
-				.setLocation("db/migrations/" + storageType.name().toLowerCase() + "/")
+				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")
 				.setConnectionFactory(cf)
 				.setStorageType(storageType)
 				.load();

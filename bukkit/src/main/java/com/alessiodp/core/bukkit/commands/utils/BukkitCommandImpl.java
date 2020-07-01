@@ -3,6 +3,7 @@ package com.alessiodp.core.bukkit.commands.utils;
 import com.alessiodp.core.bukkit.user.BukkitUser;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.commands.utils.ADPMainCommand;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class BukkitCommandImpl extends Command implements CommandExecutor {
 		super(mainCommand.getCommandName());
 		this.plugin = plugin;
 		this.mainCommand = mainCommand;
-		super.description = mainCommand.getDescription() != null ? mainCommand.getDescription() : "";
+		super.description = CommonUtils.getOr(mainCommand.getDescription(), "");
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.commands.list.ADPCommand;
 import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 @RequiredArgsConstructor
 public abstract class ADPMainCommand implements ADPExecutableCommand {
@@ -65,7 +65,7 @@ public abstract class ADPMainCommand implements ADPExecutableCommand {
 			for (ADPCommand pc : plugin.getPlayerUtils().getAllowedCommands(sender)) {
 				ADPSubCommand sc = subCommandsByEnum.get(pc);
 				if (sc != null)
-					commands.add(sc.getCommandName().toLowerCase(Locale.ENGLISH));
+					commands.add(CommonUtils.toLowerCase(sc.getCommandName()));
 			}
 			
 			if (args.length > 1) {
@@ -86,9 +86,9 @@ public abstract class ADPMainCommand implements ADPExecutableCommand {
 	 */
 	public final void register(@NonNull ADPSubCommand subCommand) {
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_REGISTER_SUBCOMMAND
-				.replace("{sub}", subCommand.getCommandName().toLowerCase(Locale.ENGLISH))
-				.replace("{main}", getCommandName().toLowerCase(Locale.ENGLISH)), true);
-		subCommands.put(subCommand.getCommandName().toLowerCase(Locale.ENGLISH), subCommand);
+				.replace("{sub}", CommonUtils.toLowerCase(subCommand.getCommandName()))
+				.replace("{main}", CommonUtils.toLowerCase(getCommandName())), true);
+		subCommands.put(CommonUtils.toLowerCase(subCommand.getCommandName()), subCommand);
 		subCommandsByEnum.put(subCommand.getCommand(), subCommand);
 	}
 	

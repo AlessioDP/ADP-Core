@@ -7,6 +7,7 @@ import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import net.byteflux.libby.BukkitLibraryManager;
@@ -79,14 +80,12 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	
 	@Override
 	public User getPlayer(UUID uuid) {
-		Player player = Bukkit.getPlayer(uuid);
-		return player != null ? new BukkitUser(plugin, player) : null;
+		return CommonUtils.ifNonNullReturn(Bukkit.getPlayer(uuid), (player) -> new BukkitUser(plugin, player), null);
 	}
 	
 	@Override
 	public User getPlayerByName(String name) {
-		Player player = Bukkit.getPlayer(name);
-		return player != null ? new BukkitUser(plugin, player) : null;
+		return CommonUtils.ifNonNullReturn(Bukkit.getPlayer(name), (player) -> new BukkitUser(plugin, player), null);
 	}
 	
 	@Override
@@ -105,8 +104,7 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	
 	@Override
 	public void logConsole(String message, boolean isWarning) {
-		if (!message.isEmpty())
-			super.getServer().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message);
+		CommonUtils.ifNonEmptyDo(message, () -> super.getServer().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message));
 	}
 	
 	/**

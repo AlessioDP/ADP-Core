@@ -13,6 +13,8 @@ shadowJar {
         include(dependency('com.alessiodp.core.bungeecord:.*'))
         include(dependency('org.bstats:bstats-bungeecord'))
         include(dependency('net.byteflux:libby-bungee'))
+
+        include(dependency('net.md-5:bungeecord-.*'))
     }
 
     relocate 'org.bstats', 'com.alessiodp.core.bungeecord.addons.external.bstats'

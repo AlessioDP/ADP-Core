@@ -7,6 +7,7 @@ import com.alessiodp.core.common.storage.interfaces.IDatabaseDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.migrator.Migrator;
 import com.alessiodp.core.common.storage.sql.migrator.MigratorConfiguration;
+import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -76,7 +77,7 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	protected MigratorConfiguration prepareMigrator() {
 		return Migrator.configure()
 				.setConnectionFactory(connectionFactory)
-				.setLocation("db/migrations/" + storageType.name().toLowerCase() + "/")
+				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")
 				.setStorageType(storageType)
 				.setStartMigration(1)
 				.setBackwardMigration(getBackwardMigration());

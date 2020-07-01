@@ -3,8 +3,8 @@ package com.alessiodp.core.common.utils;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 
-import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Color {
@@ -29,7 +29,8 @@ public enum Color {
 	STRIKETHROUGH('m', true),
 	UNDERLINE('n', true),
 	ITALIC('o', true),
-	RESET('r', true);
+	RESET('r', true),
+	HEX('x', true);
 	
 	@Getter private final char code;
 	private final boolean isFormat;
@@ -37,8 +38,9 @@ public enum Color {
 	private final String toStringSimple;
 	
 	public static final char COLOR_CHAR = '\u00A7';
-	private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile( "(?i)" + String.valueOf( COLOR_CHAR ) + "[0-9A-FK-OR]" );
-	private static final String ALL_CODES = "0123456789AaBbCcDdEeFfKkLlMmNnOoRr";
+	public static final char HEX_CHAR = '\u0023';
+	private static final Pattern STRIP_COLOR_PATTERN = Pattern.compile( "(?i)" + COLOR_CHAR + "[0-9A-FK-ORX]" );
+	private static final String ALL_CODES = "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx";
 	private static final Map<Character, Color> BY_CHAR = Maps.newHashMap();
 	
 	static {
@@ -100,7 +102,7 @@ public enum Color {
 	 */
 	public static Color getByName(String name) {
 		try {
-			return Color.valueOf(name.toUpperCase(Locale.ENGLISH));
+			return Color.valueOf(CommonUtils.toUpperCase(name));
 		} catch (Exception ignored) {}
 		return null;
 	}
@@ -153,7 +155,7 @@ public enum Color {
 	 * @return The new text with translated colors
 	 */
 	public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
-		char[] chars = textToTranslate.toCharArray();
+		char[] chars = translateHex(altColorChar, textToTranslate).toCharArray();
 		for (int index = 0; index < chars.length; index++) {
 			if (chars[index] == altColorChar && ALL_CODES.indexOf(chars[index + 1]) > -1) {
 				chars[index] = COLOR_CHAR;
@@ -161,6 +163,27 @@ public enum Color {
 			}
 		}
 		return new String(chars);
+	}
+	
+	/**
+	 * Translate the string with an alternative color char followed by an hex color code
+	 * @param altColorChar The alternative char to use
+	 * @param textToTranslate The text to translate
+	 * @return The new text with translated colors
+	 */
+	public static String translateHex(char altColorChar, String textToTranslate) {
+		String ret = textToTranslate;
+		Matcher matcher = Pattern.compile("(?i)" + altColorChar + HEX_CHAR + "([0-9A-F]{6})").matcher(textToTranslate);
+		while (matcher.find()) {
+			StringBuilder hex = new StringBuilder();
+			hex.append(Color.HEX);
+			char[] chars = matcher.group(1).toCharArray();
+			for (int index = 0; index < chars.length; index++) {
+				hex.append(COLOR_CHAR).append(Character.toLowerCase(chars[index]));
+			}
+			ret = ret.replace(matcher.group(), hex.toString());
+		}
+		return ret;
 	}
 	
 	/**
@@ -202,11 +225,7 @@ public enum Color {
 	 * @return The formatted value of the color or empty if doesn't exist
 	 */
 	public static String formatColorByName(String name) {
-		Color color = getByName(name);
-		if (color != null) {
-			return color.toString();
-		}
-		return "";
+		return CommonUtils.ifNonNullReturn(getByName(name), Color::toString, "");
 	}
 	
 	/**
@@ -216,11 +235,7 @@ public enum Color {
 	 * @return The original color name or empty if doesn't exist
 	 */
 	public static String formatColorNamesByName(String name) {
-		Color color = getByName(name);
-		if (color != null) {
-			return color.name();
-		}
-		return "";
+		return CommonUtils.ifNonNullReturn(getByName(name), Color::name, "");
 	}
 	
 	/**
@@ -230,11 +245,7 @@ public enum Color {
 	 * @return A string with parsed colors
 	 */
 	public static String formatColorByNameOrText(String text) {
-		Color color = getByName(text);
-		if (color != null) {
-			return color.toString();
-		}
-		return formatLastColors(text);
+		return CommonUtils.ifNonNullReturn(getByName(text), Color::toString, formatLastColors(text));
 	}
 	
 	/**
@@ -244,11 +255,7 @@ public enum Color {
 	 * @return A string with color names
 	 */
 	public static String formatColorNamesByNameOrText(String text) {
-		Color color = getByName(text);
-		if (color != null) {
-			return color.name();
-		}
-		return formatNamesLastColors(text);
+		return CommonUtils.ifNonNullReturn(getByName(text), Color::name, formatNamesLastColors(text));
 	}
 	
 	/**

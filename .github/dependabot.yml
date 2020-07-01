@@ -15,12 +15,12 @@ updates:
 - package-ecosystem: gradle
   directory: "/bungeecord/"
   schedule:
-  interval: daily
-  time: "04:00"
+    interval: daily
+    time: "04:00"
   open-pull-requests-limit: 10
 - package-ecosystem: gradle
   directory: "/common/"
   schedule:
-  interval: daily
-  time: "04:00"
+    interval: daily
+    time: "04:00"
   open-pull-requests-limit: 10

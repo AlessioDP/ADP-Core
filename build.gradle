@@ -3,10 +3,11 @@ buildscript {
         // Shadow
         jcenter()
         // Blossom & Gradle Versions
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
+        classpath 'com.liferay:com.liferay.gradle.plugins:3.2.29'
         classpath 'gradle.plugin.net.kyori:blossom:1.1.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
         classpath 'org.checkerframework:checkerframework-gradle-plugin:0.5.4'
@@ -19,6 +20,7 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow' // Shadow jar
+    apply plugin: 'com.liferay.plugin'
     apply plugin: 'net.kyori.blossom' // Token replacer
     apply plugin: 'com.github.ben-manes.versions' // Dependencies version checker
     apply plugin: 'org.checkerframework'
@@ -73,8 +75,6 @@ subprojects {
     }
 
     dependencies {
-        api group: 'com.google.guava', name: 'guava', version: project.ext.guava
-
         compileOnly group: 'org.projectlombok', name: 'lombok', version: project.ext.lombok
         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: project.ext.lombok
 

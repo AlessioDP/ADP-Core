@@ -1,25 +1,29 @@
 dependencies {
     api project(':common')
 
-    api group: 'org.spigotmc', name: 'spigot-api', version: project.ext.spigot
-    api group: 'org.bstats', name: 'bstats-bukkit', version: project.ext.bstats
-    api group: 'net.byteflux', name: 'libby-bukkit', version: project.ext.libby
-    compile group: 'io.papermc', name: 'paperlib', version: project.ext.paperlib
+    implementation group: 'org.spigotmc', name: 'spigot-api', version: project.ext.spigot
+    implementation group: 'org.bstats', name: 'bstats-bukkit', version: project.ext.bstats
+    implementation group: 'net.byteflux', name: 'libby-bukkit', version: project.ext.libby
+    implementation group: 'io.papermc', name: 'paperlib', version: project.ext.paperlib
 }
 
 shadowJar {
     archiveClassifier = null
-
     dependencies {
-        include(dependency('com.alessiodp.core.bukkit:.*'))
-        include(dependency('org.bstats:bstats-bukkit'))
-        include(dependency('net.byteflux:libby-bukkit'))
-
-        include(dependency('org.spigotmc:.*'))
-        include(dependency('org.bukkit:.*'))
+        def groups = ['com.alessiodp.core.bukkit', 'org.bstats', 'io.papermc', 'org.spigotmc']
+        def names = ['libby-bukkit']
+        exclude(dependency {
+            // Debug: println(it.moduleGroup + ":" + it.moduleName +(groups.contains(it.moduleGroup) && !names.contains(it.moduleName) ? '<--------' : ''))
+            return !groups.contains(it.moduleGroup) && !names.contains(it.moduleName)
+        })
     }
 
     relocate 'org.bstats', 'com.alessiodp.core.bukkit.addons.external.bstats'
-    relocate 'net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby'
-    relocate 'io.papermc.lib', 'com.alessiodp.core.common.addons.external.paperlib'
+    relocate('net.byteflux.libby', 'com.alessiodp.core.bukkit.addons.external.libby') {
+        include 'net.byteflux.libby.Bukkit*'
+    }
+    relocate('net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby') {
+        exclude 'net.byteflux.libby.Bukkit*'
+    }
+    relocate 'io.papermc.lib', 'com.alessiodp.core.bukkit.addons.external.paperlib'
 }

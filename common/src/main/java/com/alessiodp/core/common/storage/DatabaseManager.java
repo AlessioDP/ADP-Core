@@ -18,6 +18,9 @@ public abstract class DatabaseManager {
 	
 	/**
 	 * Active database type
+	 *
+	 * @param databaseType the storage to set
+	 * @return the storage type
 	 */
 	@Getter @Setter private StorageType databaseType;
 	

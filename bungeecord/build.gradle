@@ -1,22 +1,27 @@
 dependencies {
     api project(':common')
 
-    api group: 'net.md-5', name: 'bungeecord-api', version: project.ext.bungeecord
-    api group: 'org.bstats', name: 'bstats-bungeecord', version: project.ext.bstats
-    api group: 'net.byteflux', name: 'libby-bungee', version: project.ext.libby
+    implementation group: 'net.md-5', name: 'bungeecord-api', version: project.ext.bungeecord
+    implementation group: 'org.bstats', name: 'bstats-bungeecord', version: project.ext.bstats
+    implementation group: 'net.byteflux', name: 'libby-bungee', version: project.ext.libby
 }
 
 shadowJar {
     archiveClassifier = null
-
     dependencies {
-        include(dependency('com.alessiodp.core.bungeecord:.*'))
-        include(dependency('org.bstats:bstats-bungeecord'))
-        include(dependency('net.byteflux:libby-bungee'))
-
-        include(dependency('net.md-5:bungeecord-.*'))
+        def groups = ['com.alessiodp.core.bungeecord', 'org.bstats', 'net.md-5']
+        def names = ['libby-bungee']
+        exclude(dependency {
+            // Debug: println(it.moduleGroup + ":" + it.moduleName)
+            return !groups.contains(it.moduleGroup) && !names.contains(it.moduleName)
+        })
     }
 
     relocate 'org.bstats', 'com.alessiodp.core.bungeecord.addons.external.bstats'
-    relocate 'net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby'
+    relocate('net.byteflux.libby', 'com.alessiodp.core.bungeecord.addons.external.libby') {
+        include 'net.byteflux.libby.Bungee*'
+    }
+    relocate('net.byteflux.libby', 'com.alessiodp.core.common.addons.external.libby') {
+        exclude 'net.byteflux.libby.Bungee*'
+    }
 }

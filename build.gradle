@@ -10,7 +10,7 @@ buildscript {
         classpath 'com.liferay:com.liferay.gradle.plugins:3.2.29'
         classpath 'gradle.plugin.net.kyori:blossom:1.1.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.28.0'
-        classpath 'org.checkerframework:checkerframework-gradle-plugin:0.5.4'
+        classpath 'org.checkerframework:checkerframework-gradle-plugin:0.5.5'
     }
 }
 

@@ -75,7 +75,7 @@
 		<libs.reflections>0.9.12</libs.reflections>
 		<libs.simpleyaml>498c449d46</libs.simpleyaml>
 		<libs.slf4j>1.7.25</libs.slf4j>
-		<libs.sqlite>3.30.1</libs.sqlite>
+		<libs.sqlite>3.32.3</libs.sqlite>
 		
 		<mc.spigot>1.16.1-R0.1-SNAPSHOT</mc.spigot>
 		<mc.bungeecord>1.16-R0.2-SNAPSHOT</mc.bungeecord>

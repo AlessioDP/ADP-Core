@@ -1,6 +1,0 @@
-rootProject.name = 'adp-core'
-include (
-        ':common',
-        ':bukkit',
-        ':bungeecord',
-)

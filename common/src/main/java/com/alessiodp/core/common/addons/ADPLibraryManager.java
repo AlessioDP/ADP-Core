@@ -26,7 +26,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}spongepowered")
 				.artifactId("configurate-yaml")
-				.version("%CONFIGURATE%")
+				.version(LibraryVersions.CONFIGURATE)
 				.checksum("A14cN5/4eqyOzBOfDs3z3noUiBG7p9joKVvBihs+FW0=")
 				.relocate("ninja{}leaping{}configurate{}yaml", plugin.getPackageName() + ".libs.configurate.yaml")
 				.build());
@@ -34,7 +34,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}spongepowered")
 				.artifactId("configurate-core")
-				.version("%CONFIGURATE%")
+				.version(LibraryVersions.CONFIGURATE)
 				.checksum("O889bmLMJOGo2Klj4u+KyY6IarwQstZYRt3T0g09SXs=")
 				.relocate("ninja{}leaping{}configurate", plugin.getPackageName() + ".libs.configurate")
 				.build());
@@ -47,7 +47,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("com{}zaxxer")
 				.artifactId("HikariCP")
-				.version("%HIKARICP%")
+				.version(LibraryVersions.HIKARICP)
 				.checksum("rnp2e/N8l5JSPtPtcitG6M8jYPVG9iUOuYyDNVrWl/k=")
 				.relocate("com{}zaxxer{}hikari", plugin.getPackageName() + ".libs.hikari")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
@@ -60,7 +60,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}xerial")
 				.artifactId("sqlite-jdbc")
-				.version("%SQLITEJDBC%")
+				.version(LibraryVersions.SQLITE_JDBC)
 				.checksum("KAA0qJkwABBMWza8XhE5sOgt8d6c/ZUfUpva3q9vRW0=")
 				// Unnecessary relocation
 				.build());
@@ -72,7 +72,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("com{}h2database")
 				.artifactId("h2")
-				.version("%H2%")
+				.version(LibraryVersions.H2)
 				.checksum("OtmsS2qunNnTrBxEdGXh7QYBm4UbiT3WqNdt222FvKY=")
 				// Unnecessary relocation
 				.build());
@@ -82,7 +82,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}reflections")
 				.artifactId("reflections")
-				.version("%REFLECTIONS%")
+				.version(LibraryVersions.REFLECTIONS)
 				.checksum("0Wj1jTLyrnrFqNXZCSre7lJsYEtBEl3LRe6od5YKmc8=")
 				.relocate("org{}reflections", plugin.getPackageName() + ".libs.reflections")
 				.build());
@@ -90,7 +90,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-core")
-				.version("%JDBI%")
+				.version(LibraryVersions.JDBI)
 				.checksum("vDWYhAr4m+VpW/4ftkRyPPYxTU95hRJ8/P19hJ7Uuag=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
@@ -101,7 +101,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-sqlobject")
-				.version("%JDBI%")
+				.version(LibraryVersions.JDBI)
 				.checksum("TF1qNVW+jIErPx15gVxWQiMObIuGFvOUPBSol/P7IG0=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
@@ -112,7 +112,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}slf4j")
 				.artifactId("slf4j-api")
-				.version("%SLF4J%")
+				.version(LibraryVersions.SLF4J)
 				.checksum("GMSgCV1cHaa4F1kudnuyPSndL1YK1033X/OWHb3iW3k=")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
@@ -120,7 +120,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org{}slf4j")
 				.artifactId("slf4j-simple")
-				.version("%SLF4J%")
+				.version(LibraryVersions.SLF4J)
 				.checksum("CWbob/+lvlLT2ee4ndZ02YoD7tCkVPuvfBvZSTvZ2HQ=")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
@@ -128,7 +128,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("org.antlr")
 				.artifactId("antlr4-runtime")
-				.version("%JDBI_ANTLR%")
+				.version(LibraryVersions.JDBI_ANTLR)
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.checksum("TFGLh9S9/4tEzYy8GvgW6US2Kj/luAt4FQHPH0dZu8Q=")
 				.build());
@@ -136,7 +136,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("com.github.ben-manes.caffeine")
 				.artifactId("caffeine")
-				.version("%JDBI_CAFFEINE%")
+				.version(LibraryVersions.JDBI_CAFFEINE)
 				.relocate("com{}github{}benmanes{}caffeine", plugin.getPackageName() + ".libs.caffeine")
 				.checksum("sRB6QJe+RRWpI6Vbxj2gTkEeaWSqBFvs4bx6y4SHLtc=")
 				.build());
@@ -144,7 +144,7 @@ public class ADPLibraryManager {
 		libraryManager.loadLibrary(Library.builder()
 				.groupId("io.leangen.geantyref")
 				.artifactId("geantyref")
-				.version("%JDBI_GEANTYREF%")
+				.version(LibraryVersions.JDBI_GEANTYREF)
 				.relocate("io{}leangen{}geantyref", plugin.getPackageName() + ".libs.geantyref")
 				.checksum("+JH4yXPM0d/LhBv+2EZOiWsbMN3dA9kzxL6p5CihEaI=")
 				.build());

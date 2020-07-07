@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<artifactId>core</artifactId>
+		<groupId>com.alessiodp.core</groupId>
+		<version>1.4.5</version>
+	</parent>
+	
+	<artifactId>core-bukkit</artifactId>
+	
+	<repositories>
+		<repository>
+			<id>papermc</id>
+			<url>https://papermc.io/repo/repository/maven-public/</url>
+		</repository>
+	</repositories>
+	
+	<build>
+		<defaultGoal>clean package install</defaultGoal>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>${maven.shade.version}</version>
+				<configuration>
+					<artifactSet>
+						<includes>
+							<include>${project.parent.groupId}:${project.artifactId}</include>
+							<include>io.papermc:paperlib</include>
+							<include>net.byteflux:libby-bukkit</include>
+							<include>org.bstats:bstats-bukkit</include>
+						</includes>
+					</artifactSet>
+					<relocations>
+						<relocation>
+							<pattern>org.bstats</pattern>
+							<shadedPattern>com.alessiodp.core.bukkit.addons.external.bstats</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.papermc.lib</pattern>
+							<shadedPattern>com.alessiodp.core.bukkit.addons.external.paperlib</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.alessiodp.core</groupId>
+			<artifactId>core-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>${mc.spigot}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bstats</groupId>
+			<artifactId>bstats-bukkit</artifactId>
+			<version>${libs.bstats}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.byteflux</groupId>
+			<artifactId>libby-bukkit</artifactId>
+			<version>${libs.libby}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.papermc</groupId>
+			<artifactId>paperlib</artifactId>
+			<version>${libs.paperlib}</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

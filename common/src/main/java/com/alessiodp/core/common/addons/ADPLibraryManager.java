@@ -48,7 +48,7 @@ public class ADPLibraryManager {
 				.groupId("com{}zaxxer")
 				.artifactId("HikariCP")
 				.version(LibraryVersions.HIKARICP)
-				.checksum("rnp2e/N8l5JSPtPtcitG6M8jYPVG9iUOuYyDNVrWl/k=")
+				.checksum("i3MvlHBXDUqEHcHvbIJrWGl4sluoMHEv8fpZ3idd+mE=")
 				.relocate("com{}zaxxer{}hikari", plugin.getPackageName() + ".libs.hikari")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
@@ -61,7 +61,7 @@ public class ADPLibraryManager {
 				.groupId("org{}xerial")
 				.artifactId("sqlite-jdbc")
 				.version(LibraryVersions.SQLITE_JDBC)
-				.checksum("KAA0qJkwABBMWza8XhE5sOgt8d6c/ZUfUpva3q9vRW0=")
+				.checksum("xRv+M+D7Dcqs/CPs4+DuGoiAqx0mF2dpBMaUv8a3xcs=")
 				// Unnecessary relocation
 				.build());
 	}
@@ -91,7 +91,7 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-core")
 				.version(LibraryVersions.JDBI)
-				.checksum("vDWYhAr4m+VpW/4ftkRyPPYxTU95hRJ8/P19hJ7Uuag=")
+				.checksum("NgBs7V5CBBULkTo5SnZMoJCcF1kwwQpQUdii6+a6cQU=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.relocate("com{}github{}benmanes{}caffeine", plugin.getPackageName() + ".libs.caffeine")
@@ -102,7 +102,7 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-sqlobject")
 				.version(LibraryVersions.JDBI)
-				.checksum("TF1qNVW+jIErPx15gVxWQiMObIuGFvOUPBSol/P7IG0=")
+				.checksum("1sSOoe8hHc7cfLcjsKsEss+okXRJ+kPkZ4qmqafjRHw=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.relocate("com{}github{}benmanes{}caffeine", plugin.getPackageName() + ".libs.caffeine")
@@ -113,7 +113,7 @@ public class ADPLibraryManager {
 				.groupId("org{}slf4j")
 				.artifactId("slf4j-api")
 				.version(LibraryVersions.SLF4J)
-				.checksum("GMSgCV1cHaa4F1kudnuyPSndL1YK1033X/OWHb3iW3k=")
+				.checksum("zboHlk0btAoHYUhcax6ML4/Z6x0ZxTkorA1/lRAQXFc=")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
 		
@@ -121,7 +121,7 @@ public class ADPLibraryManager {
 				.groupId("org{}slf4j")
 				.artifactId("slf4j-simple")
 				.version(LibraryVersions.SLF4J)
-				.checksum("CWbob/+lvlLT2ee4ndZ02YoD7tCkVPuvfBvZSTvZ2HQ=")
+				.checksum("5J5y/9rn4hZTvrjzwIDm2mVAw7sAj7UOSh0jEFnD+4=")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
 		

@@ -62,7 +62,7 @@
 		
 		<libs.bstats>1.7</libs.bstats>
 		<libs.configurate>3.6.1</libs.configurate>
-		<libs.gson>2.8.4</libs.gson>
+		<libs.gson>2.8.6</libs.gson>
 		<libs.guava>21.0</libs.guava>
 		<libs.h2>1.4.200</libs.h2>
 		<libs.hikaricp>3.4.2</libs.hikaricp>

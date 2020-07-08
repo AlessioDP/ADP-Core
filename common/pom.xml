@@ -45,7 +45,7 @@
 						<includes>
 							<include>${project.parent.groupId}:${project.artifactId}</include>
 							<include>net.byteflux:libby-core</include>
-							<include>com.github.AlessioDP:Simple-YAML</include>
+							<include>org.simpleyaml:Simple-YAML</include>
 						</includes>
 					</artifactSet>
 					<relocations>
@@ -119,10 +119,16 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.AlessioDP</groupId>
+			<groupId>org.simpleyaml</groupId>
 			<artifactId>Simple-YAML</artifactId>
 			<version>${libs.simpleyaml}</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>

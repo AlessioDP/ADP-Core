@@ -10,7 +10,6 @@ import org.simpleyaml.configuration.file.YamlFile;
 
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -19,7 +18,7 @@ public abstract class ConfigurationFile {
 	@NonNull protected final ADPPlugin plugin;
 	@Getter @Setter private boolean outdated = false;
 	
-	protected YamlFile configuration;
+	@Getter protected YamlFile configuration;
 	protected Path configurationPath;
 	
 	/**
@@ -77,7 +76,6 @@ public abstract class ConfigurationFile {
 	public void initializeConfiguration(Path folder) {
 		configurationPath = saveDefaultConfiguration(folder);
 		configuration = new YamlFile(configurationPath.toFile());
-		configuration.setCharset(StandardCharsets.UTF_8);
 		try {
 			configuration.load();
 		} catch (Exception ex) {
@@ -115,7 +113,7 @@ public abstract class ConfigurationFile {
 	 * Load default config options
 	 */
 	public void loadDefaultConfigOptions() {
-		YamlFile yf = YamlFile.loadConfiguration(new InputStreamReader(plugin.getResource(getResourceName()), StandardCharsets.UTF_8));
+		YamlFile yf = YamlFile.loadConfiguration(new InputStreamReader(plugin.getResource(getResourceName())));
 		loadFromConfiguration(yf);
 	}
 	
@@ -124,9 +122,8 @@ public abstract class ConfigurationFile {
 	 */
 	public void loadConfigOptions() {
 		YamlFile yf = new YamlFile(configurationPath.toFile());
-		yf.setCharset(StandardCharsets.UTF_8);
 		try {
-			yf.load();
+			yf.loadWithComments();
 			
 			loadFromConfiguration(yf);
 		} catch (Exception e) {

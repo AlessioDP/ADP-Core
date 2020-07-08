@@ -121,7 +121,7 @@ public class ADPLibraryManager {
 				.groupId("org{}slf4j")
 				.artifactId("slf4j-simple")
 				.version(LibraryVersions.SLF4J)
-				.checksum("5J5y/9rn4hZTvrjzwIDm2mVAw7sAj7UOSh0jEFnD+4=")
+				.checksum("i5J5y/9rn4hZTvrjzwIDm2mVAw7sAj7UOSh0jEFnD+4=")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
 		

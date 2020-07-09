@@ -56,14 +56,14 @@ public class MigratorTest {
 	}
 	
 	private ConnectionFactory getConnectionFactoryH2() {
-		H2ConnectionFactory ret = new H2ConnectionFactory("jdbc:h2:mem:" + UUID.randomUUID().toString() + ";DB_CLOSE_DELAY=-1");
+		H2ConnectionFactory ret = new H2ConnectionFactory(null, "jdbc:h2:mem:" + UUID.randomUUID().toString() + ";DB_CLOSE_DELAY=-1");
 		ret.setTablePrefix("test_");
 		ret.init();
 		return ret;
 	}
 	
 	private ConnectionFactory getConnectionFactorySQLite() throws IOException {
-		SQLiteConnectionFactory ret = new SQLiteConnectionFactory(testFolder.newFile("database.db").toPath());
+		SQLiteConnectionFactory ret = new SQLiteConnectionFactory(null, testFolder.newFile("database.db").toPath());
 		ret.setTablePrefix("test_");
 		ret.init();
 		return ret;

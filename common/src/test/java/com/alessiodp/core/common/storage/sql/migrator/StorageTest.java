@@ -1,6 +1,7 @@
 package com.alessiodp.core.common.storage.sql.migrator;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.logging.LoggerManager;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.H2ConnectionFactory;
@@ -8,6 +9,7 @@ import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistorySQLiteDao;
+import net.byteflux.libby.classloader.IsolatedClassLoader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,9 +19,11 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -32,12 +36,13 @@ import static org.powermock.api.mockito.PowerMockito.when;
 		LoggerManager.class
 })
 public class StorageTest {
+	ADPPlugin mockPlugin;
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder();
 	
 	@Before
 	public void setUp() {
-		ADPPlugin mockPlugin = mock(ADPPlugin.class);
+		mockPlugin = mock(ADPPlugin.class);
 		LoggerManager mockLoggerManager = mock(LoggerManager.class);
 		mockStatic(ADPPlugin.class);
 		when(ADPPlugin.getInstance()).thenReturn(mockPlugin);
@@ -46,14 +51,14 @@ public class StorageTest {
 	}
 	
 	private ConnectionFactory getConnectionFactoryH2() {
-		H2ConnectionFactory ret = new H2ConnectionFactory("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+		H2ConnectionFactory ret = new H2ConnectionFactory(null, "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
 		ret.setTablePrefix("test_");
 		ret.init();
 		return ret;
 	}
 	
 	private ConnectionFactory getConnectionFactorySQLite() throws IOException {
-		SQLiteConnectionFactory ret = new SQLiteConnectionFactory(testFolder.newFile("database.db").toPath());
+		SQLiteConnectionFactory ret = new SQLiteConnectionFactory(null, testFolder.newFile("database.db").toPath());
 		ret.setTablePrefix("test_");
 		ret.init();
 		return ret;

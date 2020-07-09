@@ -1,7 +1,6 @@
 package com.alessiodp.core.common.storage.sql.migrator;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.logging.LoggerManager;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.H2ConnectionFactory;
@@ -9,7 +8,6 @@ import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistorySQLiteDao;
-import net.byteflux.libby.classloader.IsolatedClassLoader;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,11 +17,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -36,13 +32,12 @@ import static org.powermock.api.mockito.PowerMockito.when;
 		LoggerManager.class
 })
 public class StorageTest {
-	ADPPlugin mockPlugin;
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder();
 	
 	@Before
 	public void setUp() {
-		mockPlugin = mock(ADPPlugin.class);
+		ADPPlugin mockPlugin = mock(ADPPlugin.class);
 		LoggerManager mockLoggerManager = mock(LoggerManager.class);
 		mockStatic(ADPPlugin.class);
 		when(ADPPlugin.getInstance()).thenReturn(mockPlugin);

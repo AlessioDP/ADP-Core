@@ -82,7 +82,7 @@
 		<libs.sqlite>3.32.3</libs.sqlite>
 		
 		<mc.spigot>1.16.1-R0.1-SNAPSHOT</mc.spigot>
-		<mc.bungeecord>1.16-R0.2-SNAPSHOT</mc.bungeecord>
+		<mc.bungeecord>1.16-R0.2</mc.bungeecord>
 	</properties>
 	
 	<build>

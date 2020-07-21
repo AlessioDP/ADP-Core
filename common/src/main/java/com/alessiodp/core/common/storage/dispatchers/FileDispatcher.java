@@ -38,7 +38,8 @@ public abstract class FileDispatcher implements IDatabaseDispatcher {
 			// Check for failures
 			if (database != null && !database.isFailed()) {
 				upgradeManager = initUpgradeManager();
-				upgradeManager.checkForUpgrades();
+				if (upgradeManager != null)
+					upgradeManager.checkForUpgrades();
 			}
 		}
 	}

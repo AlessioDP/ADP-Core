@@ -65,4 +65,11 @@ public interface User extends OfflineUser {
 	 * @param pitch the pitch of the sound
 	 */
 	void playSound(String sound, double volume, double pitch);
+	
+	/**
+	 * Is the player vanished?
+	 *
+	 * @return true if the player is vanished
+	 */
+	boolean isVanished();
 }

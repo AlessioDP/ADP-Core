@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.4.7</version>
+    <version>1.4.8</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-bungeecord</artifactId>
@@ -51,13 +51,13 @@
     <dependency>
       <groupId>com.alessiodp.core</groupId>
       <artifactId>core-common</artifactId>
-      <version>1.4.7</version>
+      <version>1.4.8</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>net.md-5</groupId>
       <artifactId>bungeecord-api</artifactId>
-      <version>1.16-R0.2-SNAPSHOT</version>
+      <version>1.16-R0.4-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

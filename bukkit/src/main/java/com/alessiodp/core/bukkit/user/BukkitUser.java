@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.util.UUID;
@@ -75,6 +76,14 @@ public class BukkitUser implements User {
 			Sound s = Sound.valueOf(sound);
 			((Player) sender).playSound(((Player) sender).getLocation(), s, (float) volume, (float) pitch);
 		} catch (IllegalArgumentException ignored) {}
+	}
+	
+	@Override
+	public boolean isVanished() {
+		for (MetadataValue meta : ((Player) sender).getMetadata("vanished")) {
+			if (meta.asBoolean()) return true;
+		}
+		return false;
 	}
 	
 	@Override

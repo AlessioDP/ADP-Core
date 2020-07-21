@@ -33,7 +33,7 @@ public class ADPLibraryManager {
 				.artifactId("configurate-yaml")
 				.version(LibraryVersions.CONFIGURATE)
 				.checksum("A14cN5/4eqyOzBOfDs3z3noUiBG7p9joKVvBihs+FW0=")
-				.relocate("ninja{}leaping{}configurate{}yaml", plugin.getPackageName() + ".libs.configurate.yaml")
+				.relocate("ninja{}leaping{}configurate", plugin.getPackageName() + ".libs.configurate")
 				.build());
 		
 		libraryManager.loadLibrary(Library.builder()

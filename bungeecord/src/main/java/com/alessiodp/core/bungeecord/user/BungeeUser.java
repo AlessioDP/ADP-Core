@@ -71,6 +71,11 @@ public class BungeeUser implements User {
 	}
 	
 	@Override
+	public boolean isVanished() {
+		return false;
+	}
+	
+	@Override
 	public ADPPlugin getPlugin() {
 		return plugin;
 	}

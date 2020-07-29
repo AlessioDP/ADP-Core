@@ -105,6 +105,19 @@ public interface ADPBootstrap {
 	List<User> getOnlinePlayers();
 	
 	/**
+	 * Execute the command via console
+	 * @param command the command to execute
+	 */
+	void executeCommand(String command);
+	
+	/**
+	 * Execute the command via console
+	 * @param command the command to execute
+	 * @param user the user executor
+	 */
+	void executeCommandByUser(String command, User user);
+	
+	/**
 	 * Send a message to the console
 	 *
 	 * @param message the message to send

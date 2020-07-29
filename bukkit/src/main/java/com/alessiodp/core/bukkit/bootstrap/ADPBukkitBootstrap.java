@@ -103,6 +103,16 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	}
 	
 	@Override
+	public void executeCommand(String command) {
+		Bukkit.dispatchCommand(getServer().getConsoleSender(), command);
+	}
+	
+	@Override
+	public void executeCommandByUser(String command, User user) {
+		Bukkit.dispatchCommand(((BukkitUser) user).getSender(), command);
+	}
+	
+	@Override
 	public void logConsole(String message, boolean isWarning) {
 		CommonUtils.ifNonEmptyDo(message, () -> super.getServer().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message));
 	}

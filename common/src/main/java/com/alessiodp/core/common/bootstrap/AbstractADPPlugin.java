@@ -82,6 +82,16 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
+	public void executeCommand(String command) {
+		bootstrap.executeCommand(command);
+	}
+	
+	@Override
+	public void executeCommandByUser(String command, User user) {
+		bootstrap.executeCommandByUser(command, user);
+	}
+	
+	@Override
 	public void logConsole(String message, boolean isWarning) {
 		CommonUtils.ifNonEmptyDo(message, () -> bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning));
 	}

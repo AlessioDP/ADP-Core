@@ -81,6 +81,15 @@ public class BungeeUser implements User {
 	}
 	
 	/**
+	 * Get original sender
+	 *
+	 * @return the sender
+	 */
+	public CommandSender getSender() {
+		return sender;
+	}
+	
+	/**
 	 * Get server name of the user
 	 *
 	 * @return the server name

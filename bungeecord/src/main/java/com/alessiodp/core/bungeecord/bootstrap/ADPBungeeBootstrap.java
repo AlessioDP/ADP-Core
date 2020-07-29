@@ -104,6 +104,16 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	}
 	
 	@Override
+	public void executeCommand(String command) {
+		getProxy().getPluginManager().dispatchCommand(getProxy().getConsole(), command);
+	}
+	
+	@Override
+	public void executeCommandByUser(String command, User user) {
+		getProxy().getPluginManager().dispatchCommand(((BungeeUser) user).getSender(), command);
+	}
+	
+	@Override
 	public void logConsole(String message, boolean isWarning) {
 		CommonUtils.ifNonEmptyDo(message, () -> super.getProxy().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message));
 	}

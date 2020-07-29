@@ -91,6 +91,21 @@ public class BukkitUser implements User {
 		return plugin;
 	}
 	
+	/**
+	 * Get original sender
+	 *
+	 * @return the sender
+	 */
+	public CommandSender getSender() {
+		return sender;
+	}
+	
+	/**
+	 * Teleport the player with an async teleport
+	 *
+	 * @param location the destination of the teleport
+	 * @return the future event
+	 */
 	public CompletableFuture<Boolean> teleportAsync(Location location) {
 		return PaperLib.teleportAsync((Player) sender, location);
 	}

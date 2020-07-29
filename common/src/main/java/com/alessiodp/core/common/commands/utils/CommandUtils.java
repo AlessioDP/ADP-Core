@@ -120,18 +120,32 @@ public abstract class CommandUtils {
 	 *
 	 * @param args the command arguments
 	 * @param index the argument index
+	 * @param bypassVanish show vanished players
 	 * @return a list of players that match args
 	 */
-	public List<String> tabCompletePlayerList(String[] args, int index) {
+	public List<String> tabCompletePlayerList(String[] args, int index, boolean bypassVanish) {
 		// args: <cmd> ... playerListAtIndex ...
 		List<String> ret = new ArrayList<>();
 		if (args.length == (index + 1)) {
 			for (User u : plugin.getOnlinePlayers()) {
-				ret.add(u.getName());
+				if (bypassVanish || !u.isVanished()) {
+					ret.add(u.getName());
+				}
 			}
 			ret = tabCompleteParser(ret, args[index]);
 		}
 		return ret;
+	}
+	
+	/**
+	 * Insert player list inside tab complete
+	 *
+	 * @param args the command arguments
+	 * @param index the argument index
+	 * @return a list of players that match args
+	 */
+	public List<String> tabCompletePlayerList(String[] args, int index) {
+		return tabCompletePlayerList(args, index, false);
 	}
 	
 	/**

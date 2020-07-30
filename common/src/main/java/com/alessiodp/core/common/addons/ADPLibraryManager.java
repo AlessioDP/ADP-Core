@@ -32,7 +32,7 @@ public class ADPLibraryManager {
 				.groupId("org{}spongepowered")
 				.artifactId("configurate-yaml")
 				.version(LibraryVersions.CONFIGURATE)
-				.checksum("A14cN5/4eqyOzBOfDs3z3noUiBG7p9joKVvBihs+FW0=")
+				.checksum("14L0JiDuAfQovxkNySeaf9Kul3Nkl0OaW49Ow4ReV8E=")
 				.relocate("ninja{}leaping{}configurate", plugin.getPackageName() + ".libs.configurate")
 				.build());
 		
@@ -41,14 +41,13 @@ public class ADPLibraryManager {
 				.groupId("org{}spongepowered")
 				.artifactId("configurate-core")
 				.version(LibraryVersions.CONFIGURATE)
-				.checksum("O889bmLMJOGo2Klj4u+KyY6IarwQstZYRt3T0g09SXs=")
+				.checksum("V+M3OFm+O0AHsao557kExxa27lYEX7UYE06G/zC/Kyc=")
 				.relocate("ninja{}leaping{}configurate", plugin.getPackageName() + ".libs.configurate")
 				.build());
 	}
 	
 	public void setupLibrariesForMySQL() {
 		setupLibrariesForSQL();
-		setupLibrariesForYAML();
 		
 		libraryManager.loadLibrary(Library.builder()
 				.id(ADPLibrary.HIKARICP.getId())

@@ -29,7 +29,7 @@ public class H2ConnectionFactory implements ConnectionFactory {
 	
 	public H2ConnectionFactory(@Nullable ADPPlugin plugin, @NonNull Path databasePath) {
 		this.plugin = plugin;
-		this.databaseUrl = "jdbc:h2:" + databasePath.toString();
+		this.databaseUrl = "jdbc:h2:" + databasePath.toString() + ";IGNORECASE=TRUE";
 	}
 	
 	@Override

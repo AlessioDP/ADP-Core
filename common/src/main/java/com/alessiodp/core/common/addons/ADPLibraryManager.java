@@ -68,7 +68,7 @@ public class ADPLibraryManager {
 				.groupId("org{}xerial")
 				.artifactId("sqlite-jdbc")
 				.version(LibraryVersions.SQLITE_JDBC)
-				.checksum("xRv+M+D7Dcqs/CPs4+DuGoiAqx0mF2dpBMaUv8a3xcs=")
+				.checksum("7CL07opEtcliARxo7Ocu5TeojrvnytcNP4fIFq6lM1c=")
 				.isolatedLoad(true)
 				// Unnecessary relocation
 				.build());

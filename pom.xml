@@ -63,7 +63,7 @@
 		<dev.lombok>1.18.12</dev.lombok>
 		
 		<libs.bstats>1.7</libs.bstats>
-		<libs.configurate>3.7</libs.configurate>
+		<libs.configurate>3.7.1</libs.configurate>
 		<libs.gson>2.8.4</libs.gson>
 		<libs.h2>1.4.200</libs.h2>
 		<libs.hikaricp>3.4.5</libs.hikaricp>

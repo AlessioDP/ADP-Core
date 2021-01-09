@@ -6,8 +6,6 @@ import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.H2ConnectionFactory;
-import com.alessiodp.core.common.storage.sql.connection.MySQLConnectionFactory;
-import com.alessiodp.core.common.storage.sql.connection.PostgreSQLConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
@@ -76,6 +74,7 @@ public class MigratorTest {
 		return ret;
 	}
 	
+	/* Manual tests
 	private ConnectionFactory getConnectionFactoryMySQL() {
 		MySQLConnectionFactory ret = new MySQLConnectionFactory();
 		ret.setTablePrefix("test_");
@@ -99,6 +98,7 @@ public class MigratorTest {
 		ret.init();
 		return ret;
 	}
+	 */
 	
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {
 		return Migrator.configure()

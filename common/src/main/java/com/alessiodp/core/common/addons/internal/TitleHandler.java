@@ -1,10 +1,6 @@
 package com.alessiodp.core.common.addons.internal;
 
 public abstract class TitleHandler {
-	public TitleHandler() {
-	
-	}
-	
 	/**
 	 * Send a title message to the user
 	 *

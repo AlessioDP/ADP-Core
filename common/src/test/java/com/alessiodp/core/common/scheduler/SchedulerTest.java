@@ -26,7 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ADPPlugin.class)
 public class SchedulerTest {
-	DatabaseManager databaseManager;
+	private DatabaseManager databaseManager;
 	
 	@Before
 	public void setUp() {

@@ -16,6 +16,8 @@ import java.util.function.Supplier;
 public abstract class DatabaseManager {
 	protected final ADPPlugin plugin;
 	protected final ExecutorService databaseExecutor;
+	protected IDatabaseDispatcher database;
+	@Getter @Setter private StorageType databaseType;
 	
 	public DatabaseManager(@NonNull ADPPlugin plugin) {
 		this.plugin = plugin;
@@ -27,19 +29,6 @@ public abstract class DatabaseManager {
 				.build()
 		);
 	}
-	
-	/**
-	 * Active database dispatcher
-	 */
-	protected IDatabaseDispatcher database;
-	
-	/**
-	 * Active database type
-	 *
-	 * @param databaseType the storage to set
-	 * @return the storage type
-	 */
-	@Getter @Setter private StorageType databaseType;
 	
 	/**
 	 * Initialize database manager

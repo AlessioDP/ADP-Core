@@ -203,9 +203,10 @@ public class ADPUpdater {
 			}
 		}
 		
-		if (versionReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE && compareWithReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE) {
-			if (versionReleaseType.getValue() > compareWithReleaseType.getValue())
-				ret = true;
+		if (versionReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE
+				&& compareWithReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE
+				&& versionReleaseType.getValue() > compareWithReleaseType.getValue()) {
+			ret = true;
 		}
 		return ret;
 	}

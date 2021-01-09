@@ -62,10 +62,17 @@ public abstract class ADPMainCommand implements ADPExecutableCommand {
 		List<String> ret = new ArrayList<>();
 		if (tabSupport) {
 			List<String> commands = new ArrayList<>();
-			for (ADPCommand pc : plugin.getPlayerUtils().getAllowedCommands(sender)) {
-				ADPSubCommand sc = subCommandsByEnum.get(pc);
-				if (sc != null)
-					commands.add(CommonUtils.toLowerCase(sc.getCommandName()));
+			if (sender.isPlayer()) {
+				for (ADPCommand pc : plugin.getPlayerUtils().getAllowedCommands(sender)) {
+					ADPSubCommand sc = subCommandsByEnum.get(pc);
+					if (sc != null)
+						commands.add(CommonUtils.toLowerCase(sc.getCommandName()));
+				}
+			} else {
+				subCommands.forEach((k, v) -> {
+					if (v.isExecutableByConsole())
+						commands.add(k);
+				});
 			}
 			
 			if (args.length > 1) {
@@ -85,9 +92,9 @@ public abstract class ADPMainCommand implements ADPExecutableCommand {
 	 * @param subCommand the sub command to register
 	 */
 	public final void register(@NonNull ADPSubCommand subCommand) {
-		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_REGISTER_SUBCOMMAND
-				.replace("{sub}", CommonUtils.toLowerCase(subCommand.getCommandName()))
-				.replace("{main}", CommonUtils.toLowerCase(getCommandName())), true);
+		plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_CMD_SETUP_REGISTER_SUBCOMMAND,
+				CommonUtils.toLowerCase(subCommand.getCommandName()),
+				CommonUtils.toLowerCase(getCommandName())), true);
 		subCommands.put(CommonUtils.toLowerCase(subCommand.getCommandName()), subCommand);
 		subCommandsByEnum.put(subCommand.getCommand(), subCommand);
 	}

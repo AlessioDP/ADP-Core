@@ -6,9 +6,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum StorageType {
-	NONE("None"),
 	YAML("YAML"),
+	MARIADB("MariaDB"),
 	MYSQL("MySQL"),
+	POSTGRESQL("PostgreSQL"),
 	SQLITE("SQLite"),
 	H2("H2");
 	
@@ -38,8 +39,16 @@ public enum StorageType {
 				plugin.getLibraryManager().setupLibrariesForYAML();
 				ret = true;
 				break;
+			case MARIADB:
+				plugin.getLibraryManager().setupLibrariesForMariaDB();
+				ret = true;
+				break;
 			case MYSQL:
 				plugin.getLibraryManager().setupLibrariesForMySQL();
+				ret = true;
+				break;
+			case POSTGRESQL:
+				plugin.getLibraryManager().setupLibrariesForPostgreSQL();
 				ret = true;
 				break;
 			case SQLITE:
@@ -50,7 +59,6 @@ public enum StorageType {
 				plugin.getLibraryManager().setupLibrariesForH2();
 				ret = true;
 				break;
-			case NONE:
 			default:
 				break;
 		}

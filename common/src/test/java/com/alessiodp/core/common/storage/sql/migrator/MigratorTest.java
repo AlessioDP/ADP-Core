@@ -3,8 +3,11 @@ package com.alessiodp.core.common.storage.sql.migrator;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.logging.LoggerManager;
 import com.alessiodp.core.common.storage.StorageType;
+import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.H2ConnectionFactory;
+import com.alessiodp.core.common.storage.sql.connection.MySQLConnectionFactory;
+import com.alessiodp.core.common.storage.sql.connection.PostgreSQLConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
@@ -33,13 +36,10 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-		Migrator.class,
-		H2ConnectionFactory.class,
-		SchemaHistoryH2Dao.class,
 		ADPPlugin.class,
-		LoggerManager.class
 })
 public class MigratorTest {
+	private SQLDispatcher dispatcher;
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder();
 	
@@ -53,6 +53,13 @@ public class MigratorTest {
 		when(mockPlugin.getFolder()).thenReturn(Paths.get("./"));
 		when(mockPlugin.getResource(anyString())).thenAnswer((mock) -> getClass().getClassLoader().getResourceAsStream(mock.getArgument(0)));
 		when(mockLoggerManager.isDebugEnabled()).thenReturn(true);
+		
+		dispatcher = new SQLDispatcher(mockPlugin, StorageType.H2) {
+			@Override
+			protected ConnectionFactory initConnectionFactory() {
+				return null;
+			}
+		};
 	}
 	
 	private ConnectionFactory getConnectionFactoryH2() {
@@ -69,12 +76,36 @@ public class MigratorTest {
 		return ret;
 	}
 	
+	private ConnectionFactory getConnectionFactoryMySQL() {
+		MySQLConnectionFactory ret = new MySQLConnectionFactory();
+		ret.setTablePrefix("test_");
+		ret.setServerName("localhost");
+		ret.setPort("3306");
+		ret.setDatabaseName("database");
+		ret.setUsername("root");
+		ret.setPassword("");
+		ret.init();
+		return ret;
+	}
+	
+	private ConnectionFactory getConnectionFactoryPostgreSQL() {
+		PostgreSQLConnectionFactory ret = new PostgreSQLConnectionFactory();
+		ret.setTablePrefix("test_");
+		ret.setServerName("localhost");
+		ret.setPort("5432");
+		ret.setDatabaseName("database");
+		ret.setUsername("postgres");
+		ret.setPassword("postgres");
+		ret.init();
+		return ret;
+	}
+	
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {
 		return Migrator.configure()
 				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")
 				.setConnectionFactory(cf)
 				.setStorageType(storageType)
-				.load();
+				.load(dispatcher);
 	}
 	
 	@Test
@@ -82,6 +113,10 @@ public class MigratorTest {
 		searchScripts(prepareMigrator(getConnectionFactoryH2(), StorageType.H2));
 		
 		searchScripts(prepareMigrator(getConnectionFactorySQLite(), StorageType.SQLITE));
+		
+		// Manual test only
+		//searchScripts(prepareMigrator(getConnectionFactoryMySQL(), StorageType.MYSQL));
+		//searchScripts(prepareMigrator(getConnectionFactoryMySQL(), StorageType.POSTGRESQL));
 	}
 	
 	private void searchScripts(Migrator migrator) {
@@ -101,6 +136,13 @@ public class MigratorTest {
 		handle = cf.getJdbi().open();
 		emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class), prepareMigrator(cf, StorageType.SQLITE));
 		handle.close();
+		
+		// Manual test only
+		//cf = getConnectionFactoryPostgreSQL();
+		//handle = cf.getJdbi().open();
+		//handle.createUpdate("DROP TABLE <prefix>schema_history, <prefix>table;").execute();
+		//emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistoryPostgreSQLDao.class), prepareMigrator(cf, StorageType.POSTGRESQL));
+		//handle.close();
 	}
 	
 	private void emptyDatabase(Handle handle, SchemaHistoryDao dao, Migrator migrator) throws IOException {

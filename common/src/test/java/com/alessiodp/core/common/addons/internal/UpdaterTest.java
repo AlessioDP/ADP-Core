@@ -55,4 +55,19 @@ public class UpdaterTest {
 		Assert.assertFalse(Whitebox.<Boolean> invokeMethod(updater, "checkVersion",
 				"2.5.0", currentVersion + "-SNAPSHOT"));
 	}
+	
+	@Test
+	public void testCheckVersionReleaseCandidate() throws Exception {
+		Assert.assertFalse(Whitebox.<Boolean> invokeMethod(updater, "checkVersion",
+				"3.0.0-rc1", currentVersion));
+		
+		Assert.assertTrue(Whitebox.<Boolean> invokeMethod(updater, "checkVersion",
+				"3.0.0-rc1", currentVersion + "-rc1"));
+		Assert.assertTrue(Whitebox.<Boolean> invokeMethod(updater, "checkVersion",
+				"3.0.0-rc3", "3.0.0-rc2"));
+		Assert.assertFalse(Whitebox.<Boolean> invokeMethod(updater, "checkVersion",
+				"3.0.0-rc2", "3.0.0-rc2"));
+		Assert.assertFalse(Whitebox.<Boolean> invokeMethod(updater, "checkVersion",
+				"3.0.0-rc1", "3.0.0-rc2"));
+	}
 }

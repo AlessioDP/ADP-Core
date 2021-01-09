@@ -6,13 +6,11 @@ import lombok.NonNull;
 
 public abstract class ADPMessenger {
 	protected final ADPPlugin plugin;
-	@Getter private final String channel;
 	@Getter protected MessageDispatcher messageDispatcher;
 	@Getter protected MessageListener messageListener;
 	
-	public ADPMessenger(@NonNull ADPPlugin plugin, boolean bungeeCordChannel) {
+	public ADPMessenger(@NonNull ADPPlugin plugin) {
 		this.plugin = plugin;
-		channel = bungeeCordChannel ? "BungeeCord" : plugin.getPluginFallbackName() + ":main";
 	}
 	
 	public abstract void reload();

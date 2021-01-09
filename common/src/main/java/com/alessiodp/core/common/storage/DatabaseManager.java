@@ -3,13 +3,30 @@ package com.alessiodp.core.common.storage;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseDispatcher;
 import com.alessiodp.core.common.configuration.Constants;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
-@RequiredArgsConstructor
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Supplier;
+
 public abstract class DatabaseManager {
 	protected final ADPPlugin plugin;
+	protected final ExecutorService databaseExecutor;
+	
+	public DatabaseManager(@NonNull ADPPlugin plugin) {
+		this.plugin = plugin;
+		
+		databaseExecutor = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder()
+				.setNameFormat(plugin.getPluginFallbackName() + "-database-pool")
+				.setDaemon(true)
+				.setUncaughtExceptionHandler((t, e) -> e.printStackTrace())
+				.build()
+		);
+	}
 	
 	/**
 	 * Active database dispatcher
@@ -33,8 +50,7 @@ public abstract class DatabaseManager {
 	protected IDatabaseDispatcher init(StorageType storageType) {
 		// Initialize libraries
 		if (!storageType.initLibraries(plugin)) {
-			plugin.getLoggerManager().printError(Constants.DEBUG_DB_INIT_FAILED_LIBRARIES
-					.replace("{type}", storageType.getFormattedName()));
+			plugin.getLoggerManager().printError(String.format(Constants.DEBUG_DB_INIT_FAILED_LIBRARIES, storageType.getFormattedName()));
 			return null;
 		}
 		
@@ -59,6 +75,14 @@ public abstract class DatabaseManager {
 	 */
 	protected abstract IDatabaseDispatcher initializeDispatcher(StorageType storageType);
 	
+	protected CompletableFuture<Void> executeSafelyAsync(Runnable runnable) {
+		return CompletableFuture.runAsync(runnable, databaseExecutor);
+	}
+	
+	protected <T> CompletableFuture<T> executeSafelySupplyAsync(Supplier<T> supplier) {
+		return CompletableFuture.supplyAsync(supplier, databaseExecutor);
+	}
+	
 	/**
 	 * Reload database manager
 	 */
@@ -73,8 +97,7 @@ public abstract class DatabaseManager {
 			return;
 		}
 		
-		plugin.getLoggerManager().logDebug(Constants.DEBUG_DB_INIT
-				.replace("{db}", getDatabaseType().getFormattedName()), true);
+		plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_DB_INIT, getDatabaseType().getFormattedName()), true);
 		
 		// Initialize storages
 		database = init(getDatabaseType());

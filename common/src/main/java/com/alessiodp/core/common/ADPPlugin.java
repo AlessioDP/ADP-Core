@@ -2,6 +2,7 @@ package com.alessiodp.core.common;
 
 import com.alessiodp.core.common.addons.AddonManager;
 import com.alessiodp.core.common.addons.internal.JsonHandler;
+import com.alessiodp.core.common.addons.internal.TitleHandler;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.bootstrap.AbstractADPPlugin;
 import com.alessiodp.core.common.logging.LoggerManager;
@@ -35,6 +36,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	// Utils
 	@Getter protected ADPUpdater adpUpdater;
 	@Getter protected JsonHandler jsonHandler;
+	@Getter protected TitleHandler titleHandler;
 	@Getter protected IPlayerUtils playerUtils;
 	
 	protected ADPPlugin(ADPBootstrap bootstrap) {
@@ -48,9 +50,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		// Init
 		instance = this;
 		isPluginDisabled = false;
-		logConsole(Constants.DEBUG_PLUGIN_ENABLING
-				.replace("{plugin}", this.getPluginName())
-				.replace("{version}", this.getVersion()), false);
+		logConsole(String.format(Constants.DEBUG_PLUGIN_ENABLING, this.getPluginName(), this.getVersion()), false);
 		
 		// Pre handle
 		preHandle();
@@ -67,17 +67,14 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 			super.getBootstrap().stopPlugin();
 		}
 		
-		getLoggerManager().log(Constants.DEBUG_PLUGIN_ENABLED
-				.replace("{plugin}", this.getPluginName())
-				.replace("{version}", this.getVersion()), true);
+		getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_ENABLED, this.getPluginName(), this.getVersion()), true);
 	}
 	
 	/**
 	 * On plugin disable
 	 */
 	public void disabling() {
-		logConsole(Constants.DEBUG_PLUGIN_DISABLING
-				.replace("{plugin}", this.getPluginName()), false);
+		logConsole(String.format(Constants.DEBUG_PLUGIN_DISABLING, this.getPluginName()), false);
 		
 		onDisabling();
 		
@@ -88,11 +85,9 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		
 		scheduler.shutdown();
 		
-		getLoggerManager().log(Constants.DEBUG_PLUGIN_DISABLED_LOG
-				.replace("{plugin}", getPluginName()), false);
+		getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_DISABLED_LOG, getPluginName()), false);
 		
-		logConsole(Constants.DEBUG_PLUGIN_DISABLED
-				.replace("{plugin}", this.getPluginName()), false);
+		logConsole(String.format(Constants.DEBUG_PLUGIN_DISABLED, this.getPluginName()), false);
 	}
 	
 	/**
@@ -118,6 +113,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		
 		adpUpdater = new ADPUpdater(this);
 		initializeJsonHandler();
+		initializeTitleHandler();
 	}
 	
 	/**
@@ -144,4 +140,9 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 * Initialize Json Handler instance
 	 */
 	protected abstract void initializeJsonHandler();
+	
+	/**
+	 * Initialize Title Handler instance
+	 */
+	protected abstract void initializeTitleHandler();
 }

@@ -4,6 +4,7 @@ import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.messaging.ADPPacket;
 import com.alessiodp.core.common.messaging.MessageDispatcher;
+import com.alessiodp.core.common.user.User;
 import com.google.common.collect.Iterables;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
@@ -15,15 +16,15 @@ import java.io.DataOutputStream;
 
 public class BukkitMessageDispatcher extends MessageDispatcher {
 	
-	public BukkitMessageDispatcher(@NonNull ADPPlugin plugin) {
-		super(plugin);
+	public BukkitMessageDispatcher(@NonNull ADPPlugin plugin, boolean dispatchToBungeeCord) {
+		super(plugin, dispatchToBungeeCord);
 	}
 	
 	@Override
 	public void register() {
 		if (!registered) {
 			Plugin bukkitPlugin = (Plugin) plugin.getBootstrap();
-			bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, plugin.getMessenger().getChannel());
+			bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, getChannel());
 			registered = true;
 		}
 	}
@@ -38,8 +39,7 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 	}
 	
 	@Override
-	public boolean sendPacket(ADPPacket packet) {
-		boolean ret = false;
+	public boolean sendPacket(ADPPacket packet, boolean log) {
 		Player dummyPlayer = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
 		if (dummyPlayer != null) {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -49,19 +49,29 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 				out.writeShort(bytes.length);
 				out.write(bytes);
 				
-				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), plugin.getMessenger().getChannel(), baos.toByteArray());
-				ret = true;
+				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), getChannel(), baos.toByteArray());
+				
+				if (log)
+					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString()), true);
+				return true;
 			} catch (Exception ex) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_LOG_MESSAGING_FAILED_SEND
-						.replace("{message}", ex.getMessage() != null ? ex.getMessage() : ex.getStackTrace()[0].toString()));
+				sendError(ex);
 			}
 		}
-		return ret;
+		
+		if (log)
+			plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT_FAILED, packet.getName()), true);
+		return false;
 	}
 	
 	@Override
-	public boolean sendForwardPacket(ADPPacket packet) {
-		boolean ret = false;
+	public boolean sendPacketToUser(ADPPacket packet, User user, boolean log) {
+		// Not supported
+		return sendPacket(packet, log);
+	}
+	
+	@Override
+	public boolean sendForwardPacket(ADPPacket packet, boolean log) {
 		Player dummyPlayer = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
 		if (dummyPlayer != null) {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,13 +86,18 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 				out.writeShort(bytes.length);
 				out.write(bytes);
 				
-				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), plugin.getMessenger().getChannel(), baos.toByteArray());
-				ret = true;
+				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), getChannel(), baos.toByteArray());
+				
+				if (log)
+					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString()), true);
+				return true;
 			} catch (Exception ex) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_LOG_MESSAGING_FAILED_SEND
-						.replace("{message}", ex.getMessage() != null ? ex.getMessage() : ex.getStackTrace()[0].toString()));
+				sendError(ex);
 			}
 		}
-		return ret;
+		
+		if (log)
+			plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT_FAILED, packet.getName()), true);
+		return false;
 	}
 }

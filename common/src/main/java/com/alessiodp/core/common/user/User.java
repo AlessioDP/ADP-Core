@@ -51,6 +51,16 @@ public interface User extends OfflineUser {
 	void sendMessage(String message, boolean colorTranslation);
 	
 	/**
+	 * Send a title to the user
+	 *
+	 * @param message the message to send
+	 * @param fadeInTime fade in time
+	 * @param showTime show time
+	 * @param fadeOutTime fade out time
+	 */
+	void sendTitle(String message, int fadeInTime, int showTime, int fadeOutTime);
+	
+	/**
 	 * Perform a chat message by the user
 	 *
 	 * @param message the message to send

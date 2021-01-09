@@ -4,6 +4,8 @@ import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.commands.utils.ADPPermission;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.configuration.Constants;
+import com.alessiodp.core.common.utils.CommonUtils;
+import com.alessiodp.core.common.utils.Pair;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
@@ -86,8 +88,7 @@ public class ADPUpdater {
 		String remoteVersion = getVersionInfo();
 		
 		if (remoteVersion == null && !pluginResourceId.isEmpty()) {
-			plugin.getLoggerManager().log(Constants.UPDATER_FALLBACK_WARN
-					.replace("{plugin}", plugin.getPluginName()), true);
+			plugin.getLoggerManager().log(String.format(Constants.UPDATER_FALLBACK_WARN, plugin.getPluginName()), true);
 			remoteVersion = getVersionFallback();
 		}
 		
@@ -100,10 +101,7 @@ public class ADPUpdater {
 					.replace("%version%", foundVersion)
 					.replace("%thisversion%", plugin.getVersion());
 			
-			plugin.getLoggerManager().log(Constants.UPDATER_FOUND
-					.replace("{plugin}", plugin.getPluginName())
-					.replace("{currentVersion}", plugin.getVersion())
-					.replace("{newVersion}", foundVersion), true);
+			plugin.getLoggerManager().log(String.format(Constants.UPDATER_FOUND, plugin.getPluginName(), plugin.getVersion(), foundVersion), true);
 			alertPlayers(message);
 			
 			// Add the message into login alerts
@@ -142,8 +140,7 @@ public class ADPUpdater {
 			
 			br.close();
 		} catch (Exception ex) {
-			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_ADP
-					.replace("{plugin}", plugin.getPluginName()));
+			plugin.getLoggerManager().printError(String.format(Constants.UPDATER_FAILED_ADP, plugin.getPluginName()));
 		}
 		return ret;
 	}
@@ -167,8 +164,7 @@ public class ADPUpdater {
 				ret = response;
 			}
 		} catch (Exception ex) {
-			plugin.getLoggerManager().printError(Constants.UPDATER_FAILED_SPIGOT
-					.replace("{plugin}", plugin.getPluginName()));
+			plugin.getLoggerManager().printError(String.format(Constants.UPDATER_FAILED_SPIGOT, plugin.getPluginName()));
 		}
 		return ret;
 	}
@@ -185,17 +181,31 @@ public class ADPUpdater {
 		String[] splitVer = splitVersion(remoteVersion);
 		String[] splitCompareWith = splitVersion(currentVersion);
 		
-		try {
-			for (int c=0; c < splitVer.length && !ret; c++) {
-				int a = Integer.parseInt(splitVer[c]);
-				int b = c < splitCompareWith.length ? Integer.parseInt(splitCompareWith[c]) : 0;
-				if (a > b)
-					ret = true;
-				else if (a < b)
-					break;
+		Pair<ReleaseType, Integer> versionReleaseType = getReleaseType(remoteVersion);
+		Pair<ReleaseType, Integer> compareWithReleaseType = getReleaseType(currentVersion);
+		
+		if (versionReleaseType.getKey() == ReleaseType.RELEASE
+				|| (versionReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE
+						&& (compareWithReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE || compareWithReleaseType.getKey() == ReleaseType.SNAPSHOT)
+					)
+		) {
+			try {
+				for (int c = 0; c < splitVer.length && !ret; c++) {
+					int a = Integer.parseInt(splitVer[c]);
+					int b = c < splitCompareWith.length ? Integer.parseInt(splitCompareWith[c]) : 0;
+					if (a > b)
+						ret = true;
+					else if (a < b)
+						break;
+				}
+			} catch (Exception ex) {
+				ret = true;
 			}
-		} catch (Exception ex) {
-			ret = true;
+		}
+		
+		if (versionReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE && compareWithReleaseType.getKey() == ReleaseType.RELEASE_CANDIDATE) {
+			if (versionReleaseType.getValue() > compareWithReleaseType.getValue())
+				ret = true;
 		}
 		return ret;
 	}
@@ -209,5 +219,25 @@ public class ADPUpdater {
 	private String[] splitVersion(String version) {
 		String ret = version.split(Constants.UPDATER_DELIMITER_TYPE)[0];
 		return ret.split(Constants.UPDATER_DELIMITER_VERSION);
+	}
+	
+	private Pair<ReleaseType, Integer> getReleaseType(String version) {
+		String[] splitted = version.split("-");
+		if (splitted.length > 1) {
+			if (splitted[1].equalsIgnoreCase("SNAPSHOT")) {
+				return new Pair<>(ReleaseType.SNAPSHOT, null);
+			} else if (CommonUtils.toLowerCase(splitted[1]).startsWith("rc")) {
+				try {
+					int number = Integer.parseInt(splitted[1].substring(2));
+					
+					return new Pair<>(ReleaseType.RELEASE_CANDIDATE, number);
+				} catch (Exception ignored) {}
+			}
+		}
+		return new Pair<>(ReleaseType.RELEASE, null);
+	}
+	
+	private enum ReleaseType {
+		RELEASE, RELEASE_CANDIDATE, SNAPSHOT
 	}
 }

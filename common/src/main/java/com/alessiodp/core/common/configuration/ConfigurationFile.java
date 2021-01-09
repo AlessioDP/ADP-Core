@@ -10,14 +10,16 @@ import org.simpleyaml.configuration.file.YamlFile;
 
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class ConfigurationFile {
 	@NonNull protected final ADPPlugin plugin;
 	@Getter @Setter private boolean outdated = false;
-	
 	@Getter protected YamlFile configuration;
 	protected Path configurationPath;
 	
@@ -77,7 +79,7 @@ public abstract class ConfigurationFile {
 		configurationPath = saveDefaultConfiguration(folder);
 		configuration = new YamlFile(configurationPath.toFile());
 		try {
-			configuration.load();
+			configuration.loadWithComments();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -137,13 +139,54 @@ public abstract class ConfigurationFile {
 			ConfigOption co = f.getAnnotation(ConfigOption.class);
 			if (co != null) {
 				try {
-					Object value = yf.get(co.path());
+					Object value = null;
+					
+					// If are lists, better use direct get
+					if (f.getType() == List.class && f.getGenericType() instanceof ParameterizedType) {
+						Type type = ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0];
+						if (type == Integer.class) {
+							value = yf.getIntegerList(co.path());
+						} else if (type == Double.class) {
+							value = yf.getDoubleList(co.path());
+						} else if (type == Float.class) {
+							value = yf.getFloatList(co.path());
+						} else if (type == Short.class) {
+							value = yf.getShortList(co.path());
+						}
+					}
+					
+					// Otherwise get it normally
+					if (value == null)
+						value = yf.get(co.path());
+					
 					if (value != null) {
+						/*
+						if (value instanceof List && f.getGenericType() instanceof ParameterizedType) {
+							// If its a list, filter for its type
+							Type type = ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0];
+							if (type == Double.class) {
+								f.set(null, yf.getDoubleList(co.path()));
+							}
+							/*
+							Type type = ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0];
+							if (type == Integer.class) {
+								ArrayList<Integer> newValue = new ArrayList<>();
+								((List<?>) value).forEach(v -> {
+									newValue.add((Integer) v);
+								});
+								f.set(null, newValue);
+							} else if (type == Double.class) {
+								ArrayList<Double> newValue = new ArrayList<>();
+								((List<?>) value).forEach(v -> {
+									newValue.add((Double) v);
+								});
+								f.set(null, newValue);
+							} else
+								f.set(null, value);*/
+						/*} else*/
 						f.set(null, value);
 					} else if (!co.nullable()) {
-						plugin.getLoggerManager().printError(Constants.DEBUG_CONFIG_NOTFOUND
-								.replace("{key}", co.path())
-								.replace("{config}", getFileName()));
+						plugin.getLoggerManager().printError(String.format(Constants.DEBUG_CONFIG_NOTFOUND, co.path(), getFileName()));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -165,7 +208,8 @@ public abstract class ConfigurationFile {
 				}
 			}
 			
-			configuration.saveWithComments();
+			configuration.save();
+			this.loadConfiguration();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -11,8 +11,11 @@ import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.statement.SqlLogger;
 import org.jdbi.v3.core.statement.StatementContext;
+
+import java.util.LinkedList;
 
 @RequiredArgsConstructor
 public abstract class SQLDispatcher implements IDatabaseDispatcher {
@@ -47,14 +50,13 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 				connectionFactory.getJdbi().setSqlLogger(new SqlLogger() {
 					@Override
 					public void logBeforeExecution(StatementContext context) {
-						plugin.getLoggerManager().logDebug(Constants.DEBUG_DB_QUERY_EXECUTE
-								.replace("{query}", context.getRenderedSql()), true);
+						plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_DB_QUERY_EXECUTE, context.getRenderedSql()), true);
 					}
 				});
 				
 				try {
 					MigratorConfiguration migratorConfiguration = prepareMigrator();
-					migrateTables(migratorConfiguration.load());
+					migrateTables(migratorConfiguration.load(this));
 				} catch (Exception ex) {
 					throw new RuntimeException(ex);
 				}
@@ -99,5 +101,16 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 	 */
 	protected int getBackwardMigration() {
 		return 0;
+	}
+	
+	/**
+	 * Perform a migration in this database
+	 *
+	 * @param transaction The database transaction
+	 * @param queries The list of queries of the migration
+	 * @param version The version of the database
+	 */
+	public void performMigration(Handle transaction, LinkedList<String> queries, int version) {
+		queries.forEach(query -> transaction.execute(query));
 	}
 }

@@ -32,7 +32,7 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
-	public String getPlatform() {
+	public PluginPlatform getPlatform() {
 		return bootstrap.getPlatform();
 	}
 	

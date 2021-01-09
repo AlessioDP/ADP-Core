@@ -60,6 +60,12 @@ public class BungeeUser implements User {
 	}
 	
 	@Override
+	public void sendTitle(String message, int fadeInTime, int showTime, int fadeOutTime) {
+		if (isPlayer())
+			getPlugin().getTitleHandler().sendTitle(sender, message, fadeInTime, showTime, fadeOutTime);
+	}
+	
+	@Override
 	public void chat(String messageToSend) {
 		if (isPlayer())
 			((ProxiedPlayer) sender).chat(messageToSend);
@@ -98,6 +104,17 @@ public class BungeeUser implements User {
 		if (isPlayer())
 			return ((ProxiedPlayer) sender).getServer().getInfo().getName();
 		return "";
+	}
+	
+	/**
+	 * Get server info of the user
+	 *
+	 * @return the server info
+	 */
+	public ServerInfo getServer() {
+		if (isPlayer())
+			return ((ProxiedPlayer) sender).getServer().getInfo();
+		return null;
 	}
 	
 	/**

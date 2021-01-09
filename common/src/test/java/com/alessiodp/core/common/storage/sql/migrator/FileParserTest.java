@@ -2,7 +2,6 @@ package com.alessiodp.core.common.storage.sql.migrator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.IOException;
@@ -14,7 +13,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(FileParser.class)
 public class FileParserTest {
 	@Test
 	public void testQueryParser() throws IOException {

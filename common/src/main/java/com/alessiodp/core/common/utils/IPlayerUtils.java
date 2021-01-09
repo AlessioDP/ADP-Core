@@ -4,14 +4,14 @@ import com.alessiodp.core.common.commands.list.ADPCommand;
 import com.alessiodp.core.common.user.User;
 import lombok.NonNull;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IPlayerUtils {
 	/**
-	 * Get a list of player allowed commands
+	 * Get a set of player allowed commands
 	 *
 	 * @param user the player to handle
-	 * @return a list of commands allowed by the player
+	 * @return a set of commands allowed by the player
 	 */
-	List<ADPCommand> getAllowedCommands(@NonNull User user);
+	Set<ADPCommand> getAllowedCommands(@NonNull User user);
 }

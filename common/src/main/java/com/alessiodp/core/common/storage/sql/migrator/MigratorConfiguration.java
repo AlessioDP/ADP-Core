@@ -1,6 +1,7 @@
 package com.alessiodp.core.common.storage.sql.migrator;
 
 import com.alessiodp.core.common.storage.StorageType;
+import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import lombok.Getter;
 
@@ -65,7 +66,7 @@ public class MigratorConfiguration {
 	 *
 	 * @return a new Migrator instance
 	 */
-	public Migrator load() {
-		return new Migrator(this);
+	public Migrator load(SQLDispatcher dispatcher) {
+		return new Migrator(dispatcher, this);
 	}
 }

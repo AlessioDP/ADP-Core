@@ -17,7 +17,7 @@ import java.nio.file.Path;
 public class SQLiteConnectionFactory implements ConnectionFactory {
 	private final ADPPlugin plugin;
 	@Setter private String databaseUrl;
-	@Setter private String tablePrefix = "";
+	@Setter @Getter private String tablePrefix = "";
 	@Getter private DataSource dataSource;
 	@Getter private Jdbi jdbi;
 	@Getter private boolean failed;

@@ -32,7 +32,7 @@ public class ADPLibraryManager {
 				.groupId("org{}spongepowered")
 				.artifactId("configurate-yaml")
 				.version(LibraryVersions.CONFIGURATE)
-				.checksum("14L0JiDuAfQovxkNySeaf9Kul3Nkl0OaW49Ow4ReV8E=")
+				.checksum("OBfYn4nSMGZfVf2DoZhZq+G9TF1mODX/C5OOz/mkPmc=")
 				.relocate("ninja{}leaping{}configurate", plugin.getPackageName() + ".libs.configurate")
 				.build());
 		
@@ -41,14 +41,55 @@ public class ADPLibraryManager {
 				.groupId("org{}spongepowered")
 				.artifactId("configurate-core")
 				.version(LibraryVersions.CONFIGURATE)
-				.checksum("V+M3OFm+O0AHsao557kExxa27lYEX7UYE06G/zC/Kyc=")
+				.checksum("XF2LzWLkSV0wyQRDt33I+gDlf3t2WzxH1h8JCZZgPp4=")
 				.relocate("ninja{}leaping{}configurate", plugin.getPackageName() + ".libs.configurate")
 				.build());
 	}
 	
 	public void setupLibrariesForMySQL() {
 		setupLibrariesForSQL();
+		setupLibrariesForRemoteSQL();
 		
+		
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.MYSQL.getId())
+				.groupId("mysql")
+				.artifactId("mysql-connector-java")
+				.version(LibraryVersions.MYSQL)
+				.checksum("UBne+9EjFilel6bojyqbB/EYNFpOmCcQu6Iy5JmyL08=")
+				.relocate("com{}mysql", plugin.getPackageName() + ".libs.mysql")
+				.build());
+	}
+	
+	public void setupLibrariesForMariaDB() {
+		setupLibrariesForSQL();
+		setupLibrariesForRemoteSQL();
+		
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.MARIADB.getId())
+				.groupId("org{}mariadb{}jdbc")
+				.artifactId("mariadb-java-client")
+				.version(LibraryVersions.MARIADB)
+				.checksum("DvDuhOH6qjrZdvipBGKnNh9ygFeiKDzFECo8VQ9TkM0=")
+				.relocate("org{}mariadb", plugin.getPackageName() + ".libs.mariadb")
+				.build());
+	}
+	
+	public void setupLibrariesForPostgreSQL() {
+		setupLibrariesForSQL();
+		setupLibrariesForRemoteSQL();
+		
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.POSTGRESQL.getId())
+				.groupId("org{}postgresql")
+				.artifactId("postgresql")
+				.version(LibraryVersions.POSTGRESQL)
+				.checksum("DIkZefHrL+REMtoRTQl2C1Bj2tnmaawKxrC2v7kbs7o=")
+				.relocate("org{}postgresql", plugin.getPackageName() + ".libs.postgresql")
+				.build());
+	}
+	
+	private void setupLibrariesForRemoteSQL() {
 		libraryManager.loadLibrary(Library.builder()
 				.id(ADPLibrary.HIKARICP.getId())
 				.groupId("com{}zaxxer")
@@ -103,9 +144,10 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-core")
 				.version(LibraryVersions.JDBI)
-				.checksum("NgBs7V5CBBULkTo5SnZMoJCcF1kwwQpQUdii6+a6cQU=")
+				.checksum("l1kl0ZHs8bJxTIuaeeKVePNJcnK60XAa1SNsGQ6OzR4=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
+				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
 				.relocate("com{}github{}benmanes{}caffeine", plugin.getPackageName() + ".libs.caffeine")
 				.relocate("io{}leangen{}geantyref", plugin.getPackageName() + ".libs.geantyref")
 				.build());
@@ -115,9 +157,10 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-sqlobject")
 				.version(LibraryVersions.JDBI)
-				.checksum("1sSOoe8hHc7cfLcjsKsEss+okXRJ+kPkZ4qmqafjRHw=")
+				.checksum("G5XW9k8vd5DV7E9qoe8y/SDi0N/upaRwQe8SuuL6GeQ=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
+				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
 				.relocate("com{}github{}benmanes{}caffeine", plugin.getPackageName() + ".libs.caffeine")
 				.relocate("io{}leangen{}geantyref", plugin.getPackageName() + ".libs.geantyref")
 				.build());
@@ -145,7 +188,7 @@ public class ADPLibraryManager {
 				.groupId("org.antlr")
 				.artifactId("antlr4-runtime")
 				.version(LibraryVersions.JDBI_ANTLR)
-				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
+				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
 				.checksum("TFGLh9S9/4tEzYy8GvgW6US2Kj/luAt4FQHPH0dZu8Q=")
 				.build());
 		

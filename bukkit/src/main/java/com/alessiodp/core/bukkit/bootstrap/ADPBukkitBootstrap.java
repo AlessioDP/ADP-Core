@@ -5,6 +5,7 @@ import com.alessiodp.core.bukkit.user.BukkitUser;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
+import com.alessiodp.core.common.bootstrap.PluginPlatform;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.utils.CommonUtils;
@@ -54,8 +55,8 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	}
 	
 	@Override
-	public String getPlatform() {
-		return "Bukkit";
+	public PluginPlatform getPlatform() {
+		return PluginPlatform.BUKKIT;
 	}
 	
 	@Override

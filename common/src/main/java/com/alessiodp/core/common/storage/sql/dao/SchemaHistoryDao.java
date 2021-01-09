@@ -12,7 +12,7 @@ public interface SchemaHistoryDao {
 	/**
 	 * Drop the table
 	 */
-	@SqlUpdate("DROP TABLE `<prefix>schema_history`")
+	@SqlUpdate("DROP TABLE IF EXISTS `<prefix>schema_history`")
 	void drop();
 	
 	/**

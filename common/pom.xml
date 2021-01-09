@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.4.11</version>
+		<version>1.5.0</version>
 	</parent>
 	
 	<artifactId>core-common</artifactId>
@@ -45,7 +45,7 @@
 						<includes>
 							<include>${project.parent.groupId}:${project.artifactId}</include>
 							<include>net.byteflux:libby-core</include>
-							<include>org.simpleyaml:Simple-YAML</include>
+							<include>me.carleslc:Simple-Yaml</include>
 						</includes>
 					</artifactSet>
 					<relocations>
@@ -119,8 +119,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.simpleyaml</groupId>
-			<artifactId>Simple-YAML</artifactId>
+			<groupId>me.carleslc</groupId>
+			<artifactId>Simple-Yaml</artifactId>
 			<version>${libs.simpleyaml}</version>
 			<scope>compile</scope>
 			<exclusions>
@@ -153,6 +153,12 @@
 			<artifactId>jdbi3-sqlobject</artifactId>
 			<version>${libs.jdbi}</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${libs.mysql}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

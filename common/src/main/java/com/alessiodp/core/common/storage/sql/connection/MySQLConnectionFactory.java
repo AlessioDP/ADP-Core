@@ -1,38 +1,31 @@
 package com.alessiodp.core.common.storage.sql.connection;
 
 import com.alessiodp.core.common.storage.StorageType;
-import com.zaxxer.hikari.HikariDataSource;
-import lombok.Getter;
-import lombok.Setter;
-import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import com.zaxxer.hikari.HikariConfig;
 
-public class MySQLConnectionFactory extends HikariConfiguration implements ConnectionFactory {
-	@Setter private String tablePrefix = "";
-	@Getter private HikariDataSource dataSource;
-	@Getter private Jdbi jdbi;
-	@Getter private boolean failed;
+public class MySQLConnectionFactory extends HikariConfiguration {
 	
 	@Override
-	public void init() {
-		failed = true;
-		setDataSource("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
-		setup();
-		setupMySQLProperties();
+	public void setupCredentials(HikariConfig config) {
+		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		config.setJdbcUrl("jdbc:mysql://" + serverName + ":" + port + "/" + databaseName);
 		
-		dataSource = load();
-		
-		jdbi = Jdbi.create(dataSource);
-		jdbi.installPlugin(new SqlObjectPlugin());
-		jdbi.define("prefix", tablePrefix);
-		
-		failed = false;
+		config.setUsername(username);
+		config.setPassword(password);
 	}
 	
 	@Override
-	public void stop() {
-		if (dataSource != null)
-			dataSource.close();
+	public void setupProperties(HikariConfig config) {
+		config.addDataSourceProperty("cachePrepStmts", "true"); // Enable Prepared Statement caching
+		config.addDataSourceProperty("prepStmtCacheSize", "25"); // How many PS cache, default: 25
+		config.addDataSourceProperty("useServerPrepStmts", "true"); // If supported use PS server-side
+		config.addDataSourceProperty("useLocalSessionState", "true"); // Enable setAutoCommit
+		config.addDataSourceProperty("useLocalTransactionState", "true"); // Enable commit/rollbacks
+		config.addDataSourceProperty("allowMultiQueries", "true"); // Support multiple queries, used to create tables
+		config.addDataSourceProperty("useUnicode", "true"); // Forcing the use of unicode
+		config.addDataSourceProperty("serverTimezone", "UTC"); // Necessary to run tests
+		config.addDataSourceProperty("characterEncoding", charset); // Setup encoding to UTF-8
+		config.addDataSourceProperty("useSSL", Boolean.toString(useSSL));
 	}
 	
 	@Override

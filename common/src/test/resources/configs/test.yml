@@ -6,3 +6,6 @@ this:
     b-test: false
   # Just another comment
   not-a-test: "test"
+  parameterized-list-double:
+    - 10
+    - 20.0

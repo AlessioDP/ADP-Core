@@ -6,7 +6,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.simpleyaml.configuration.file.YamlFile;
 
@@ -22,13 +21,10 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({
-		ConfigurationFile.class
-})
 public class ConfigurationFileTest {
 	private ADPPlugin plugin;
 	@Rule
-	private TemporaryFolder testFolder = new TemporaryFolder();
+	private final TemporaryFolder testFolder = new TemporaryFolder();
 	
 	@Before
 	public void setUp() {
@@ -51,7 +47,7 @@ public class ConfigurationFileTest {
 		config.loadConfiguration();
 		
 		validateYaml(config.getConfiguration());
-		assertEquals(8, countLines(config.getConfiguration().saveToStringWithComments()));
+		assertEquals(11, countLines(config.getConfiguration().saveToString()));
 	}
 	
 	@Test
@@ -65,6 +61,20 @@ public class ConfigurationFileTest {
 		config.save();
 		
 		assertFalse(config.getConfiguration().getBoolean("this.is.a-test"));
+	}
+	
+	@Test
+	public void testLoadConfiguration() {
+		ConfigTest config = new ConfigTest(plugin);
+		config.initializeConfiguration(testFolder.getRoot().toPath());
+		assertTrue(config.exists());
+		config.loadConfiguration();
+		
+		assertTrue(ConfigTest.A_TEST);
+		assertFalse(ConfigTest.B_TEST);
+		assertEquals("test", ConfigTest.NOT_A_TEST);
+		assertEquals((Double) 10.0D, ConfigTest.DOUBLE_LIST.get(0));
+		assertEquals((Double) 20.0D, ConfigTest.DOUBLE_LIST.get(1));
 	}
 	
 	private void validateYaml(YamlFile yaml) {

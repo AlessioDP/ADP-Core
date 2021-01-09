@@ -36,6 +36,13 @@ public interface ConnectionFactory {
 	StorageType getType();
 	
 	/**
+	 * Get the table prefix
+	 *
+	 * @return the table prefix
+	 */
+	String getTablePrefix();
+	
+	/**
 	 * Set the database url of the connection factory
 	 *
 	 * @param databaseUrl the database url to set

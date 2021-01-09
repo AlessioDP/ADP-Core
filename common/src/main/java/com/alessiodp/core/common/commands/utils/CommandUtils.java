@@ -1,6 +1,7 @@
 package com.alessiodp.core.common.commands.utils;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.utils.CommonUtils;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,13 @@ public abstract class CommandUtils {
 		cd.setCommandLabel(mainCommand);
 		cd.setArgs(args);
 		if (command.preRequisites(cd)) {
-			plugin.getScheduler().runAsync(() -> command.onCommand(cd));
+			plugin.getScheduler().runAsync(() -> {
+				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_CMD_EXECUTION,
+						sender.getName(),
+						command.getCommand().getOriginalName(),
+						cd.getArgs().length - 1), true);
+				command.onCommand(cd);
+			});
 		}
 	}
 	

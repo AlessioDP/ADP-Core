@@ -5,6 +5,7 @@ import com.alessiodp.core.bungeecord.user.BungeeUser;
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
+import com.alessiodp.core.common.bootstrap.PluginPlatform;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.utils.CommonUtils;
@@ -53,8 +54,8 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	}
 	
 	@Override
-	public String getPlatform() {
-		return "BungeeCord";
+	public PluginPlatform getPlatform() {
+		return PluginPlatform.BUNGEECORD;
 	}
 	
 	@Override

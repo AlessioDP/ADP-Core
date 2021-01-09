@@ -20,8 +20,17 @@ public enum ADPLibrary {
 	CAFFEINE("caffeine"),
 	GEANTYREF("geantyref"),
 	
-	// MySQL
+	// Remote SQL
 	HIKARICP("hikaricp"),
+	
+	// MariaDB
+	MARIADB("mariadb-java-client"),
+	
+	// MySQL
+	MYSQL("mysql-connector-java"),
+	
+	// PostgreSQL
+	POSTGRESQL("postgresql"),
 	
 	// SQLite
 	SQLITE_JDBC("sqlite-jdbc"),

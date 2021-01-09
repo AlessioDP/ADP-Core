@@ -65,6 +65,6 @@ public abstract class ADPSubCommand implements ADPExecutableCommand {
 	 * @return the run command syntax
 	 */
 	public String getRunCommand() {
-		return baseSyntax() + " ";
+		return baseSyntax();
 	}
 }

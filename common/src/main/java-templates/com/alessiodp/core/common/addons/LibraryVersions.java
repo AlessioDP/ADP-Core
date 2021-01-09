@@ -14,4 +14,7 @@ public class LibraryVersions {
 	public static String JDBI_CAFFEINE = "${libs.jdbi.caffeine}";
 	public static String JDBI_GEANTYREF = "${libs.jdbi.geantyref}";
 	public static String HIKARICP = "${libs.hikaricp}";
+	public static String MYSQL = "${libs.mysql}";
+	public static String MARIADB = "${libs.mariadb}";
+	public static String POSTGRESQL = "${libs.postgresql}";
 }

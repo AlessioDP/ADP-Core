@@ -2,13 +2,11 @@ package com.alessiodp.core.common.utils;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(DurationUtils.class)
 public class DurationUtilsTest {
 	
 	@Test

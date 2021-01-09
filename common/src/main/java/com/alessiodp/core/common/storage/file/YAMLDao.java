@@ -31,8 +31,7 @@ public class YAMLDao implements IDatabaseFile {
 		try {
 			initData();
 		} catch (IOException ex) {
-			plugin.getLoggerManager().printError(Constants.DEBUG_DB_FILE_CREATEFAIL
-					.replace("{message}", ex.getMessage()));
+			plugin.getLoggerManager().printError(String.format(Constants.DEBUG_DB_FILE_CREATEFAIL, "YAML", ex.getMessage()));
 			failed = true;
 		}
 		
@@ -71,8 +70,7 @@ public class YAMLDao implements IDatabaseFile {
 				node.getNode("database-version").setValue(version);
 				loader.save(node);
 			} catch (Exception ex) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_DB_FILE_CREATEFAIL
-						.replace("{message}", ex.getMessage()));
+				plugin.getLoggerManager().printError(String.format(Constants.DEBUG_DB_FILE_CREATEFAIL, "YAML", ex.getMessage()));
 			}
 		}
 		return ret;

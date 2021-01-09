@@ -13,8 +13,8 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 public abstract class BukkitMessageListener extends MessageListener {
 	private final PluginMessageListener listener;
 	
-	public BukkitMessageListener(@NonNull ADPPlugin plugin) {
-		super(plugin);
+	public BukkitMessageListener(@NonNull ADPPlugin plugin, boolean listenToBungeeCord) {
+		super(plugin, listenToBungeeCord);
 		listener = new PacketListener();
 	}
 	
@@ -22,7 +22,7 @@ public abstract class BukkitMessageListener extends MessageListener {
 	public void register() {
 		if (!registered) {
 			Plugin bukkitPlugin = (Plugin) plugin.getBootstrap();
-			bukkitPlugin.getServer().getMessenger().registerIncomingPluginChannel(bukkitPlugin, plugin.getMessenger().getChannel(), listener);
+			bukkitPlugin.getServer().getMessenger().registerIncomingPluginChannel(bukkitPlugin, getChannel(), listener);
 			registered = true;
 		}
 	}
@@ -42,7 +42,7 @@ public abstract class BukkitMessageListener extends MessageListener {
 		@EventHandler
 		public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
 			boolean isBungeeCord = channel.equalsIgnoreCase("BungeeCord");
-			if (isBungeeCord || channel.equals(plugin.getMessenger().getChannel()))  {
+			if (isBungeeCord || channel.equals(getChannel()))  {
 				ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
 				if (isBungeeCord) {
 					String subchannel = input.readUTF();

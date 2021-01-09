@@ -65,6 +65,17 @@ public class BukkitUser implements User {
 	}
 	
 	@Override
+	public void sendTitle(String message, int fadeInTime, int showTime, int fadeOutTime) {
+		if (isPlayer()) {
+			if (plugin.getJsonHandler().isJson(message))
+				getPlugin().getTitleHandler().sendTitleJson(sender, message, fadeInTime, showTime, fadeOutTime);
+			else
+				getPlugin().getTitleHandler().sendTitle(sender, message, fadeInTime, showTime, fadeOutTime);
+		}
+			
+	}
+	
+	@Override
 	public void chat(String messageToSend) {
 		if (isPlayer())
 			((Player) sender).chat(messageToSend);

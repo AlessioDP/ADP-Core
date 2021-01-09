@@ -26,10 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({
-		H2ConnectionFactory.class,
-		SchemaHistoryH2Dao.class,
 		ADPPlugin.class,
-		LoggerManager.class
 })
 public class StorageTest {
 	@Rule

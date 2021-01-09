@@ -51,15 +51,15 @@ public abstract class CommandManager {
 	 */
 	public void setupCommands() {
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_SETUP, true);
-		for (ADPMainCommand command : mainCommands) {
-			CommandUtils.RegisterResult res = getCommandUtils().register(command);
-			
-			if (res == CommandUtils.RegisterResult.FAILED) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_CMD_SETUP_FAILED
-						.replace("{command}", command.getCommandName()));
-			} else if (res == CommandUtils.RegisterResult.OVERWRITTEN) {
-				plugin.getLoggerManager().printError(Constants.DEBUG_CMD_SETUP_OVERWRITTEN
-						.replace("{command}", command.getCommandName()));
+		if (mainCommands != null) {
+			for (ADPMainCommand command : mainCommands) {
+				CommandUtils.RegisterResult res = getCommandUtils().register(command);
+				
+				if (res == CommandUtils.RegisterResult.FAILED) {
+					plugin.getLoggerManager().printError(String.format(Constants.DEBUG_CMD_SETUP_FAILED, command.getCommandName()));
+				} else if (res == CommandUtils.RegisterResult.OVERWRITTEN) {
+					plugin.getLoggerManager().printError(String.format(Constants.DEBUG_CMD_SETUP_OVERWRITTEN, command.getCommandName()));
+				}
 			}
 		}
 	}
@@ -69,35 +69,37 @@ public abstract class CommandManager {
 	 */
 	public void orderCommands() {
 		plugin.getLoggerManager().logDebug(Constants.DEBUG_CMD_SETUP_ORDER, true);
-		orderedCommands = new LinkedHashMap<>();
-		if (commandOrder != null) {
-			// Iterate command order list
-			for (String command : commandOrder) {
-				// Iterate main commands
-				for (ADPMainCommand mainCommand : mainCommands) {
-					if (mainCommand.getCommand().getOriginalName().equalsIgnoreCase(command)
-							&& mainCommand.isListedInHelp()) {
-						// Match with main command
-						orderedCommands.put(mainCommand.getCommand(), mainCommand);
-					} else {
-						// Match with sub commands
-						for (ADPCommand subCommand : mainCommand.getSubCommandsByEnum().keySet()) {
-							if (subCommand.getOriginalName().equalsIgnoreCase(command)) {
-								orderedCommands.put(subCommand, mainCommand.getSubCommandsByEnum().get(subCommand));
+		if (mainCommands != null) {
+			orderedCommands = new LinkedHashMap<>();
+			if (commandOrder != null) {
+				// Iterate command order list
+				for (String command : commandOrder) {
+					// Iterate main commands
+					for (ADPMainCommand mainCommand : mainCommands) {
+						if (mainCommand.getCommand().getOriginalName().equalsIgnoreCase(command)
+								&& mainCommand.isListedInHelp()) {
+							// Match with main command
+							orderedCommands.put(mainCommand.getCommand(), mainCommand);
+						} else {
+							// Match with sub commands
+							for (ADPCommand subCommand : mainCommand.getSubCommandsByEnum().keySet()) {
+								if (subCommand.getOriginalName().equalsIgnoreCase(command)) {
+									orderedCommands.put(subCommand, mainCommand.getSubCommandsByEnum().get(subCommand));
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-		
-		// Add other commands at the end
-		for (ADPMainCommand mainCommand : mainCommands) {
-			if (!orderedCommands.containsKey(mainCommand.getCommand()) && mainCommand.isListedInHelp())
-				orderedCommands.put(mainCommand.getCommand(), mainCommand);
-			for (ADPCommand subCommand : mainCommand.getSubCommandsByEnum().keySet()) {
-				if (!orderedCommands.containsKey(subCommand)) {
-					orderedCommands.put(subCommand, mainCommand.getSubCommandsByEnum().get(subCommand));
+			
+			// Add other commands at the end
+			for (ADPMainCommand mainCommand : mainCommands) {
+				if (!orderedCommands.containsKey(mainCommand.getCommand()) && mainCommand.isListedInHelp())
+					orderedCommands.put(mainCommand.getCommand(), mainCommand);
+				for (ADPCommand subCommand : mainCommand.getSubCommandsByEnum().keySet()) {
+					if (!orderedCommands.containsKey(subCommand)) {
+						orderedCommands.put(subCommand, mainCommand.getSubCommandsByEnum().get(subCommand));
+					}
 				}
 			}
 		}

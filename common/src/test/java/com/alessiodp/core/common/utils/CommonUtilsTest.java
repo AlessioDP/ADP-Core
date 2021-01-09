@@ -3,11 +3,9 @@ package com.alessiodp.core.common.utils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(CommonUtils.class)
 public class CommonUtilsTest {
 	
 	@Test
@@ -58,5 +56,24 @@ public class CommonUtilsTest {
 	public void testToLowerCase() {
 		Assert.assertEquals("1ab", CommonUtils.toLowerCase("1aB"));
 		Assert.assertEquals("aabb ccdd", CommonUtils.toLowerCase("AaBb CcDd"));
+	}
+	
+	@Test
+	public void testFormatInteger() {
+		Assert.assertEquals("0", CommonUtils.formatInteger(0));
+		Assert.assertEquals("1", CommonUtils.formatInteger(1));
+		Assert.assertEquals("1,234", CommonUtils.formatInteger(1234));
+		Assert.assertEquals("1,234,567", CommonUtils.formatInteger(1234567));
+	}
+	
+	@Test
+	public void testFormatDouble() {
+		Assert.assertEquals("0", CommonUtils.formatDouble(0D));
+		Assert.assertEquals("1", CommonUtils.formatDouble(1D));
+		Assert.assertEquals("1", CommonUtils.formatDouble(1.0D));
+		Assert.assertEquals("1.123", CommonUtils.formatDouble(1.123D));
+		Assert.assertEquals("1.123", CommonUtils.formatDouble(1.12300D));
+		Assert.assertEquals("12,345", CommonUtils.formatDouble(12345.0D));
+		Assert.assertEquals("12,345,678", CommonUtils.formatDouble(12345678.0D));
 	}
 }

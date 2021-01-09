@@ -55,8 +55,7 @@ public abstract class ConfigurationManager {
 				plugin.getLoginAlertsManager().getLoginAlerts().add(outdatedMessage
 						.replace("%config%", cf.getFileName()));
 				
-				plugin.getLoggerManager().printError(Constants.DEBUG_CONFIG_OUTDATED
-						.replace("{name}", cf.getFileName()));
+				plugin.getLoggerManager().printError(String.format(Constants.DEBUG_CONFIG_OUTDATED, cf.getFileName()));
 			}
 		}
 	}

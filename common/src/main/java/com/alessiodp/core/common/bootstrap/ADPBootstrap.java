@@ -32,11 +32,11 @@ public interface ADPBootstrap {
 	String getAuthor();
 	
 	/**
-	 * Get used plugin platform (e.g. Bukkit, BungeeCord)
+	 * Get plugin platform
 	 *
-	 * @return the platform name
+	 * @return the {@link PluginPlatform}
 	 */
-	String getPlatform();
+	PluginPlatform getPlatform();
 	
 	/**
 	 * Get plugin version

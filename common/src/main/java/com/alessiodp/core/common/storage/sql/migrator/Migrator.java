@@ -2,9 +2,12 @@ package com.alessiodp.core.common.storage.sql.migrator;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.Constants;
+import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
+import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryMariaDBDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryMySQLDao;
+import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryPostgreSQLDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistorySQLiteDao;
 import lombok.Getter;
 import lombok.NonNull;
@@ -17,10 +20,12 @@ import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 public class Migrator {
+	private SQLDispatcher dispatcher;
 	private MigratorConfiguration configuration;
 	@Getter private TreeSet<FileParser> scripts;
 	
-	public Migrator(@NonNull MigratorConfiguration configuration) {
+	public Migrator(@NonNull SQLDispatcher dispatcher, @NonNull MigratorConfiguration configuration) {
+		this.dispatcher = dispatcher;
 		this.configuration = configuration;
 		scripts = new TreeSet<>();
 	}
@@ -62,26 +67,30 @@ public class Migrator {
 		Validate.notNull(configuration, "The migrator configuration cannot be null");
 		Validate.notNull(configuration.getConnectionFactory(), "The migrator connection factory cannot be null");
 		Validate.notNull(configuration.getStorageType(), "The migrator storage type cannot be null");
+		Validate.notNull(getSchemaHistoryDao(), "The schema history dao cannot be null");
 		searchScripts();
 		
 		configuration.getConnectionFactory().getJdbi().useTransaction(transaction -> {
 			SchemaHistoryDao dao = transaction.attach(getSchemaHistoryDao());
 			
-			int version = -1;
+			dao.create();
+			
+			int version = 0;
 			try {
 				version = dao.higherVersion();
 			} catch (Exception ex) {
+				// Try to re-create the table (not working on PostgreSQL)
 				ADPPlugin.getInstance().getLoggerManager().logDebug(Constants.DEBUG_DB_MIGRATOR_CREATING_TABLE, true);
 				dao.create();
 			}
 			
 			// Check for old migrations
-			if (configuration.getBackwardMigration() >= 0 && version == -1) {
+			if (configuration.getBackwardMigration() >= 0 && version == 0) {
 				Optional<FileParser> fp = scripts.stream()
 						.filter((c) -> c.getVersion() == configuration.getBackwardMigration())
 						.findFirst();
 				if (fp.isPresent()) {
-					fp.get().getQueries().forEach(query -> transaction.execute(query));
+					dispatcher.performMigration(transaction, fp.get().getQueries(), version);
 					version = configuration.getBackwardMigration();
 				} else {
 					throw new MissingMigrationTableException(String.format("Missing migration table number %d for backward compatibility", configuration.getBackwardMigration()));
@@ -90,8 +99,7 @@ public class Migrator {
 			
 			for (FileParser fp : scripts) {
 				if (fp.getVersion() > version && fp.getVersion() >= configuration.getStartMigration()) {
-					ADPPlugin.getInstance().getLoggerManager().logDebug(Constants.DEBUG_DB_MIGRATOR_MIGRATING
-							.replace("{file}", fp.getScriptName()), true);
+					ADPPlugin.getInstance().getLoggerManager().logDebug(String.format(Constants.DEBUG_DB_MIGRATOR_MIGRATING, fp.getScriptName()), true);
 					fp.getQueries().forEach(query -> transaction.execute(query));
 					
 					dao.insert(fp.getVersion(), fp.getDescription(), fp.getScriptName(), System.currentTimeMillis() / 1000);
@@ -102,8 +110,12 @@ public class Migrator {
 	
 	private Class<? extends SchemaHistoryDao> getSchemaHistoryDao() {
 		switch (configuration.getStorageType()) {
+			case MARIADB:
+				return SchemaHistoryMariaDBDao.class;
 			case MYSQL:
 				return SchemaHistoryMySQLDao.class;
+			case POSTGRESQL:
+				return SchemaHistoryPostgreSQLDao.class;
 			case SQLITE:
 				return SchemaHistorySQLiteDao.class;
 			case H2:

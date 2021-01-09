@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class ADPScheduler {
@@ -68,14 +69,10 @@ public abstract class ADPScheduler {
 	public CompletableFuture<Void> runAsync(@NonNull Runnable runnable) {
 		if (!Thread.currentThread().getName().startsWith(poolName)) {
 			return CompletableFuture.runAsync(runnable, getAsyncExecutor())
-					.exceptionally(ex -> {
-						ex.printStackTrace();
-						return null;
-					});
-		} else {
-			runnable.run();
+					.exceptionally(ADPScheduler.exceptionally());
 		}
-		return null;
+		runnable.run();
+		return CompletableFuture.completedFuture(null);
 	}
 	
 	/**
@@ -129,5 +126,12 @@ public abstract class ADPScheduler {
 			scheduler.shutdownNow();
 			pool.shutdownNow();
 		}
+	}
+	
+	public static Function<Throwable, ? extends Void> exceptionally() {
+		return ex -> {
+			ex.printStackTrace();
+			return null;
+		};
 	}
 }

@@ -142,12 +142,15 @@ public class LoggerManager {
 	private String formatErrorCallTrace(String base, Exception ex) {
 		StackTraceElement st = Thread.currentThread().getStackTrace()[3];
 		String[] clss = st.getClassName().split("\\.");
-		return base
-				.replace("{class}", clss[clss.length - 1])
-				.replace("{method}", st.getMethodName())
-				.replace("{line}", Integer.toString(st.getLineNumber()))
-				.replace("{type}", ex.getClass().getSimpleName())
-				.replace("{message}", ex.getMessage() != null ? ex.getMessage() : ex.toString())
-				.replace("{stacktrace}", Arrays.stream(ex.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.joining("\n")));
+		return String.format(base,
+				clss[clss.length - 1], // Class
+				st.getMethodName(), // Method
+				st.getLineNumber(), // Line
+				ex.getClass().getSimpleName(), // Type
+				ex.getMessage() != null ? ex.getMessage() : ex.toString(), // Message
+				Arrays.stream(ex.getStackTrace())
+						.map(StackTraceElement::toString)
+						.collect(Collectors.joining("\n")) // Stacktrace
+		);
 	}
 }

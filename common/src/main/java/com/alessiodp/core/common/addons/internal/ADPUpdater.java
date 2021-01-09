@@ -227,9 +227,9 @@ public class ADPUpdater {
 		if (splitted.length > 1) {
 			if (splitted[1].equalsIgnoreCase("SNAPSHOT")) {
 				return new Pair<>(ReleaseType.SNAPSHOT, null);
-			} else if (CommonUtils.toLowerCase(splitted[1]).startsWith("rc")) {
+			} else if (CommonUtils.toLowerCase(splitted[1]).startsWith("rc.")) {
 				try {
-					int number = Integer.parseInt(splitted[1].substring(2));
+					int number = Integer.parseInt(splitted[1].substring(3));
 					
 					return new Pair<>(ReleaseType.RELEASE_CANDIDATE, number);
 				} catch (Exception ignored) {}

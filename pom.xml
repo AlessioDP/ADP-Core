@@ -85,7 +85,7 @@
 		<libs.guava>21.0</libs.guava>
 		
 		<mc.spigot>1.16.4-R0.1-SNAPSHOT</mc.spigot>
-		<mc.bungeecord>1.16-R0.4-SNAPSHOT</mc.bungeecord>
+		<mc.bungeecord>1.16-R0.4</mc.bungeecord>
 	</properties>
 	
 	<build>

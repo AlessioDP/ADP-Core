@@ -15,7 +15,7 @@ public abstract class ADPSubCommand implements ADPExecutableCommand {
 	@NonNull protected final ADPPlugin plugin;
 	@NonNull protected final ADPMainCommand mainCommand;
 	@NonNull @Getter protected final ADPCommand command;
-	@NonNull @Getter protected final ADPPermission permission;
+	@Getter protected final ADPPermission permission;
 	@NonNull @Getter protected final String commandName;
 	@Getter protected final boolean executableByConsole;
 	@Getter protected boolean listedInHelp = true;

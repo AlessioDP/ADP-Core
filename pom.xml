@@ -66,7 +66,7 @@
 		<libs.configurate>3.7.2</libs.configurate>
 		<libs.gson>2.8.4</libs.gson>
 		<libs.h2>1.4.200</libs.h2>
-		<libs.hikaricp>3.4.5</libs.hikaricp>
+		<libs.hikaricp>4.0.0</libs.hikaricp>
 		<libs.jdbi>3.18.0</libs.jdbi>
 		<libs.jdbi.antlr>4.7.2</libs.jdbi.antlr>
 		<libs.jdbi.caffeine>2.8.0</libs.jdbi.caffeine>

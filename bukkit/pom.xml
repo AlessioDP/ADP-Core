@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.5.1</version>
+		<version>1.5.2</version>
 	</parent>
 	
 	<artifactId>core-bukkit</artifactId>
@@ -40,17 +40,18 @@
 							<include>${project.parent.groupId}:${project.artifactId}</include>
 							<include>io.papermc:paperlib</include>
 							<include>net.byteflux:libby-bukkit</include>
+							<include>org.bstats:bstats-base</include>
 							<include>org.bstats:bstats-bukkit</include>
 						</includes>
 					</artifactSet>
 					<relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
-							<shadedPattern>com.alessiodp.core.bukkit.addons.external.bstats</shadedPattern>
+							<shadedPattern>${project.parent.groupId}.bukkit.addons.external.bstats</shadedPattern>
 						</relocation>
 						<relocation>
 							<pattern>io.papermc.lib</pattern>
-							<shadedPattern>com.alessiodp.core.bukkit.addons.external.paperlib</shadedPattern>
+							<shadedPattern>${project.parent.groupId}.bukkit.addons.external.paperlib</shadedPattern>
 						</relocation>
 					</relocations>
 				</configuration>

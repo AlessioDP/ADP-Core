@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.5.1</version>
+    <version>1.5.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-bungeecord</artifactId>
@@ -34,6 +34,7 @@
             <includes>
               <include>${project.parent.groupId}:${project.artifactId}</include>
               <include>net.byteflux:libby-bungee</include>
+              <include>org.bstats:bstats-base</include>
               <include>org.bstats:bstats-bungeecord</include>
             </includes>
           </artifactSet>
@@ -51,7 +52,7 @@
     <dependency>
       <groupId>com.alessiodp.core</groupId>
       <artifactId>core-common</artifactId>
-      <version>1.5.1</version>
+      <version>1.5.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -63,7 +64,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.16</version>
+      <version>1.18.18</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

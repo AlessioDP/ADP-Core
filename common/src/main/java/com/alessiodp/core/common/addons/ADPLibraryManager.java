@@ -95,7 +95,7 @@ public class ADPLibraryManager {
 				.groupId("com{}zaxxer")
 				.artifactId("HikariCP")
 				.version(LibraryVersions.HIKARICP)
-				.checksum("i3MvlHBXDUqEHcHvbIJrWGl4sluoMHEv8fpZ3idd+mE=")
+				.checksum("WTs8yOK1XAWBjOgGlg/MSgmNLwySK08CIJ4d85Gkh7Y=")
 				.relocate("com{}zaxxer{}hikari", plugin.getPackageName() + ".libs.hikari")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());

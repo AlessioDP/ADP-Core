@@ -15,7 +15,7 @@ public abstract class MetricsHandler {
 	}
 	
 	/**
-	 * Register metrics
+	 * Register metrics class
 	 */
 	protected abstract void registerMetrics();
 }

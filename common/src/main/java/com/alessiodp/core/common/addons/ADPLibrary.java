@@ -13,6 +13,7 @@ public enum ADPLibrary {
 	// SQL
 	REFLECTIONS("reflections"),
 	JDBI("jdbi3-core"),
+	JDBI_STRINGTEMPLATE4("jdbi3-stringtemplate4"),
 	JDBI_SQLOBJECT("jdbi3-sqlobject"),
 	SLF4J_API("slf4j-api"),
 	SLF4J_SIMPLE("slf4j-simple"),

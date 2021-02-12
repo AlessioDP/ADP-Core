@@ -4,6 +4,11 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 public interface SchemaHistoryDao {
+	String QUERY_DROP = "DROP TABLE IF EXISTS `<prefix>schema_history`";
+	String QUERY_INSERT = "INSERT INTO `<prefix>schema_history` (`version`, `description`, `script_name`, `install_date`) VALUES (?, ?, ?, ?)";
+	String QUERY_HIGHER_VERSION = "SELECT max(`version`) FROM `<prefix>schema_history`";
+	String QUERY_COUNT_VERSIONS = "SELECT count(*) FROM `<prefix>schema_history`";
+	
 	/**
 	 * Create the table
 	 */
@@ -12,7 +17,7 @@ public interface SchemaHistoryDao {
 	/**
 	 * Drop the table
 	 */
-	@SqlUpdate("DROP TABLE IF EXISTS `<prefix>schema_history`")
+	@SqlUpdate(QUERY_DROP)
 	void drop();
 	
 	/**
@@ -23,7 +28,7 @@ public interface SchemaHistoryDao {
 	 * @param script the script file name
 	 * @param install the unix timestamp of the install date
 	 */
-	@SqlUpdate("INSERT INTO `<prefix>schema_history` (`version`, `description`, `script_name`, `install_date`) VALUES (?, ?, ?, ?)")
+	@SqlUpdate(QUERY_INSERT)
 	void insert(int version, String description, String script, long install);
 	
 	/**
@@ -31,7 +36,7 @@ public interface SchemaHistoryDao {
 	 *
 	 * @return the higher version
 	 */
-	@SqlQuery("SELECT max(`version`) FROM `<prefix>schema_history`")
+	@SqlQuery(QUERY_HIGHER_VERSION)
 	int higherVersion();
 	
 	/**
@@ -39,6 +44,6 @@ public interface SchemaHistoryDao {
 	 *
 	 * @return the number of scripts
 	 */
-	@SqlQuery("SELECT count(*) FROM `<prefix>schema_history`")
+	@SqlQuery(QUERY_COUNT_VERSIONS)
 	int countVersions();
 }

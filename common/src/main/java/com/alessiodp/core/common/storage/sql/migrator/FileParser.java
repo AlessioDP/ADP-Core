@@ -3,6 +3,7 @@ package com.alessiodp.core.common.storage.sql.migrator;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,9 +13,10 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@ToString
 @EqualsAndHashCode
 public class FileParser implements Comparable<FileParser> {
-	@EqualsAndHashCode.Exclude private Reader fileReader;
+	@ToString.Exclude @EqualsAndHashCode.Exclude private Reader fileReader;
 	
 	@Getter private String scriptName;
 	@Getter private int version;

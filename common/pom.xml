@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.5.2</version>
+		<version>1.5.3</version>
 	</parent>
 	
 	<artifactId>core-common</artifactId>
@@ -150,14 +150,32 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jdbi</groupId>
+			<artifactId>jdbi3-stringtemplate4</artifactId>
+			<version>${libs.jdbi}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jdbi</groupId>
 			<artifactId>jdbi3-sqlobject</artifactId>
 			<version>${libs.jdbi}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>${libs.mariadb}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${libs.mysql}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${libs.postgresql}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

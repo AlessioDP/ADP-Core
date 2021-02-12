@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-common</artifactId>
@@ -123,9 +123,21 @@
     </dependency>
     <dependency>
       <groupId>org.jdbi</groupId>
+      <artifactId>jdbi3-stringtemplate4</artifactId>
+      <version>3.18.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-sqlobject</artifactId>
       <version>3.18.0</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mariadb.jdbc</groupId>
+      <artifactId>mariadb-java-client</artifactId>
+      <version>2.7.1</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
@@ -138,6 +150,12 @@
           <groupId>com.google.protobuf</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.18</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -180,12 +198,6 @@
           <groupId>org.mockito</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.2.18</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

@@ -6,7 +6,7 @@
 	
 	<groupId>com.alessiodp.core</groupId>
 	<artifactId>core</artifactId>
-	<version>1.5.2</version>
+	<version>1.5.3</version>
 	<packaging>pom</packaging>
 	
 	<name>ADP Core</name>
@@ -179,13 +179,6 @@
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito2</artifactId>
 			<version>${dev.powermock}</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- Manual tests -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${libs.postgresql}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

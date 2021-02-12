@@ -6,9 +6,14 @@ import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.H2ConnectionFactory;
+import com.alessiodp.core.common.storage.sql.connection.MariaDBConnectionFactory;
+import com.alessiodp.core.common.storage.sql.connection.PostgreSQLConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
+import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryMariaDBDao;
+import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryMySQLDao;
+import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryPostgreSQLDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistorySQLiteDao;
 import com.alessiodp.core.common.utils.CommonUtils;
 import org.jdbi.v3.core.Handle;
@@ -37,13 +42,13 @@ import static org.powermock.api.mockito.PowerMockito.when;
 		ADPPlugin.class,
 })
 public class MigratorTest {
-	private SQLDispatcher dispatcher;
+	ADPPlugin mockPlugin;
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder();
 	
 	@Before
 	public void setUp() {
-		ADPPlugin mockPlugin = mock(ADPPlugin.class);
+		mockPlugin = mock(ADPPlugin.class);
 		LoggerManager mockLoggerManager = mock(LoggerManager.class);
 		mockStatic(ADPPlugin.class);
 		when(ADPPlugin.getInstance()).thenReturn(mockPlugin);
@@ -51,13 +56,6 @@ public class MigratorTest {
 		when(mockPlugin.getFolder()).thenReturn(Paths.get("./"));
 		when(mockPlugin.getResource(anyString())).thenAnswer((mock) -> getClass().getClassLoader().getResourceAsStream(mock.getArgument(0)));
 		when(mockLoggerManager.isDebugEnabled()).thenReturn(true);
-		
-		dispatcher = new SQLDispatcher(mockPlugin, StorageType.H2) {
-			@Override
-			protected ConnectionFactory initConnectionFactory() {
-				return null;
-			}
-		};
 	}
 	
 	private ConnectionFactory getConnectionFactoryH2() {
@@ -74,8 +72,9 @@ public class MigratorTest {
 		return ret;
 	}
 	
-	/* Manual tests
 	private ConnectionFactory getConnectionFactoryMySQL() {
+		// Manual test only
+		/*
 		MySQLConnectionFactory ret = new MySQLConnectionFactory();
 		ret.setTablePrefix("test_");
 		ret.setServerName("localhost");
@@ -85,27 +84,51 @@ public class MigratorTest {
 		ret.setPassword("");
 		ret.init();
 		return ret;
+		 */
+		return null;
+	}
+	
+	private ConnectionFactory getConnectionFactoryMariaDB() {
+		// Manual test only
+		MariaDBConnectionFactory ret = new MariaDBConnectionFactory();
+		ret.setTablePrefix("test_");
+		ret.setServerName("localhost");
+		ret.setPort("3306");
+		ret.setDatabaseName("database");
+		ret.setUsername("root");
+		ret.setPassword("");
+		ret.init();
+		return ret;
+		//return null;
 	}
 	
 	private ConnectionFactory getConnectionFactoryPostgreSQL() {
+		// Manual test only
 		PostgreSQLConnectionFactory ret = new PostgreSQLConnectionFactory();
 		ret.setTablePrefix("test_");
 		ret.setServerName("localhost");
 		ret.setPort("5432");
 		ret.setDatabaseName("database");
 		ret.setUsername("postgres");
-		ret.setPassword("postgres");
+		ret.setPassword("");
 		ret.init();
 		return ret;
+		//return null;
 	}
-	 */
 	
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {
+		if (cf == null)
+			return null;
 		return Migrator.configure()
 				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")
 				.setConnectionFactory(cf)
 				.setStorageType(storageType)
-				.load(dispatcher);
+				.load(new SQLDispatcher(mockPlugin, storageType) {
+					@Override
+					protected ConnectionFactory initConnectionFactory() {
+						return null;
+					}
+				});
 	}
 	
 	@Test
@@ -114,15 +137,19 @@ public class MigratorTest {
 		
 		searchScripts(prepareMigrator(getConnectionFactorySQLite(), StorageType.SQLITE));
 		
-		// Manual test only
-		//searchScripts(prepareMigrator(getConnectionFactoryMySQL(), StorageType.MYSQL));
-		//searchScripts(prepareMigrator(getConnectionFactoryMySQL(), StorageType.POSTGRESQL));
+		searchScripts(prepareMigrator(getConnectionFactoryMySQL(), StorageType.MYSQL));
+		
+		searchScripts(prepareMigrator(getConnectionFactoryMariaDB(), StorageType.MARIADB));
+		
+		searchScripts(prepareMigrator(getConnectionFactoryPostgreSQL(), StorageType.POSTGRESQL));
 	}
 	
 	private void searchScripts(Migrator migrator) {
-		assertEquals(migrator.getScripts().size(), 0);
-		migrator.searchScripts();
-		assertEquals(migrator.getScripts().size(), 2);
+		if (migrator != null) {
+			assertEquals(migrator.getScripts().size(), 0);
+			migrator.searchScripts();
+			assertEquals(migrator.getScripts().size(), 2);
+		}
 	}
 	
 	@Test
@@ -137,12 +164,29 @@ public class MigratorTest {
 		emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistorySQLiteDao.class), prepareMigrator(cf, StorageType.SQLITE));
 		handle.close();
 		
-		// Manual test only
-		//cf = getConnectionFactoryPostgreSQL();
-		//handle = cf.getJdbi().open();
-		//handle.createUpdate("DROP TABLE <prefix>schema_history, <prefix>table;").execute();
-		//emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistoryPostgreSQLDao.class), prepareMigrator(cf, StorageType.POSTGRESQL));
-		//handle.close();
+		cf = getConnectionFactoryMySQL();
+		if (cf != null) {
+			handle = cf.getJdbi().open();
+			handle.createUpdate("DROP TABLE IF EXISTS `<prefix>schema_history`, `<prefix>table`;").execute();
+			emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistoryMySQLDao.class), prepareMigrator(cf, StorageType.MYSQL));
+			handle.close();
+		}
+		
+		cf = getConnectionFactoryMariaDB();
+		if (cf != null) {
+			handle = cf.getJdbi().open();
+			handle.createUpdate("DROP TABLE IF EXISTS `<prefix>schema_history`, `<prefix>table`;").execute();
+			emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistoryMariaDBDao.class), prepareMigrator(cf, StorageType.MARIADB));
+			handle.close();
+		}
+		
+		cf = getConnectionFactoryPostgreSQL();
+		if (cf != null) {
+			handle = cf.getJdbi().open();
+			handle.createUpdate("DROP TABLE IF EXISTS <prefix>schema_history, <prefix>table;").execute();
+			emptyDatabase(handle, cf.getJdbi().onDemand(SchemaHistoryPostgreSQLDao.class), prepareMigrator(cf, StorageType.POSTGRESQL));
+			handle.close();
+		}
 	}
 	
 	private void emptyDatabase(Handle handle, SchemaHistoryDao dao, Migrator migrator) throws IOException {

@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.5.2</version>
+    <version>1.5.3</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-bukkit</artifactId>
@@ -63,7 +63,7 @@
     <dependency>
       <groupId>com.alessiodp.core</groupId>
       <artifactId>core-common</artifactId>
-      <version>1.5.2</version>
+      <version>1.5.3</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -113,12 +113,6 @@
           <groupId>org.mockito</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <version>42.2.18</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

@@ -153,6 +153,15 @@ public class ADPLibraryManager {
 				.build());
 		
 		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.JDBI_STRINGTEMPLATE4.getId())
+				.groupId("org{}jdbi")
+				.artifactId("jdbi3-stringtemplate4")
+				.version(LibraryVersions.JDBI)
+				.checksum("E5fXKQXi07z1J3JuQxRmmNBcAX61JHXnP/zxzWUJdt4=")
+				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
+				.build());
+		
+		libraryManager.loadLibrary(Library.builder()
 				.id(ADPLibrary.JDBI_SQLOBJECT.getId())
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-sqlobject")

@@ -70,7 +70,7 @@ public class ADPLibraryManager {
 				.groupId("org{}mariadb{}jdbc")
 				.artifactId("mariadb-java-client")
 				.version(LibraryVersions.MARIADB)
-				.checksum("DvDuhOH6qjrZdvipBGKnNh9ygFeiKDzFECo8VQ9TkM0=")
+				.checksum("o/Z3bfCELPZefxWFFQEtUwfalJ9mBCKC4e5EdN0Z9Eg=")
 				.relocate("org{}mariadb", plugin.getPackageName() + ".libs.mariadb")
 				.build());
 	}

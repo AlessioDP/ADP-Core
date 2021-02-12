@@ -40,7 +40,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 		ADPPlugin.class,
 })
 public class MigratorTest {
-	ADPPlugin mockPlugin;
+	private ADPPlugin mockPlugin;
 	@Rule
 	public TemporaryFolder testFolder = new TemporaryFolder();
 	

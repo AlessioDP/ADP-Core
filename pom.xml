@@ -75,7 +75,7 @@
 		<libs.mariadb>2.7.2</libs.mariadb>
 		<libs.mysql>8.0.23</libs.mysql>
 		<libs.paperlib>1.0.6</libs.paperlib>
-		<libs.postgresql>42.2.18</libs.postgresql>
+		<libs.postgresql>42.2.19</libs.postgresql>
 		<libs.reflections>0.9.12</libs.reflections>
 		<libs.simpleyaml>1.7.2.1</libs.simpleyaml>
 		<libs.slf4j>1.7.30</libs.slf4j>

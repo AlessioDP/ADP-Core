@@ -159,6 +159,17 @@ public class ADPLibraryManager {
 				.version(LibraryVersions.JDBI)
 				.checksum("E5fXKQXi07z1J3JuQxRmmNBcAX61JHXnP/zxzWUJdt4=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
+				.relocate("org{}stringtemplate{}v4", plugin.getPackageName() + ".libs.stringtemplate.v4")
+				.build());
+		
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.JDBI_STRINGTEMPLATE4_ANTLR.getId())
+				.groupId("org{}antlr")
+				.artifactId("ST4")
+				.version(LibraryVersions.JDBI_ST4)
+				.checksum("68nZvNtnVxwINf9EHq1cHekKJaDT+oQGVKFE6PoEENQ=")
+				.relocate("org{}stringtemplate{}v4", plugin.getPackageName() + ".libs.stringtemplate.v4")
+				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
 				.build());
 		
 		libraryManager.loadLibrary(Library.builder()
@@ -193,10 +204,19 @@ public class ADPLibraryManager {
 				.build());
 		
 		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.ANTLR.getId())
+				.groupId("org.antlr")
+				.artifactId("antlr-runtime")
+				.version(LibraryVersions.JDBI_ANTLR)
+				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
+				.checksum("zj/I7LEPOemjzdy7LONQ0nLZzT0LHhjm/nPDuTichzQ=")
+				.build());
+		
+		libraryManager.loadLibrary(Library.builder()
 				.id(ADPLibrary.ANTLR4.getId())
 				.groupId("org.antlr")
 				.artifactId("antlr4-runtime")
-				.version(LibraryVersions.JDBI_ANTLR)
+				.version(LibraryVersions.JDBI_ANTLR4)
 				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
 				.checksum("TFGLh9S9/4tEzYy8GvgW6US2Kj/luAt4FQHPH0dZu8Q=")
 				.build());
@@ -217,6 +237,36 @@ public class ADPLibraryManager {
 				.version(LibraryVersions.JDBI_GEANTYREF)
 				.relocate("io{}leangen{}geantyref", plugin.getPackageName() + ".libs.geantyref")
 				.checksum("+JH4yXPM0d/LhBv+2EZOiWsbMN3dA9kzxL6p5CihEaI=")
+				.build());
+	}
+	
+	public void setupLibrariesForScripting() {
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.NASHORN.getId())
+				.groupId("org{}openjdk{}nashorn")
+				.artifactId("nashorn-core")
+				.version(LibraryVersions.NASHORN)
+				.relocate("org{}openjdk{}nashorn", plugin.getPackageName() + ".libs.nashorn")
+				.relocate("org{}objectweb{}asm", plugin.getPackageName() + ".libs.ow2.asm")
+				.checksum("3XzmRuCVWX5Rqbmg0olGM+SxAZOwDdUU/bXB9Ckp/D8=")
+				.build());
+		
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.OW2_ASM.getId())
+				.groupId("org{}ow2{}asm")
+				.artifactId("asm")
+				.version(LibraryVersions.OW2_ASM)
+				.relocate("org{}objectweb{}asm", plugin.getPackageName() + ".libs.ow2.asm")
+				.checksum("L2fhHO7IGevYjd7lMAq6aZscurLiDCLpfPAn076TlZs=")
+				.build());
+		
+		libraryManager.loadLibrary(Library.builder()
+				.id(ADPLibrary.OW2_ASM.getId())
+				.groupId("org{}ow2{}asm")
+				.artifactId("asm-util")
+				.version(LibraryVersions.OW2_ASM)
+				.relocate("org{}objectweb{}asm", plugin.getPackageName() + ".libs.ow2.asm")
+				.checksum("GCEoWSdC7UiDrIK/IF8Te2v74SNMaOb+sTdZ51qFtyk=")
 				.build());
 	}
 }

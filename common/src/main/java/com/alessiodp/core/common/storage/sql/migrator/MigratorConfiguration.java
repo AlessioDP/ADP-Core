@@ -64,6 +64,7 @@ public class MigratorConfiguration {
 	/**
 	 * Load a new Migrator with this configuration
 	 *
+	 * @param dispatcher The SQL dispatcher
 	 * @return a new Migrator instance
 	 */
 	public Migrator load(SQLDispatcher dispatcher) {

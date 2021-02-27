@@ -18,7 +18,10 @@ public class FormulaUtils {
 			if (ADPPlugin.getInstance() != null) // If not testing
 				ADPPlugin.getInstance().getLibraryManager().setupLibrariesForScripting();
 			
-			scriptEngine = new jdk.nashorn.api.scripting.NashornScriptEngineFactory().getScriptEngine();
+			try {
+				Object nashornEngineFactory = Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory").newInstance();
+				scriptEngine = (ScriptEngine) nashornEngineFactory.getClass().getDeclaredMethod("getScriptEngine").invoke(nashornEngineFactory);
+			} catch (Exception ignored) {}
 		}
 		if (scriptEngine == null)
 			throw new RuntimeException("Failed to load script engine");

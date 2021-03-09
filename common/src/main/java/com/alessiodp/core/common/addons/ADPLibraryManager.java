@@ -84,7 +84,7 @@ public class ADPLibraryManager {
 				.groupId("org{}postgresql")
 				.artifactId("postgresql")
 				.version(LibraryVersions.POSTGRESQL)
-				.checksum("DIkZefHrL+REMtoRTQl2C1Bj2tnmaawKxrC2v7kbs7o=")
+				.checksum("IydH+gkk2Iom36QrgSi2+hFAgC2AQSWJFZboyl8pEyI=")
 				.relocate("org{}postgresql", plugin.getPackageName() + ".libs.postgresql")
 				.build());
 	}

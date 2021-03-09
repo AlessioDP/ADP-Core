@@ -56,6 +56,15 @@ public class ADPLocation {
 	}
 	
 	/**
+	 * Serialize the location as String
+	 *
+	 * @return the serialized location
+	 */
+	public String serialize() {
+		return toString();
+	}
+	
+	/**
 	 * Deserialize a string location
 	 *
 	 * @param serialized the location serialized

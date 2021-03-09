@@ -18,7 +18,7 @@ public class PostgreSQLConnectionFactory extends HikariConfiguration {
 	
 	@Override
 	public void setupProperties(HikariConfig config) {
-		// Nothing to do
+		config.addDataSourceProperty("sslMode", useSSL ? "require" : "disable");
 	}
 	
 	@Override

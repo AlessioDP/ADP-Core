@@ -20,7 +20,9 @@ public class SpigotJsonHandler extends JsonHandler {
 			try {
 				player.spigot().sendMessage(ComponentSerializer.parse(Color.translateAlternateColorCodes(jsonMessage)));
 				ret = true;
-			} catch (Exception ignored) {}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 		return ret;
 	}

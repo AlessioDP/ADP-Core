@@ -67,7 +67,7 @@
 		<libs.gson>2.8.4</libs.gson>
 		<libs.h2>1.4.200</libs.h2>
 		<libs.hikaricp>4.0.1</libs.hikaricp>
-		<libs.jdbi>3.18.0</libs.jdbi>
+		<libs.jdbi>3.19.0</libs.jdbi>
 		<libs.libby>1.1.0</libs.libby>
 		<libs.mariadb>2.7.2</libs.mariadb>
 		<libs.mysql>8.0.23</libs.mysql>

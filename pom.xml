@@ -70,7 +70,7 @@
 		<libs.jdbi>3.18.0</libs.jdbi>
 		<libs.libby>1.1.0</libs.libby>
 		<libs.mariadb>2.7.2</libs.mariadb>
-		<libs.mysql>8.0.23</libs.mysql>
+		<libs.mysql>8.0.24</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
 		<libs.paperlib>1.0.6</libs.paperlib>
 		<libs.postgresql>42.2.19</libs.postgresql>

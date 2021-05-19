@@ -103,6 +103,7 @@ public class MigratorTest {
 	
 	private ConnectionFactory getConnectionFactoryPostgreSQL() {
 		// Manual test only
+		/*
 		PostgreSQLConnectionFactory ret = new PostgreSQLConnectionFactory();
 		ret.setTablePrefix("test_");
 		ret.setServerName("localhost");
@@ -111,8 +112,8 @@ public class MigratorTest {
 		ret.setUsername("postgres");
 		ret.setPassword("");
 		ret.init();
-		return ret;
-		//return null;
+		return ret;*/
+		return null;
 	}
 	
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {

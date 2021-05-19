@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.5.5</version>
+		<version>1.5.6</version>
 	</parent>
 	
 	<artifactId>core-common</artifactId>
@@ -54,6 +54,14 @@
 							<shadedPattern>com.alessiodp.core.common.addons.external.simpleyaml</shadedPattern>
 						</relocation>
 					</relocations>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/MANIFEST.MF</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 				<executions>
 					<execution>

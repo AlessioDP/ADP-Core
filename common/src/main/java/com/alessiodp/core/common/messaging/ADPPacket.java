@@ -5,10 +5,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 @EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
-public abstract class ADPPacket {
+public abstract class ADPPacket implements Serializable {
 	@Getter private final String version;
 	
 	/**
@@ -19,9 +24,19 @@ public abstract class ADPPacket {
 	public abstract String getName();
 	
 	/**
-	 * Build the byte array of the packet
+	 * Serialize the packet as byte array
 	 *
+	 * @throws IOException if the deserialization fails
 	 * @return the result as byte array
 	 */
-	public abstract byte[] build();
+	public byte[] build() throws IOException {
+		byte[] ret;
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			ObjectOutputStream out = new ObjectOutputStream(baos);
+			out.writeObject(this);
+			out.flush();
+			ret = baos.toByteArray();
+		}
+		return ret;
+	}
 }

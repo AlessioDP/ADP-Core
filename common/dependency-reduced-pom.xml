@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.5.5</version>
+    <version>1.5.6</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-common</artifactId>
@@ -56,6 +56,14 @@
               <shadedPattern>com.alessiodp.core.common.addons.external.simpleyaml</shadedPattern>
             </relocation>
           </relocations>
+          <filters>
+            <filter>
+              <artifact>*:*</artifact>
+              <excludes>
+                <exclude>META-INF/MANIFEST.MF</exclude>
+              </excludes>
+            </filter>
+          </filters>
         </configuration>
       </plugin>
     </plugins>
@@ -100,13 +108,13 @@
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
-      <version>4.0.1</version>
+      <version>4.0.3</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xerial</groupId>
       <artifactId>sqlite-jdbc</artifactId>
-      <version>3.32.3.2</version>
+      <version>3.34.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -118,19 +126,19 @@
     <dependency>
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-core</artifactId>
-      <version>3.18.0</version>
+      <version>3.20.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-stringtemplate4</artifactId>
-      <version>3.18.0</version>
+      <version>3.20.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-sqlobject</artifactId>
-      <version>3.18.0</version>
+      <version>3.20.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -142,7 +150,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.23</version>
+      <version>8.0.24</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -154,13 +162,13 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.2.19</version>
+      <version>42.2.20</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.18</version>
+      <version>1.18.20</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

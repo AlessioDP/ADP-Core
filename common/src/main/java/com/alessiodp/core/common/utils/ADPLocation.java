@@ -1,13 +1,19 @@
 package com.alessiodp.core.common.utils;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * Class used as container for locations
  */
-public class ADPLocation {
+@EqualsAndHashCode
+@ToString
+public class ADPLocation implements Serializable {
 	@Getter @Setter private String world;
 	@Getter @Setter private double x;
 	@Getter @Setter private double y;

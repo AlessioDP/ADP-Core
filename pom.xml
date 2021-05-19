@@ -6,7 +6,7 @@
 	
 	<groupId>com.alessiodp.core</groupId>
 	<artifactId>core</artifactId>
-	<version>1.5.5</version>
+	<version>1.5.6</version>
 	<packaging>pom</packaging>
 	
 	<name>ADP Core</name>
@@ -60,24 +60,24 @@
 		<maven.shade.version>3.2.4</maven.shade.version>
 		
 		<dev.powermock>2.0.9</dev.powermock>
-		<dev.lombok>1.18.18</dev.lombok>
+		<dev.lombok>1.18.20</dev.lombok>
 		
 		<libs.bstats>2.2.1</libs.bstats>
 		<libs.configurate>3.7.2</libs.configurate>
 		<libs.gson>2.8.4</libs.gson>
 		<libs.h2>1.4.200</libs.h2>
-		<libs.hikaricp>4.0.1</libs.hikaricp>
-		<libs.jdbi>3.18.0</libs.jdbi>
+		<libs.hikaricp>4.0.3</libs.hikaricp>
+		<libs.jdbi>3.20.0</libs.jdbi>
 		<libs.libby>1.1.0</libs.libby>
 		<libs.mariadb>2.7.2</libs.mariadb>
-		<libs.mysql>8.0.23</libs.mysql>
+		<libs.mysql>8.0.24</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
 		<libs.paperlib>1.0.6</libs.paperlib>
-		<libs.postgresql>42.2.19</libs.postgresql>
+		<libs.postgresql>42.2.20</libs.postgresql>
 		<libs.reflections>0.9.12</libs.reflections>
 		<libs.simpleyaml>1.7.2.1</libs.simpleyaml>
 		<libs.slf4j>1.7.30</libs.slf4j>
-		<libs.sqlite>3.32.3.2</libs.sqlite>
+		<libs.sqlite>3.34.0</libs.sqlite>
 		
 		<!-- Related to Spigot/Bukkit -->
 		<libs.guava>21.0</libs.guava>

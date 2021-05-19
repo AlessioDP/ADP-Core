@@ -53,10 +53,11 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 			}
 			
 			if (log)
-				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*"), true);
+				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*", getChannel()), true);
 			return true;
 		} catch (Exception ex) {
 			sendError(ex);
+			ex.printStackTrace();
 		}
 		
 		if (log)
@@ -76,10 +77,11 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 			((BungeeUser) user).getServer().sendData(getChannel(), baos.toByteArray());
 			
 			if (log)
-				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), user.getUUID()), true);
+				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), user.getUUID(), getChannel()), true);
 			return true;
 		} catch (Exception ex) {
 			sendError(ex);
+			ex.printStackTrace();
 		}
 		
 		if (log)
@@ -107,11 +109,12 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 				dummyPlayer.sendData(getChannel(), baos.toByteArray());
 				
 				if (log)
-					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*"), true);
+					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*", getChannel()), true);
 				return true;
 			}
 		} catch (Exception ex) {
 			sendError(ex);
+			ex.printStackTrace();
 		}
 		
 		if (log)

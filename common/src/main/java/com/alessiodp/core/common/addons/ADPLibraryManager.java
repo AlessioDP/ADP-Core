@@ -56,7 +56,7 @@ public class ADPLibraryManager {
 				.groupId("mysql")
 				.artifactId("mysql-connector-java")
 				.version(LibraryVersions.MYSQL)
-				.checksum("/31bQCr9OcEnh0cVBaM6MEEDsjjsG3pE6JNtMynadTU=")
+				.checksum("mbUtpj2dMdVJSjAvPbtVS3MMwg2x+wntpkqw4nwTCqs=")
 				.relocate("com{}mysql", plugin.getPackageName() + ".libs.mysql")
 				.build());
 	}
@@ -84,7 +84,7 @@ public class ADPLibraryManager {
 				.groupId("org{}postgresql")
 				.artifactId("postgresql")
 				.version(LibraryVersions.POSTGRESQL)
-				.checksum("IydH+gkk2Iom36QrgSi2+hFAgC2AQSWJFZboyl8pEyI=")
+				.checksum("cIspOK6oHzK4s1RA2iM4KChKEA5vIhKnqx7q9LOmUU4=")
 				.relocate("org{}postgresql", plugin.getPackageName() + ".libs.postgresql")
 				.build());
 	}
@@ -95,7 +95,7 @@ public class ADPLibraryManager {
 				.groupId("com{}zaxxer")
 				.artifactId("HikariCP")
 				.version(LibraryVersions.HIKARICP)
-				.checksum("WTs8yOK1XAWBjOgGlg/MSgmNLwySK08CIJ4d85Gkh7Y=")
+				.checksum("fAJK7/HBBjV210RTUT+d5kR9jmJNF/jifzCi6XaIxsk=")
 				.relocate("com{}zaxxer{}hikari", plugin.getPackageName() + ".libs.hikari")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.build());
@@ -109,7 +109,7 @@ public class ADPLibraryManager {
 				.groupId("org{}xerial")
 				.artifactId("sqlite-jdbc")
 				.version(LibraryVersions.SQLITE_JDBC)
-				.checksum("7CL07opEtcliARxo7Ocu5TeojrvnytcNP4fIFq6lM1c=")
+				.checksum("YFl5yU5/4AQ38eENz6ZXoj8SXI600vDsF+P4RhOJTMM=")
 				.isolatedLoad(true)
 				// Unnecessary relocation
 				.build());
@@ -144,7 +144,7 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-core")
 				.version(LibraryVersions.JDBI)
-				.checksum("l1kl0ZHs8bJxTIuaeeKVePNJcnK60XAa1SNsGQ6OzR4=")
+				.checksum("GG1GYDFTDZyHDtq8zS+6DzBbW0qYsNL24i7r7FTBJT0=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
@@ -157,7 +157,7 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-stringtemplate4")
 				.version(LibraryVersions.JDBI)
-				.checksum("E5fXKQXi07z1J3JuQxRmmNBcAX61JHXnP/zxzWUJdt4=")
+				.checksum("5eohoK7IBj9z7Z2pJsvyAJSvWMaCx5jJrUekaC4vwX4=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}stringtemplate{}v4", plugin.getPackageName() + ".libs.stringtemplate.v4")
 				.build());
@@ -177,7 +177,7 @@ public class ADPLibraryManager {
 				.groupId("org{}jdbi")
 				.artifactId("jdbi3-sqlobject")
 				.version(LibraryVersions.JDBI)
-				.checksum("G5XW9k8vd5DV7E9qoe8y/SDi0N/upaRwQe8SuuL6GeQ=")
+				.checksum("hj1rJnxknEcFdyIHwsSgTk5+NGHQuXI1I/9xMvIl/58=")
 				.relocate("org{}jdbi", plugin.getPackageName() + ".libs.jdbi")
 				.relocate("org{}slf4j", plugin.getPackageName() + ".libs.slf4j")
 				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")

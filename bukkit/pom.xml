@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.5.5</version>
+		<version>1.5.6</version>
 	</parent>
 	
 	<artifactId>core-bukkit</artifactId>
@@ -54,6 +54,14 @@
 							<shadedPattern>${project.parent.groupId}.bukkit.addons.external.paperlib</shadedPattern>
 						</relocation>
 					</relocations>
+					<filters>
+						<filter>
+							<artifact>*:*</artifact>
+							<excludes>
+								<exclude>META-INF/MANIFEST.MF</exclude>
+							</excludes>
+						</filter>
+					</filters>
 				</configuration>
 				<executions>
 					<execution>

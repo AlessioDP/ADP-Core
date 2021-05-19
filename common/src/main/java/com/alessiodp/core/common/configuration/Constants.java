@@ -59,7 +59,7 @@ public class Constants {
 	
 	public static final String DEBUG_LOG_LOADED = "Logger manager loaded";
 	
-	public static final String DEBUG_LOG_MESSAGING_SENT = "Sent a packet of type '%s' via the player %s";
+	public static final String DEBUG_LOG_MESSAGING_SENT = "Sent a packet of type '%s' via the player %s via the channel '%s'";
 	public static final String DEBUG_LOG_MESSAGING_SENT_FAILED = "Cannot send a packet of type '%s' due to missing players";
 	public static final String DEBUG_LOG_MESSAGING_FAILED_SEND = "Failed to send a plugin message: %s";
 	public static final String DEBUG_LOG_MESSAGING_FAILED_VERSION = "Failed to read packet because version mismatching: %s != %s";

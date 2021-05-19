@@ -40,28 +40,7 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 	
 	@Override
 	public boolean sendPacket(ADPPacket packet, boolean log) {
-		Player dummyPlayer = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
-		if (dummyPlayer != null) {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			DataOutputStream out = new DataOutputStream(baos);
-			try {
-				byte[] bytes = packet.build();
-				out.writeShort(bytes.length);
-				out.write(bytes);
-				
-				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), getChannel(), baos.toByteArray());
-				
-				if (log)
-					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString()), true);
-				return true;
-			} catch (Exception ex) {
-				sendError(ex);
-			}
-		}
-		
-		if (log)
-			plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT_FAILED, packet.getName()), true);
-		return false;
+		return send(packet, log, false);
 	}
 	
 	@Override
@@ -72,15 +51,21 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 	
 	@Override
 	public boolean sendForwardPacket(ADPPacket packet, boolean log) {
+		return send(packet, log, true);
+	}
+	
+	private boolean send(ADPPacket packet, boolean log, boolean forward) {
 		Player dummyPlayer = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
 		if (dummyPlayer != null) {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			DataOutputStream out = new DataOutputStream(baos);
 			try {
-				out.writeUTF("Forward");
-				out.writeUTF("ALL");
-				// Set sub channel as plugin name
-				out.writeUTF(plugin.getPluginFallbackName());
+				if (forward) {
+					out.writeUTF("Forward");
+					out.writeUTF("ALL");
+					// Set sub channel as plugin name
+					out.writeUTF(plugin.getPluginFallbackName());
+				}
 				
 				byte[] bytes = packet.build();
 				out.writeShort(bytes.length);
@@ -89,10 +74,11 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), getChannel(), baos.toByteArray());
 				
 				if (log)
-					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString()), true);
+					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString(), getChannel()), true);
 				return true;
 			} catch (Exception ex) {
 				sendError(ex);
+				ex.printStackTrace();
 			}
 		}
 		

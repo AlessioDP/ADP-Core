@@ -6,6 +6,7 @@ import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.H2ConnectionFactory;
+import com.alessiodp.core.common.storage.sql.connection.PostgreSQLConnectionFactory;
 import com.alessiodp.core.common.storage.sql.connection.SQLiteConnectionFactory;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryH2Dao;
@@ -102,7 +103,6 @@ public class MigratorTest {
 	
 	private ConnectionFactory getConnectionFactoryPostgreSQL() {
 		// Manual test only
-		/*
 		PostgreSQLConnectionFactory ret = new PostgreSQLConnectionFactory();
 		ret.setTablePrefix("test_");
 		ret.setServerName("localhost");
@@ -111,8 +111,8 @@ public class MigratorTest {
 		ret.setUsername("postgres");
 		ret.setPassword("");
 		ret.init();
-		return ret;*/
-		return null;
+		return ret;
+		//return null;
 	}
 	
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {

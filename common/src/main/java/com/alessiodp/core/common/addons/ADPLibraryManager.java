@@ -56,7 +56,7 @@ public class ADPLibraryManager {
 				.groupId("mysql")
 				.artifactId("mysql-connector-java")
 				.version(LibraryVersions.MYSQL)
-				.checksum("mbUtpj2dMdVJSjAvPbtVS3MMwg2x+wntpkqw4nwTCqs=")
+				.checksum("oKG+A4nlQdrYhBsybnnFHTmrvhylImcwTXbRz0gBzpY=")
 				.relocate("com{}mysql", plugin.getPackageName() + ".libs.mysql")
 				.build());
 	}

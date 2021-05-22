@@ -22,6 +22,7 @@ public class BukkitCommandImpl extends Command implements CommandExecutor {
 		this.plugin = plugin;
 		this.mainCommand = mainCommand;
 		super.description = CommonUtils.getOr(mainCommand.getDescription(), "");
+		super.setAliases(mainCommand.getAliases());
 	}
 	
 	@Override

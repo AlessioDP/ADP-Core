@@ -47,8 +47,9 @@ public abstract class JsonHandler {
 		if (jsonMessage != null) {
 			try {
 				JsonElement je = jsonParser.parse(jsonMessage);
-				ret = convertToString(je);
-				if (ret == null) ret = "";
+				String parsedJson = convertToString(je);
+				if (parsedJson != null)
+					ret = parsedJson;
 			} catch (JsonParseException ignored) {
 			}
 		}

@@ -15,7 +15,7 @@ public class BungeeCommandImpl extends Command implements TabExecutor {
 	@Setter @Getter private ADPMainCommand mainCommand;
 	
 	public BungeeCommandImpl(@NonNull ADPPlugin plugin, @NonNull ADPMainCommand mainCommand) {
-		super(mainCommand.getCommandName());
+		super(mainCommand.getCommandName(), null, mainCommand.getAliases().toArray(new String[0]));
 		this.plugin = plugin;
 		this.mainCommand = mainCommand;
 	}

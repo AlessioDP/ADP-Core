@@ -24,6 +24,8 @@ public abstract class ADPMainCommand implements ADPExecutableCommand {
 	
 	@Getter protected String description = "";
 	
+	@Getter protected List<String> aliases = new ArrayList<>();
+	
 	@Getter protected String help = "";
 	
 	@Getter protected String syntax = "";

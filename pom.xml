@@ -6,7 +6,7 @@
 	
 	<groupId>com.alessiodp.core</groupId>
 	<artifactId>core</artifactId>
-	<version>1.5.6</version>
+	<version>1.5.7</version>
 	<packaging>pom</packaging>
 	
 	<name>ADP Core</name>
@@ -70,7 +70,7 @@
 		<libs.jdbi>3.20.0</libs.jdbi>
 		<libs.libby>1.1.0</libs.libby>
 		<libs.mariadb>2.7.2</libs.mariadb>
-		<libs.mysql>8.0.24</libs.mysql>
+		<libs.mysql>8.0.25</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
 		<libs.paperlib>1.0.6</libs.paperlib>
 		<libs.postgresql>42.2.20</libs.postgresql>

@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.5.6</version>
+    <version>1.5.7</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-bukkit</artifactId>
@@ -71,7 +71,7 @@
     <dependency>
       <groupId>com.alessiodp.core</groupId>
       <artifactId>core-common</artifactId>
-      <version>1.5.6</version>
+      <version>1.5.7</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

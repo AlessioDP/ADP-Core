@@ -69,7 +69,7 @@
 		<libs.hikaricp>4.0.3</libs.hikaricp>
 		<libs.jdbi>3.20.0</libs.jdbi>
 		<libs.libby>1.1.0</libs.libby>
-		<libs.mariadb>2.7.2</libs.mariadb>
+		<libs.mariadb>2.7.3</libs.mariadb>
 		<libs.mysql>8.0.25</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
 		<libs.paperlib>1.0.6</libs.paperlib>

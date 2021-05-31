@@ -218,7 +218,7 @@ public class ADPLibraryManager {
 				.artifactId("antlr4-runtime")
 				.version(LibraryVersions.JDBI_ANTLR4)
 				.relocate("org{}antlr", plugin.getPackageName() + ".libs.antlr")
-				.checksum("TFGLh9S9/4tEzYy8GvgW6US2Kj/luAt4FQHPH0dZu8Q=")
+				.checksum("yWHPKQYbw4Oq+78MeL3TwlFKh9ZeHIMLHG02NNq5kEM=")
 				.build());
 		
 		libraryManager.loadLibrary(Library.builder()

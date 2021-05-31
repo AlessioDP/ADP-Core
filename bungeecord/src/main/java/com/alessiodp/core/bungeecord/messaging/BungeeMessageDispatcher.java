@@ -17,15 +17,20 @@ import java.io.DataOutputStream;
 
 public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 	
-	public BungeeMessageDispatcher(@NonNull ADPPlugin plugin, boolean dispatchToBungeeCord) {
-		super(plugin, dispatchToBungeeCord);
+	public BungeeMessageDispatcher(@NonNull ADPPlugin plugin, boolean sendToMain, boolean sendToSub, boolean sendToBungeeCord) {
+		super(plugin, sendToMain, sendToSub, sendToBungeeCord);
 	}
 	
 	@Override
 	public void register() {
 		if (!registered) {
 			Plugin bungeePlugin = (Plugin) plugin.getBootstrap();
-			bungeePlugin.getProxy().registerChannel(getChannel());
+			if (getMainChannel() != null)
+				bungeePlugin.getProxy().registerChannel(getMainChannel());
+			if (getSubChannel() != null)
+				bungeePlugin.getProxy().registerChannel(getSubChannel());
+			if (getBungeeCordChannel() != null)
+				bungeePlugin.getProxy().registerChannel(getBungeeCordChannel());
 			registered = true;
 		}
 	}
@@ -34,13 +39,18 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 	public void unregister() {
 		if (registered) {
 			Plugin bungeePlugin = (Plugin) plugin.getBootstrap();
-			bungeePlugin.getProxy().unregisterChannel(getChannel());
+			if (getMainChannel() != null)
+				bungeePlugin.getProxy().unregisterChannel(getMainChannel());
+			if (getSubChannel() != null)
+				bungeePlugin.getProxy().unregisterChannel(getSubChannel());
+			if (getBungeeCordChannel() != null)
+				bungeePlugin.getProxy().unregisterChannel(getBungeeCordChannel());
 			registered = false;
 		}
 	}
 	
 	@Override
-	public boolean sendPacket(ADPPacket packet, boolean log) {
+	public boolean sendPacket(ADPPacket packet, String channel, boolean log) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream(baos);
 		try {
@@ -49,11 +59,11 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 			out.write(bytes);
 			
 			for (ServerInfo si : ((Plugin) plugin.getBootstrap()).getProxy().getServers().values()) {
-				si.sendData(getChannel(), baos.toByteArray());
+				si.sendData(channel, baos.toByteArray());
 			}
 			
 			if (log)
-				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*", getChannel()), true);
+				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*", channel), true);
 			return true;
 		} catch (Exception ex) {
 			sendError(ex);
@@ -66,7 +76,7 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 	}
 	
 	@Override
-	public boolean sendPacketToUser(ADPPacket packet, User user, boolean log) {
+	public boolean sendPacketToUser(ADPPacket packet, User user, String channel, boolean log) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream out = new DataOutputStream(baos);
 		try {
@@ -74,10 +84,10 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 			out.writeShort(bytes.length);
 			out.write(bytes);
 			
-			((BungeeUser) user).getServer().sendData(getChannel(), baos.toByteArray());
+			((BungeeUser) user).getServer().sendData(channel, baos.toByteArray());
 			
 			if (log)
-				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), user.getUUID(), getChannel()), true);
+				plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), user.getUUID(), channel), true);
 			return true;
 		} catch (Exception ex) {
 			sendError(ex);
@@ -106,10 +116,10 @@ public abstract class BungeeMessageDispatcher extends MessageDispatcher {
 			ProxiedPlayer dummyPlayer = Iterables.getFirst(((Plugin) plugin.getBootstrap()).getProxy().getPlayers(), null);
 			
 			if (dummyPlayer != null) {
-				dummyPlayer.sendData(getChannel(), baos.toByteArray());
+				dummyPlayer.sendData(getBungeeCordChannel(), baos.toByteArray());
 				
 				if (log)
-					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*", getChannel()), true);
+					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), "*", getBungeeCordChannel()), true);
 				return true;
 			}
 		} catch (Exception ex) {

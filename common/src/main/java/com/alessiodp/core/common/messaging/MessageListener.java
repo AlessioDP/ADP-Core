@@ -10,11 +10,18 @@ import lombok.RequiredArgsConstructor;
 public abstract class MessageListener {
 	@NonNull protected final ADPPlugin plugin;
 	protected boolean registered = false;
-	@Getter protected String channel;
+	@Getter protected String mainChannel;
+	@Getter protected String subChannel;
+	@Getter protected String bungeeCordChannel;
 	
-	public MessageListener(@NonNull ADPPlugin plugin, boolean listenToBungeeCord) {
+	public MessageListener(@NonNull ADPPlugin plugin, boolean listenToMain, boolean listenToSub, boolean listenToBungeeCord) {
 		this.plugin = plugin;
-		channel = listenToBungeeCord ? "BungeeCord" : plugin.getPluginFallbackName() + ":main";
+		if (listenToMain)
+			mainChannel = plugin.getPluginFallbackName() + ":main";
+		if (listenToSub)
+			subChannel = plugin.getPluginFallbackName() + ":sub";
+		if (listenToBungeeCord)
+			bungeeCordChannel = "BungeeCord";
 	}
 	
 	/**

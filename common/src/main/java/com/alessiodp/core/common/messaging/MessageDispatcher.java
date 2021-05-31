@@ -9,11 +9,18 @@ import lombok.NonNull;
 public abstract class MessageDispatcher {
 	protected final ADPPlugin plugin;
 	protected boolean registered = false;
-	@Getter protected String channel;
+	@Getter protected String mainChannel;
+	@Getter protected String subChannel;
+	@Getter protected String bungeeCordChannel;
 	
-	public MessageDispatcher(@NonNull ADPPlugin plugin, boolean dispatchToBungeeCord) {
+	public MessageDispatcher(@NonNull ADPPlugin plugin, boolean sendToMain, boolean sendToSub, boolean sendToBungeeCord) {
 		this.plugin = plugin;
-		channel = dispatchToBungeeCord ? "BungeeCord" : plugin.getPluginFallbackName() + ":main";
+		if (sendToMain)
+			mainChannel = plugin.getPluginFallbackName() + ":main";
+		if (sendToSub)
+			subChannel = plugin.getPluginFallbackName() + ":sub";
+		if (sendToBungeeCord)
+			bungeeCordChannel = "BungeeCord";
 	}
 	
 	/**
@@ -30,30 +37,33 @@ public abstract class MessageDispatcher {
 	 * Send a packet
 	 *
 	 * @param packet the packet to send
+	 * @param channel the channel to use
 	 * @return Returns true if sent successfully
 	 */
-	public boolean sendPacket(ADPPacket packet) {
-		return sendPacket(packet, true);
+	public boolean sendPacket(ADPPacket packet, String channel) {
+		return sendPacket(packet, channel, true);
 	}
 	
 	/**
 	 * Send a packet
 	 *
 	 * @param packet the packet to send
+	 * @param channel the channel to use
 	 * @param log enable debug logs
 	 * @return Returns true if sent successfully
 	 */
-	public abstract boolean sendPacket(ADPPacket packet, boolean log);
+	public abstract boolean sendPacket(ADPPacket packet, String channel, boolean log);
 	
 	/**
 	 * Send a packet
 	 *
 	 * @param packet the packet to send
 	 * @param user the user where to send the packet
+	 * @param channel the channel to use
 	 * @return Returns true if sent successfully
 	 */
-	public boolean sendPacketToUser(ADPPacket packet, User user) {
-		return sendPacketToUser(packet, user, true);
+	public boolean sendPacketToUser(ADPPacket packet, User user, String channel) {
+		return sendPacketToUser(packet, user, channel, true);
 	}
 	
 	/**
@@ -61,10 +71,11 @@ public abstract class MessageDispatcher {
 	 *
 	 * @param packet the packet to send
 	 * @param user the user where to send the packet
+	 * @param channel the channel to use
 	 * @param log enable debug logs
 	 * @return Returns true if sent successfully
 	 */
-	public abstract boolean sendPacketToUser(ADPPacket packet, User user, boolean log);
+	public abstract boolean sendPacketToUser(ADPPacket packet, User user, String channel, boolean log);
 	
 	
 	/**

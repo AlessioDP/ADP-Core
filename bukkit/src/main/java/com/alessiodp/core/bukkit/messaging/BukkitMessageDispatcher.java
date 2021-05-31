@@ -16,15 +16,20 @@ import java.io.DataOutputStream;
 
 public class BukkitMessageDispatcher extends MessageDispatcher {
 	
-	public BukkitMessageDispatcher(@NonNull ADPPlugin plugin, boolean dispatchToBungeeCord) {
-		super(plugin, dispatchToBungeeCord);
+	public BukkitMessageDispatcher(@NonNull ADPPlugin plugin, boolean sendToMain, boolean sendToSub, boolean sendToBungeeCord) {
+		super(plugin, sendToMain, sendToSub, sendToBungeeCord);
 	}
 	
 	@Override
 	public void register() {
 		if (!registered) {
 			Plugin bukkitPlugin = (Plugin) plugin.getBootstrap();
-			bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, getChannel());
+			if (getMainChannel() != null)
+				bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, getMainChannel());
+			if (getSubChannel() != null)
+				bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, getSubChannel());
+			if (getBungeeCordChannel() != null)
+				bukkitPlugin.getServer().getMessenger().registerOutgoingPluginChannel(bukkitPlugin, getBungeeCordChannel());
 			registered = true;
 		}
 	}
@@ -39,22 +44,22 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 	}
 	
 	@Override
-	public boolean sendPacket(ADPPacket packet, boolean log) {
-		return send(packet, log, false);
+	public boolean sendPacket(ADPPacket packet, String channel, boolean log) {
+		return send(packet, channel, log, false);
 	}
 	
 	@Override
-	public boolean sendPacketToUser(ADPPacket packet, User user, boolean log) {
+	public boolean sendPacketToUser(ADPPacket packet, User user, String channel, boolean log) {
 		// Not supported
-		return sendPacket(packet, log);
+		return sendPacket(packet, channel, log);
 	}
 	
 	@Override
 	public boolean sendForwardPacket(ADPPacket packet, boolean log) {
-		return send(packet, log, true);
+		return send(packet, getBungeeCordChannel(), log, true);
 	}
 	
-	private boolean send(ADPPacket packet, boolean log, boolean forward) {
+	private boolean send(ADPPacket packet, String channel, boolean log, boolean forward) {
 		Player dummyPlayer = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
 		if (dummyPlayer != null) {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -71,10 +76,10 @@ public class BukkitMessageDispatcher extends MessageDispatcher {
 				out.writeShort(bytes.length);
 				out.write(bytes);
 				
-				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), getChannel(), baos.toByteArray());
+				dummyPlayer.sendPluginMessage((Plugin) plugin.getBootstrap(), channel, baos.toByteArray());
 				
 				if (log)
-					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString(), getChannel()), true);
+					plugin.getLoggerManager().logDebug(String.format(Constants.DEBUG_LOG_MESSAGING_SENT, packet.getName(), dummyPlayer.getUniqueId().toString(), channel), true);
 				return true;
 			} catch (Exception ex) {
 				sendError(ex);

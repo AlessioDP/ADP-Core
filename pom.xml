@@ -73,7 +73,7 @@
 		<libs.mysql>8.0.25</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
 		<libs.paperlib>1.0.6</libs.paperlib>
-		<libs.postgresql>42.2.20</libs.postgresql>
+		<libs.postgresql>42.2.21</libs.postgresql>
 		<libs.reflections>0.9.12</libs.reflections>
 		<libs.simpleyaml>1.7.2</libs.simpleyaml>
 		<libs.slf4j>1.7.30</libs.slf4j>

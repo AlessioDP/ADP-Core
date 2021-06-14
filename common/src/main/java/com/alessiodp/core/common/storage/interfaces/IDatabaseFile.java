@@ -1,6 +1,6 @@
 package com.alessiodp.core.common.storage.interfaces;
 
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.io.IOException;
 import java.nio.file.Path;

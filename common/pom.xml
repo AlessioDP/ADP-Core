@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.5.8</version>
+		<version>1.6.0</version>
 	</parent>
 	
 	<artifactId>core-common</artifactId>
@@ -92,12 +92,6 @@
 			<scope>compile</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.reflections</groupId>
-			<artifactId>reflections</artifactId>
-			<version>${libs.reflections}</version>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>net.byteflux</groupId>
 			<artifactId>libby-core</artifactId>

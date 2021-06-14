@@ -11,7 +11,6 @@ public enum ADPLibrary {
 	CONFIGURATE_YAML("configurate-yaml"),
 	
 	// SQL
-	REFLECTIONS("reflections"),
 	JDBI("jdbi3-core"),
 	JDBI_STRINGTEMPLATE4("jdbi3-stringtemplate4"),
 	JDBI_STRINGTEMPLATE4_ANTLR("ST4"),

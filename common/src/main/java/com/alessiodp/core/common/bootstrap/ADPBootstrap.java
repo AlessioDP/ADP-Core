@@ -58,6 +58,13 @@ public interface ADPBootstrap {
 	ADPLibraryManager getLibraryManager();
 	
 	/**
+	 * Check if libraries are supported by the platform
+	 *
+	 * @return true if supported
+	 */
+	boolean areLibrariesSupported();
+	
+	/**
 	 * Get resource from plugin resources
 	 *
 	 * @param resource the resource name
@@ -118,10 +125,23 @@ public interface ADPBootstrap {
 	void executeCommandByUser(String command, User user);
 	
 	/**
+	 * Send a message to the console. The log level is INFO.
+	 *
+	 * @param message the message to send
+	 */
+	default void logConsole(String message) {
+		logConsole(message, LogLevel.INFO);
+	}
+	
+	/**
 	 * Send a message to the console
 	 *
 	 * @param message the message to send
-	 * @param isWarning true if the message is a warning
+	 * @param logLevel the log level of the message
 	 */
-	void logConsole(String message, boolean isWarning);
+	void logConsole(String message, LogLevel logLevel);
+	
+	enum LogLevel {
+		INFO, WARNING, ERROR;
+	}
 }

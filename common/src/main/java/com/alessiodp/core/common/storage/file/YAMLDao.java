@@ -5,10 +5,9 @@ import com.alessiodp.core.common.configuration.Constants;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseFile;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.loader.ConfigurationLoader;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
-import org.yaml.snakeyaml.DumperOptions;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.NodeStyle;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +20,7 @@ public class YAMLDao implements IDatabaseFile {
 	private final int version;
 	
 	private Path dataPath;
-	private ConfigurationLoader dataLoader;
+	private YamlConfigurationLoader dataLoader;
 	private ConfigurationNode dataNode;
 	@Getter private boolean failed;
 	
@@ -40,11 +39,11 @@ public class YAMLDao implements IDatabaseFile {
 	
 	private void initData() throws IOException {
 		dataPath = createDataFile();
-		dataLoader = YAMLConfigurationLoader
+		dataLoader = YamlConfigurationLoader
 				.builder()
-				.setPath(dataPath)
-				.setFlowStyle(DumperOptions.FlowStyle.BLOCK)
-				.setIndent(2)
+				.path(dataPath)
+				.nodeStyle(NodeStyle.BLOCK)
+				.indent(2)
 				.build();
 		dataNode = dataLoader.load();
 	}
@@ -60,14 +59,14 @@ public class YAMLDao implements IDatabaseFile {
 		if (!Files.exists(ret)) {
 			// Create data file
 			try {
-				ConfigurationLoader<ConfigurationNode> loader = YAMLConfigurationLoader
+				YamlConfigurationLoader loader = YamlConfigurationLoader
 						.builder()
-						.setPath(ret)
-						.setFlowStyle(DumperOptions.FlowStyle.BLOCK)
-						.setIndent(2)
+						.path(ret)
+						.nodeStyle(NodeStyle.BLOCK)
+						.indent(2)
 						.build();
 				ConfigurationNode node = loader.load();
-				node.getNode("database-version").setValue(version);
+				node.node("database-version").set(version);
 				loader.save(node);
 			} catch (Exception ex) {
 				plugin.getLoggerManager().printError(String.format(Constants.DEBUG_DB_FILE_CREATEFAIL, "YAML", ex.getMessage()));

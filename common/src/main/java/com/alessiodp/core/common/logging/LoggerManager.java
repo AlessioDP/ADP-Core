@@ -1,6 +1,7 @@
 package com.alessiodp.core.common.logging;
 
 import com.alessiodp.core.common.ADPPlugin;
+import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.configuration.Constants;
 import lombok.Getter;
 import lombok.NonNull;
@@ -62,7 +63,7 @@ public class LoggerManager {
 	 * @param message the message to save
 	 */
 	public void printError(String message) {
-		plugin.logConsole(ConsoleColor.RED.getCode() + message + ConsoleColor.RESET.getCode(), true);
+		plugin.logConsole(ConsoleColor.RED.getCode() + message + ConsoleColor.RESET.getCode(), ADPBootstrap.LogLevel.WARNING);
 		log(message, false);
 	}
 	
@@ -85,7 +86,7 @@ public class LoggerManager {
 	public void log(String message, boolean printConsole) {
 		if (printConsole) {
 			// Print it on the console
-			plugin.logConsole(message, false);
+			plugin.logConsole(message, ADPBootstrap.LogLevel.WARNING);
 		}
 		
 		if (saveToFile) {

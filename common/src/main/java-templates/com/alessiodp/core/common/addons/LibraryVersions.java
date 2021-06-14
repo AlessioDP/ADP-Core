@@ -7,7 +7,6 @@ public class LibraryVersions {
 	
 	public static String H2 = "${libs.h2}";
 	
-	public static String REFLECTIONS = "${libs.reflections}";
 	public static String SLF4J = "${libs.slf4j}";
 	public static String JDBI = "${libs.jdbi}";
 	public static String JDBI_ST4 = "${libs.jdbi.st4}";

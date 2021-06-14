@@ -50,10 +50,14 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		// Init
 		instance = this;
 		isPluginDisabled = false;
-		logConsole(String.format(Constants.DEBUG_PLUGIN_ENABLING, this.getPluginName(), this.getVersion()), false);
+		logConsole(String.format(Constants.DEBUG_PLUGIN_ENABLING, this.getPluginName(), this.getVersion()));
+		
+		// Check if plugin can be loaded
+		canBeLoaded();
 		
 		// Pre handle
-		preHandle();
+		if (!isPluginDisabled)
+			preHandle();
 		
 		// Handle
 		if (!isPluginDisabled)
@@ -65,16 +69,16 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		
 		if (isPluginDisabled) {
 			super.getBootstrap().stopPlugin();
+		} else {
+			getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_ENABLED, this.getPluginName(), this.getVersion()), true);
 		}
-		
-		getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_ENABLED, this.getPluginName(), this.getVersion()), true);
 	}
 	
 	/**
 	 * On plugin disable
 	 */
 	public void disabling() {
-		logConsole(String.format(Constants.DEBUG_PLUGIN_DISABLING, this.getPluginName()), false);
+		logConsole(String.format(Constants.DEBUG_PLUGIN_DISABLING, this.getPluginName()));
 		
 		onDisabling();
 		
@@ -83,17 +87,84 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 			getDatabaseManager().stop();
 		}
 		
-		scheduler.shutdown();
+		if (scheduler != null)
+			scheduler.shutdown();
 		
-		getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_DISABLED_LOG, getPluginName()), false);
+		if (getLoggerManager() != null)
+			getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_DISABLED_LOG, getPluginName()), false);
 		
-		logConsole(String.format(Constants.DEBUG_PLUGIN_DISABLED, this.getPluginName()), false);
+		logConsole(String.format(Constants.DEBUG_PLUGIN_DISABLED, this.getPluginName()));
 	}
 	
 	/**
 	 * Used to disable other non-common managers
 	 */
 	public abstract void onDisabling();
+	
+	/**
+	 * Can the plugin be loaded?
+	 *
+	 * @return True if can be loaded
+	 */
+	protected boolean canBeLoaded() {
+		int version = getJavaVersion();
+		if (version >= 16) {
+			if (isCompiledForJava16()) {
+				if (areLibrariesSupported()) {
+					// Supported
+					return true;
+				} else {
+					// Server not supported with this Java version
+					logConsole(Constants.LOAD_SERVER_NOT_SUPPORTED, LogLevel.ERROR);
+					setPluginDisabled(true);
+					return false;
+				}
+			} else {
+				// The plugin doesn't support this Java version
+				logConsole(String.format(Constants.LOAD_JAVA_VERSION_NOT_SUPPORTED, version), LogLevel.ERROR);
+				setPluginDisabled(true);
+				return false;
+			}
+		} else {
+			if (isCompiledForJava16()) {
+				if (areLibrariesSupported()) {
+					// Supported
+					return true;
+				} else {
+					// Using Java 16+ version in old server
+					logConsole(Constants.LOAD_USING_WRONG_VERSION, LogLevel.ERROR);
+					setPluginDisabled(true);
+					return false;
+				}
+			} else {
+				// Supported
+				return true;
+			}
+		}
+	}
+	
+	protected final int getJavaVersion() {
+		String version = System.getProperty("java.version");
+		if(version.startsWith("1.")) {
+			version = version.substring(2, 3);
+		} else {
+			int dot = version.indexOf(".");
+			if(dot != -1) { version = version.substring(0, dot); }
+		}
+		return Integer.parseInt(version);
+	}
+	
+	/**
+	 * Check if the current project is compiled for Java 16
+	 * It checks that a library (HikariCP in this case) is correctly relocated.
+	 * If its not relocated it means that the project is compiled for Java 16
+	 *
+	 * @return True if its compiled for Java 16
+	 */
+	@SuppressWarnings("ConstantConditions")
+	public final boolean isCompiledForJava16() {
+		return "com.zaxxer.hikari".equals("com{}zaxxer{}hikari".replace("{}", "."));
+	}
 	
 	/**
 	 * Preparation before the main handle method

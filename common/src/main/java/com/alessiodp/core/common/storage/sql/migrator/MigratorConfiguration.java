@@ -5,9 +5,12 @@ import com.alessiodp.core.common.storage.dispatchers.SQLDispatcher;
 import com.alessiodp.core.common.storage.sql.connection.ConnectionFactory;
 import lombok.Getter;
 
+import java.util.TreeSet;
+
 public class MigratorConfiguration {
 	@Getter private ConnectionFactory connectionFactory;
 	@Getter private String location;
+	@Getter private TreeSet<String> scripts;
 	@Getter private StorageType storageType;
 	@Getter private int startMigration = 1;
 	@Getter private int backwardMigration = -1;
@@ -25,6 +28,17 @@ public class MigratorConfiguration {
 	 */
 	public MigratorConfiguration setLocation(String location) {
 		this.location = location;
+		return this;
+	}
+	
+	/**
+	 * Set scripts list
+	 *
+	 * @param scripts the scripts to set
+	 * @return the class instance
+	 */
+	public MigratorConfiguration setScripts(TreeSet<String> scripts) {
+		this.scripts = scripts;
 		return this;
 	}
 	

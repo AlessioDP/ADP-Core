@@ -11,13 +11,10 @@ import com.alessiodp.core.common.storage.sql.dao.SchemaHistoryPostgreSQLDao;
 import com.alessiodp.core.common.storage.sql.dao.SchemaHistorySQLiteDao;
 import lombok.Getter;
 import lombok.NonNull;
-import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
 import org.simpleyaml.utils.Validate;
 
 import java.util.Optional;
 import java.util.TreeSet;
-import java.util.regex.Pattern;
 
 public class Migrator {
 	private SQLDispatcher dispatcher;
@@ -40,27 +37,6 @@ public class Migrator {
 	}
 	
 	/**
-	 * Search for every script in the location
-	 */
-	public void searchScripts() {
-		try {
-			Reflections reflections = new Reflections(configuration.getLocation(), new ResourcesScanner());
-			for (String resource : reflections.getResources(Pattern.compile(".*\\.sql"))) {
-				String name = resource.substring(resource.lastIndexOf("/") + 1);
-				FileParser fp = new FileParser(
-						ADPPlugin.getInstance().getResource(resource),
-						name
-				);
-				fp.parse();
-				scripts.add(fp);
-				
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	
-	/**
 	 * Start the migration
 	 */
 	public void migrate() {
@@ -68,7 +44,8 @@ public class Migrator {
 		Validate.notNull(configuration.getConnectionFactory(), "The migrator connection factory cannot be null");
 		Validate.notNull(configuration.getStorageType(), "The migrator storage type cannot be null");
 		Validate.notNull(getSchemaHistoryDao(), "The schema history dao cannot be null");
-		searchScripts();
+		Validate.notEmpty(configuration.getScripts(), "The migrator configuration scripts cannot be empty");
+		parseScripts();
 		
 		configuration.getConnectionFactory().getJdbi().useTransaction(transaction -> {
 			SchemaHistoryDao dao = transaction.attach(getSchemaHistoryDao());
@@ -106,6 +83,24 @@ public class Migrator {
 				}
 			}
 		});
+	}
+	
+	/**
+	 * Parse every script in the location
+	 */
+	public void parseScripts() {
+		try {
+			for (String script : configuration.getScripts()) {
+				FileParser fp = new FileParser(
+						ADPPlugin.getInstance().getResource(configuration.getLocation() + script),
+						script
+				);
+				fp.parse();
+				scripts.add(fp);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	private Class<? extends SchemaHistoryDao> getSchemaHistoryDao() {

@@ -6,7 +6,7 @@
 	
 	<groupId>com.alessiodp.core</groupId>
 	<artifactId>core</artifactId>
-	<version>1.5.8</version>
+	<version>1.6.0</version>
 	<packaging>pom</packaging>
 	
 	<name>ADP Core</name>
@@ -51,7 +51,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
+		<java.version>8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		
@@ -59,39 +59,42 @@
 		<maven.javadoc-plugin.version>3.2.0</maven.javadoc-plugin.version>
 		<maven.shade.version>3.2.4</maven.shade.version>
 		
+		<!-- Dev libraries -->
 		<dev.powermock>2.0.9</dev.powermock>
 		<dev.lombok>1.18.20</dev.lombok>
 		
+		<!-- Shaded libraries -->
 		<libs.bstats>2.2.1</libs.bstats>
-		<libs.configurate>3.7.2</libs.configurate>
-		<libs.gson>2.8.4</libs.gson>
+		<libs.libby>1.1.0</libs.libby>
+		<libs.paperlib>1.0.6</libs.paperlib>
+		<libs.simpleyaml>1.7.2</libs.simpleyaml>
+		
+		<!-- External libraries -->
+		<libs.configurate>4.1.1</libs.configurate>
 		<libs.h2>1.4.200</libs.h2>
 		<libs.hikaricp>4.0.3</libs.hikaricp>
-		<libs.jdbi>3.20.0</libs.jdbi>
-		<libs.libby>1.1.0</libs.libby>
+		<libs.jdbi>3.20.1</libs.jdbi>
 		<libs.mariadb>2.7.2</libs.mariadb>
 		<libs.mysql>8.0.25</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
-		<libs.paperlib>1.0.6</libs.paperlib>
-		<libs.postgresql>42.2.20</libs.postgresql>
-		<libs.reflections>0.9.12</libs.reflections>
-		<libs.simpleyaml>1.7.2</libs.simpleyaml>
+		<libs.postgresql>42.2.21</libs.postgresql>
 		<libs.slf4j>1.7.30</libs.slf4j>
 		<libs.sqlite>3.34.0</libs.sqlite>
 		
-		<!-- Related to Spigot/Bukkit -->
-		<libs.guava>21.0</libs.guava>
-		
-		<!-- Sub libraries -->
+		<!-- Sub external libraries -->
 		<libs.asm>7.3.1</libs.asm>
 		<libs.jdbi.antlr>3.5.2</libs.jdbi.antlr>
 		<libs.jdbi.antlr4>4.9</libs.jdbi.antlr4>
-		<libs.jdbi.caffeine>2.8.0</libs.jdbi.caffeine>
-		<libs.jdbi.geantyref>1.3.7</libs.jdbi.geantyref>
+		<libs.jdbi.caffeine>3.0.2</libs.jdbi.caffeine>
+		<libs.jdbi.geantyref>1.3.11</libs.jdbi.geantyref>
 		<libs.jdbi.st4>4.3.1</libs.jdbi.st4>
 		
-		<mc.spigot>1.16.5-R0.1-SNAPSHOT</mc.spigot>
-		<mc.bungeecord>1.16-R0.5-SNAPSHOT</mc.bungeecord>
+		<!-- Related to Spigot/Bukkit -->
+		<libs.guava>21.0</libs.guava>
+		<libs.gson>2.8.4</libs.gson>
+		
+		<mc.spigot>1.17-R0.1-SNAPSHOT</mc.spigot>
+		<mc.bungeecord>1.17-R0.1-SNAPSHOT</mc.bungeecord>
 	</properties>
 	
 	<build>

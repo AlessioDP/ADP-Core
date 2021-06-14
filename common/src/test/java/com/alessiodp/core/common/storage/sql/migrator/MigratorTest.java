@@ -27,6 +27,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -118,8 +119,20 @@ public class MigratorTest {
 	private Migrator prepareMigrator(ConnectionFactory cf, StorageType storageType) {
 		if (cf == null)
 			return null;
+		TreeSet<String> scripts = new TreeSet<>();
+		switch (storageType) {
+			case MARIADB:
+			case MYSQL:
+			case POSTGRESQL:
+			case SQLITE:
+			case H2:
+				scripts.add("1__Test_queries.sql");
+				scripts.add("2__Second_test.sql");
+				break;
+		}
 		return Migrator.configure()
 				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")
+				.setScripts(scripts)
 				.setConnectionFactory(cf)
 				.setStorageType(storageType)
 				.load(new SQLDispatcher(mockPlugin, storageType) {
@@ -146,7 +159,7 @@ public class MigratorTest {
 	private void searchScripts(Migrator migrator) {
 		if (migrator != null) {
 			assertEquals(migrator.getScripts().size(), 0);
-			migrator.searchScripts();
+			migrator.parseScripts();
 			assertEquals(migrator.getScripts().size(), 2);
 		}
 	}

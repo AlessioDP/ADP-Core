@@ -16,6 +16,7 @@ import org.jdbi.v3.core.statement.SqlLogger;
 import org.jdbi.v3.core.statement.StatementContext;
 
 import java.util.LinkedList;
+import java.util.TreeSet;
 
 @RequiredArgsConstructor
 public abstract class SQLDispatcher implements IDatabaseDispatcher {
@@ -80,15 +81,25 @@ public abstract class SQLDispatcher implements IDatabaseDispatcher {
 		return Migrator.configure()
 				.setConnectionFactory(connectionFactory)
 				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")
+				.setScripts(lookupMigrateScripts())
 				.setStorageType(storageType)
 				.setStartMigration(1)
 				.setBackwardMigration(getBackwardMigration());
 	}
 	
 	/**
+	 * Lookup for Migrator scripts
+	 *
+	 * @return A set of migrate scripts
+	 */
+	protected TreeSet<String> lookupMigrateScripts() {
+		return new TreeSet<>();
+	}
+	
+	/**
 	 * Start Migrator.migrate
 	 *
-	 * @param migrator the Migrator to migrate
+	 * @param migrator the Migrator instance
 	 */
 	protected void migrateTables(Migrator migrator) {
 		migrator.migrate();

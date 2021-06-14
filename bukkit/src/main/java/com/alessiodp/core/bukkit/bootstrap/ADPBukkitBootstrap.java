@@ -30,7 +30,9 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	
 	@Override
 	public void onEnable() {
-		libraryManager = new ADPLibraryManager(plugin, new BukkitLibraryManager(this));
+		libraryManager = new ADPLibraryManager(plugin,
+				!plugin.areLibrariesSupported() ? new BukkitLibraryManager(this) : null
+		);
 		plugin.enabling();
 	}
 	
@@ -67,6 +69,15 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	@Override
 	public void stopPlugin() {
 		super.getPluginLoader().disablePlugin(this);
+	}
+	
+	@Override
+	public boolean areLibrariesSupported() {
+		try {
+			Class.forName("org.bukkit.plugin.java.LibraryLoader");
+			return true;
+		} catch (Exception ignored) {}
+		return false;
 	}
 	
 	@Override
@@ -114,8 +125,21 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	}
 	
 	@Override
-	public void logConsole(String message, boolean isWarning) {
-		CommonUtils.ifNonEmptyDo(message, () -> super.getServer().getLogger().log(isWarning ? Level.WARNING : Level.INFO, message));
+	public void logConsole(String message, LogLevel logLevel) {
+		Level level;
+		switch (logLevel) {
+			case ERROR:
+				level = Level.SEVERE;
+				break;
+			case WARNING:
+				level = Level.WARNING;
+				break;
+			case INFO:
+			default:
+				level = Level.INFO;
+				break;
+		}
+		CommonUtils.ifNonEmptyDo(message, () -> super.getServer().getLogger().log(level, message));
 	}
 	
 	/**

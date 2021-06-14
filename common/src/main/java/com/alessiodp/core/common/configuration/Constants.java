@@ -14,7 +14,10 @@ public class Constants {
 	public static final String UPDATER_DELIMITER_VERSION = "\\.";
 	
 	
-	// Common messages
+	// General messages
+	public static final String LOAD_JAVA_VERSION_NOT_SUPPORTED = "This version of Java (%d) is not supported";
+	public static final String LOAD_SERVER_NOT_SUPPORTED = "This server doesn't allow plugins to load external libraries, consider to downgrade your Java version and use the normal version of the plugin";
+	public static final String LOAD_USING_WRONG_VERSION = "You are using the wrong version of the plugin (Java 16+), consider to use the normal version of the plugin";
 	public static final String ONLY_PLAYERS = "You must be a player to use this command.";
 	
 	

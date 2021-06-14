@@ -52,6 +52,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
+	public boolean areLibrariesSupported() {
+		return bootstrap.areLibrariesSupported();
+	}
+	
+	@Override
 	public InputStream getResource(String resource) {
 		return bootstrap.getResource(resource);
 	}
@@ -92,8 +97,8 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
-	public void logConsole(String message, boolean isWarning) {
-		CommonUtils.ifNonEmptyDo(message, () -> bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, isWarning));
+	public void logConsole(String message, LogLevel logLevel) {
+		CommonUtils.ifNonEmptyDo(message, () -> bootstrap.logConsole("[" + getConsoleColor().getCode() + getPluginName() + ConsoleColor.RESET.getCode() + "] " + message, logLevel));
 	}
 	
 	/**

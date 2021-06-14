@@ -19,7 +19,7 @@ public class FormulaUtils {
 				ADPPlugin.getInstance().getLibraryManager().setupLibrariesForScripting();
 			
 			try {
-				Object nashornEngineFactory = Class.forName("jdk.nashorn.api.scripting.NashornScriptEngineFactory").newInstance();
+				Object nashornEngineFactory = Class.forName("org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory").getDeclaredConstructor().newInstance();
 				scriptEngine = (ScriptEngine) nashornEngineFactory.getClass().getDeclaredMethod("getScriptEngine").invoke(nashornEngineFactory);
 			} catch (Throwable ignored) {}
 		}

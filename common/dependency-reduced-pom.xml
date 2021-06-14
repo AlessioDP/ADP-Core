@@ -3,7 +3,7 @@
   <parent>
     <artifactId>core</artifactId>
     <groupId>com.alessiodp.core</groupId>
-    <version>1.5.8</version>
+    <version>1.6.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>core-common</artifactId>
@@ -85,12 +85,6 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>org.reflections</groupId>
-      <artifactId>reflections</artifactId>
-      <version>0.9.12</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.7.30</version>
@@ -105,7 +99,7 @@
     <dependency>
       <groupId>org.spongepowered</groupId>
       <artifactId>configurate-yaml</artifactId>
-      <version>3.7.2</version>
+      <version>4.1.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -129,19 +123,19 @@
     <dependency>
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-core</artifactId>
-      <version>3.20.0</version>
+      <version>3.20.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-stringtemplate4</artifactId>
-      <version>3.20.0</version>
+      <version>3.20.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jdbi</groupId>
       <artifactId>jdbi3-sqlobject</artifactId>
-      <version>3.20.0</version>
+      <version>3.20.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -165,7 +159,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.2.20</version>
+      <version>42.2.21</version>
       <scope>test</scope>
     </dependency>
     <dependency>

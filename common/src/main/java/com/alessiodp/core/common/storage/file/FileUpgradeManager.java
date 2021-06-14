@@ -5,7 +5,7 @@ import com.alessiodp.core.common.storage.StorageType;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseFile;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.configurate.ConfigurationNode;
 
 @RequiredArgsConstructor
 public abstract class FileUpgradeManager {
@@ -14,8 +14,8 @@ public abstract class FileUpgradeManager {
 	@NonNull protected final StorageType storageType;
 	
 	public void checkForUpgrades() {
-		ConfigurationNode node = databaseFile.getRootNode().getNode("database-version");
-		if (node.getValue() != null) {
+		ConfigurationNode node = databaseFile.getRootNode().node("database-version");
+		if (!node.isNull()) {
 			upgradeDatabase(node.getInt());
 		}
 	}

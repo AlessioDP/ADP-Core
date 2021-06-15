@@ -30,7 +30,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForYAML() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			libraryManager.loadLibrary(Library.builder()
 					.id(ADPLibrary.CONFIGURATE_YAML.getId())
 					.groupId("org{}spongepowered")
@@ -50,7 +50,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForMySQL() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			setupLibrariesForSQL();
 			setupLibrariesForRemoteSQL();
 			
@@ -66,7 +66,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForMariaDB() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			setupLibrariesForSQL();
 			setupLibrariesForRemoteSQL();
 			
@@ -81,7 +81,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForPostgreSQL() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			setupLibrariesForSQL();
 			setupLibrariesForRemoteSQL();
 			
@@ -108,7 +108,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForSQLite() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			setupLibrariesForSQL();
 			
 			libraryManager.loadLibrary(Library.builder()
@@ -123,7 +123,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForH2() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			setupLibrariesForSQL();
 			
 			libraryManager.loadLibrary(Library.builder()
@@ -230,7 +230,7 @@ public class ADPLibraryManager {
 	}
 	
 	public void setupLibrariesForScripting() {
-		if (!plugin.areLibrariesSupported()) {
+		if (libraryManager != null) {
 			libraryManager.loadLibrary(Library.builder()
 					.id(ADPLibrary.NASHORN.getId())
 					.groupId("org{}openjdk{}nashorn")

@@ -31,7 +31,7 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	@Override
 	public void onEnable() {
 		libraryManager = new ADPLibraryManager(plugin,
-				!plugin.areLibrariesSupported() ? new BukkitLibraryManager(this) : null
+				!plugin.isCompiledForJava16() ? new BukkitLibraryManager(this) : null
 		);
 		plugin.enabling();
 	}

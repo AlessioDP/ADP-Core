@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.6.0</version>
+		<version>1.6.1</version>
 	</parent>
 	
 	<artifactId>core-bukkit</artifactId>

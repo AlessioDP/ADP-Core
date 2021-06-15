@@ -129,6 +129,8 @@ public class MigratorTest {
 				scripts.add("1__Test_queries.sql");
 				scripts.add("2__Second_test.sql");
 				break;
+			default:
+				return null;
 		}
 		return Migrator.configure()
 				.setLocation("db/migrations/" + CommonUtils.toLowerCase(storageType.name()) + "/")

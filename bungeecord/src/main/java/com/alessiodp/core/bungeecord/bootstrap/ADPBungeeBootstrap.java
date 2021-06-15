@@ -30,7 +30,7 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	@Override
 	public void onEnable() {
 		libraryManager = new ADPLibraryManager(plugin,
-				!plugin.areLibrariesSupported() ? new BungeeLibraryManager(this): null
+				!plugin.isCompiledForJava16() ? new BungeeLibraryManager(this): null
 		);
 		plugin.enabling();
 	}

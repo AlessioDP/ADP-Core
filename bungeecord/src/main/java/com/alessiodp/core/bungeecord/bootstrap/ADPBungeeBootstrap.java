@@ -29,9 +29,7 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 	
 	@Override
 	public void onEnable() {
-		libraryManager = new ADPLibraryManager(plugin,
-				!plugin.isCompiledForJava16() ? new BungeeLibraryManager(this): null
-		);
+		libraryManager = new ADPLibraryManager(plugin);
 		plugin.enabling();
 	}
 	
@@ -70,6 +68,13 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 		this.onDisable();
 		super.getProxy().getPluginManager().unregisterCommands(this);
 		super.getProxy().getPluginManager().unregisterListeners(this);
+	}
+	
+	@Override
+	public void initLibraryManager() {
+		if (!plugin.isCompiledForJava16()) {
+			libraryManager.init(new BungeeLibraryManager(this));
+		}
 	}
 	
 	@Override

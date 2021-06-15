@@ -11,10 +11,13 @@ import net.byteflux.libby.logging.LogLevel;
  */
 public class ADPLibraryManager {
 	private final ADPPlugin plugin;
-	private final LibraryManager libraryManager;
+	private LibraryManager libraryManager;
 	
-	public ADPLibraryManager(@NonNull ADPPlugin plugin, LibraryManager libraryManager) {
+	public ADPLibraryManager(@NonNull ADPPlugin plugin) {
 		this.plugin = plugin;
+	}
+	
+	public void init(LibraryManager libraryManager) {
 		this.libraryManager = libraryManager;
 		if (libraryManager != null) {
 			// LibraryManager is null for Spigot/Bungee 1.16+

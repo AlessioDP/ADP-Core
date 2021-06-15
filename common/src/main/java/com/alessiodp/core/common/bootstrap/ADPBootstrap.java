@@ -58,6 +58,11 @@ public interface ADPBootstrap {
 	ADPLibraryManager getLibraryManager();
 	
 	/**
+	 * Initialize library manager
+	 */
+	void initLibraryManager();
+	
+	/**
 	 * Check if libraries are supported by the platform
 	 *
 	 * @return true if supported

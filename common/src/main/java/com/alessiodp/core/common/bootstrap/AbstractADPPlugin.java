@@ -52,6 +52,11 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	}
 	
 	@Override
+	public void initLibraryManager() {
+		bootstrap.initLibraryManager();
+	}
+	
+	@Override
 	public boolean areLibrariesSupported() {
 		return bootstrap.areLibrariesSupported();
 	}

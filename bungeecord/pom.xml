@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.6.1</version>
+		<version>1.6.2</version>
 	</parent>
 	
 	<artifactId>core-bungeecord</artifactId>

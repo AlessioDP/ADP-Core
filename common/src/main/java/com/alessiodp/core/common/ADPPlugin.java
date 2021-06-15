@@ -55,6 +55,10 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 		// Check if plugin can be loaded
 		canBeLoaded();
 		
+		// Initialize library manager if the plugin can be loaded
+		if (!isPluginDisabled)
+			initLibraryManager();
+		
 		// Pre handle
 		if (!isPluginDisabled)
 			preHandle();

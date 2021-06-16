@@ -166,7 +166,7 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 * @return True if its compiled for Java 16
 	 */
 	@SuppressWarnings("ConstantConditions")
-	public final boolean isCompiledForJava16() {
+	public boolean isCompiledForJava16() {
 		return "com.zaxxer.hikari".equals("com{}zaxxer{}hikari".replace("{}", "."));
 	}
 	

@@ -6,7 +6,7 @@
 	
 	<groupId>com.alessiodp.core</groupId>
 	<artifactId>core</artifactId>
-	<version>1.6.2</version>
+	<version>1.6.3</version>
 	<packaging>pom</packaging>
 	
 	<name>ADP Core</name>
@@ -85,7 +85,7 @@
 		<libs.asm>7.3.1</libs.asm>
 		<libs.jdbi.antlr>3.5.2</libs.jdbi.antlr>
 		<libs.jdbi.antlr4>4.9</libs.jdbi.antlr4>
-		<libs.jdbi.caffeine>3.0.2</libs.jdbi.caffeine>
+		<libs.jdbi.caffeine>2.9.1</libs.jdbi.caffeine>
 		<libs.jdbi.geantyref>1.3.11</libs.jdbi.geantyref>
 		<libs.jdbi.st4>4.3.1</libs.jdbi.st4>
 		

@@ -1,6 +1,5 @@
 package com.alessiodp.core.common.bootstrap;
 
-import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
 
@@ -49,25 +48,6 @@ public interface ADPBootstrap {
 	 * Stop the plugin
 	 */
 	void stopPlugin();
-	
-	/**
-	 * Get the library manager
-	 *
-	 * @return the library manager
-	 */
-	ADPLibraryManager getLibraryManager();
-	
-	/**
-	 * Initialize library manager
-	 */
-	void initLibraryManager();
-	
-	/**
-	 * Check if libraries are supported by the platform
-	 *
-	 * @return true if supported
-	 */
-	boolean areLibrariesSupported();
 	
 	/**
 	 * Get resource from plugin resources

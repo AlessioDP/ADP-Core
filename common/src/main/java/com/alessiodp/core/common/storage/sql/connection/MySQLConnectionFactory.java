@@ -25,6 +25,7 @@ public class MySQLConnectionFactory extends HikariConfiguration {
 		config.addDataSourceProperty("useUnicode", "true"); // Forcing the use of unicode
 		config.addDataSourceProperty("serverTimezone", "UTC"); // Necessary to run tests
 		config.addDataSourceProperty("characterEncoding", charset); // Setup encoding to UTF-8
+		config.addDataSourceProperty("allowPublicKeyRetrieval", "true");
 		config.addDataSourceProperty("useSSL", Boolean.toString(useSSL));
 	}
 	

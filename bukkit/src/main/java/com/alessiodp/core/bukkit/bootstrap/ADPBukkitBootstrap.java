@@ -3,15 +3,12 @@ package com.alessiodp.core.bukkit.bootstrap;
 import com.alessiodp.core.bukkit.user.BukkitOfflineUser;
 import com.alessiodp.core.bukkit.user.BukkitUser;
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.bootstrap.PluginPlatform;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.utils.CommonUtils;
-import lombok.Getter;
 import lombok.NonNull;
-import net.byteflux.libby.BukkitLibraryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,11 +23,14 @@ import java.util.logging.Level;
 
 public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootstrap {
 	@NonNull protected ADPPlugin plugin;
-	@Getter private ADPLibraryManager libraryManager;
+	
+	@Override
+	public void onLoad() {
+		plugin.loading();
+	}
 	
 	@Override
 	public void onEnable() {
-		libraryManager = new ADPLibraryManager(plugin);
 		plugin.enabling();
 	}
 	
@@ -67,22 +67,6 @@ public abstract class ADPBukkitBootstrap extends JavaPlugin implements ADPBootst
 	@Override
 	public void stopPlugin() {
 		super.getPluginLoader().disablePlugin(this);
-	}
-	
-	@Override
-	public void initLibraryManager() {
-		if (!plugin.isCompiledForJava16()) {
-			libraryManager.init(new BukkitLibraryManager(this));
-		}
-	}
-	
-	@Override
-	public boolean areLibrariesSupported() {
-		try {
-			Class.forName("org.bukkit.plugin.java.LibraryLoader");
-			return true;
-		} catch (Exception ignored) {}
-		return false;
 	}
 	
 	@Override

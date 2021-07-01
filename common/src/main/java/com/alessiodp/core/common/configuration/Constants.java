@@ -13,15 +13,9 @@ public class Constants {
 	public static final String UPDATER_DELIMITER_TYPE = "\\-";
 	public static final String UPDATER_DELIMITER_VERSION = "\\.";
 	
-	
-	// General messages
-	public static final String LOAD_JAVA_VERSION_NOT_SUPPORTED = "This version of Java (%d) is not supported";
-	public static final String LOAD_SERVER_NOT_SUPPORTED = "This server doesn't allow plugins to load external libraries, consider to downgrade your Java version and use the normal version of the plugin";
-	public static final String LOAD_USING_WRONG_VERSION = "You are using the wrong version of the plugin (Java 16+), consider to use the normal version of the plugin";
-	public static final String ONLY_PLAYERS = "You must be a player to use this command.";
-	
-	
 	// Debug messages
+	public static final String DEBUG_PLUGIN_LOADING = "Loading libraries of %s v%s, this may take a while";
+	public static final String DEBUG_PLUGIN_LOADING_FAILED = "Failed to load libraries, the plugin will be stopped";
 	public static final String DEBUG_PLUGIN_ENABLING = "Initializing %s v%s";
 	public static final String DEBUG_PLUGIN_ENABLED = "%s v%s enabled";
 	public static final String DEBUG_PLUGIN_DISABLING = "Disabling %s";
@@ -53,9 +47,8 @@ public class Constants {
 	public static final String DEBUG_DB_INIT_FAILED = "Failed to initialize the storage, stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_NOTFOUND = "Failed to found a valid storage type, stopping plugin!";
 	public static final String DEBUG_DB_INIT_FAILED_UNSUPPORTED = "Unsupported storage type '%s', stopping plugin!";
-	public static final String DEBUG_DB_INIT_FAILED_LIBRARIES = "Failed to download required libraries for '%s', stopping plugin!";
 	public static final String DEBUG_DB_QUERY_EXECUTE = "Executing query: %s";
-	public static final String DEBUG_DB_FILE_CREATEFAIL = "Failed to create data file: %s > %s";
+	public static final String DEBUG_DB_FILE_CREATEFAIL = "Failed to create YAML data file: %s";
 	public static final String DEBUG_DB_FILE_ERROR = DEBUG_CONFIG_SAVE_ERROR;
 	public static final String DEBUG_DB_MIGRATOR_CREATING_TABLE = "Creating schema history table";
 	public static final String DEBUG_DB_MIGRATOR_MIGRATING = "Migrating database with '%s'";

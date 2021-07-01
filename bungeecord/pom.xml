@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.6.3</version>
+		<version>1.6.4</version>
 	</parent>
 	
 	<artifactId>core-bungeecord</artifactId>
@@ -31,7 +31,6 @@
 					<artifactSet>
 						<includes>
 							<include>${project.parent.groupId}:${project.artifactId}</include>
-							<include>net.byteflux:libby-bungee</include>
 							<include>org.bstats:bstats-base</include>
 							<include>org.bstats:bstats-bungeecord</include>
 						</includes>
@@ -80,12 +79,6 @@
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-bungeecord</artifactId>
 			<version>${libs.bstats}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.byteflux</groupId>
-			<artifactId>libby-bungee</artifactId>
-			<version>${libs.libby}</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

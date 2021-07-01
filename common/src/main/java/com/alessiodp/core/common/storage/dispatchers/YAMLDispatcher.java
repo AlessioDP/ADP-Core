@@ -2,10 +2,9 @@ package com.alessiodp.core.common.storage.dispatchers;
 
 import com.alessiodp.core.common.ADPPlugin;
 import com.alessiodp.core.common.configuration.Constants;
-import com.alessiodp.core.common.storage.StorageType;
-import com.alessiodp.core.common.storage.file.FileUpgradeManager;
+import com.alessiodp.core.common.storage.file.YAMLDao;
+import com.alessiodp.core.common.storage.file.YAMLUpgradeManager;
 import com.alessiodp.core.common.storage.interfaces.IDatabaseDispatcher;
-import com.alessiodp.core.common.storage.interfaces.IDatabaseFile;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +12,11 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public abstract class FileDispatcher implements IDatabaseDispatcher {
+public abstract class YAMLDispatcher implements IDatabaseDispatcher {
 	@NonNull protected final ADPPlugin plugin;
-	@NonNull protected final StorageType storageType;
 	
-	@Getter protected IDatabaseFile database;
-	protected FileUpgradeManager upgradeManager;
+	@Getter protected YAMLDao database;
+	protected YAMLUpgradeManager upgradeManager;
 	
 	@Override
 	public final void stop() {
@@ -53,14 +51,14 @@ public abstract class FileDispatcher implements IDatabaseDispatcher {
 	 *
 	 * @return the initialized DAO
 	 */
-	protected abstract IDatabaseFile initDao();
+	protected abstract YAMLDao initDao();
 	
 	/**
 	 * Initialize the upgrade manager
 	 *
 	 * @return the initialized upgrade manager
 	 */
-	protected abstract FileUpgradeManager initUpgradeManager();
+	protected abstract YAMLUpgradeManager initUpgradeManager();
 	
 	/**
 	 * Save the database

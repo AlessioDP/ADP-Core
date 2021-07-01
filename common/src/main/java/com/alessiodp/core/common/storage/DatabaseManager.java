@@ -37,12 +37,6 @@ public abstract class DatabaseManager {
 	 * @return the database dispatcher initialized
 	 */
 	protected IDatabaseDispatcher init(StorageType storageType) {
-		// Initialize libraries
-		if (!storageType.initLibraries(plugin)) {
-			plugin.getLoggerManager().printError(String.format(Constants.DEBUG_DB_INIT_FAILED_LIBRARIES, storageType.getFormattedName()));
-			return null;
-		}
-		
 		// Initialize the correct dispatcher (File/SQL)
 		IDatabaseDispatcher ret = initializeDispatcher(storageType);
 		

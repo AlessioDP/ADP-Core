@@ -7,27 +7,20 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.6.3</version>
+		<version>1.6.4</version>
 	</parent>
 	
 	<artifactId>core-common</artifactId>
 	
 	<build>
 		<defaultGoal>clean package install</defaultGoal>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources/</directory>
+			</resource>
+		</resources>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>templating-maven-plugin</artifactId>
-				<version>1.0.0</version>
-				<executions>
-					<execution>
-						<id>filter-src</id>
-						<goals>
-							<goal>filter-sources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.version}</version>
@@ -44,8 +37,8 @@
 					<artifactSet>
 						<includes>
 							<include>${project.parent.groupId}:${project.artifactId}</include>
-							<include>net.byteflux:libby-core</include>
 							<include>me.carleslc:Simple-Yaml</include>
+							<include>io.github.slimjar:slimjar</include>
 						</includes>
 						<excludes>
 							<exclude>org.yaml:snakeyaml</exclude>
@@ -55,6 +48,10 @@
 						<relocation>
 							<pattern>org.simpleyaml</pattern>
 							<shadedPattern>com.alessiodp.core.common.addons.external.simpleyaml</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>io.github.slimjar</pattern>
+							<shadedPattern>com.alessiodp.core.common.addons.external.slimjar</shadedPattern>
 						</relocation>
 					</relocations>
 					<filters>
@@ -80,6 +77,12 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>io.github.slimjar</groupId>
+			<artifactId>slimjar</artifactId>
+			<version>${libs.slimjar}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>${libs.gson}</version>
@@ -89,13 +92,6 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${libs.guava}</version>
-			<scope>compile</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>net.byteflux</groupId>
-			<artifactId>libby-core</artifactId>
-			<version>${libs.libby}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -111,12 +107,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.spongepowered</groupId>
-			<artifactId>configurate-yaml</artifactId>
-			<version>${libs.configurate}</version>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
@@ -181,6 +171,12 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${libs.postgresql}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>1.28</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

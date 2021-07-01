@@ -1,7 +1,5 @@
 package com.alessiodp.core.common.utils;
 
-import com.alessiodp.core.common.ADPPlugin;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -14,10 +12,6 @@ public class FormulaUtils {
 		if (scriptEngine == null)
 			scriptEngine = new ScriptEngineManager().getEngineByName("nashorn");
 		if (scriptEngine == null) {
-			// Probably Java 15+ - Load nashorn via library
-			if (ADPPlugin.getInstance() != null) // If not testing
-				ADPPlugin.getInstance().getLibraryManager().setupLibrariesForScripting();
-			
 			try {
 				Object nashornEngineFactory = Class.forName("org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory").getDeclaredConstructor().newInstance();
 				scriptEngine = (ScriptEngine) nashornEngineFactory.getClass().getDeclaredMethod("getScriptEngine").invoke(nashornEngineFactory);

@@ -1,7 +1,6 @@
 package com.alessiodp.core.common.storage.sql.connection;
 
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.addons.ADPLibrary;
 import com.alessiodp.core.common.storage.StorageType;
 import lombok.Getter;
 import lombok.NonNull;
@@ -35,18 +34,8 @@ public class SQLiteConnectionFactory implements ConnectionFactory {
 	@Override
 	public void init() {
 		failed = true;
-		
-		ClassLoader classLoader;
-		if (plugin != null) {
-			// Load it via library manager
-			classLoader = plugin.getLibraryManager().getIsolatedClassLoaderOf(ADPLibrary.SQLITE_JDBC);
-		} else {
-			// Load it normally (for test cases)
-			classLoader = getClass().getClassLoader();
-		}
-		
 		try {
-			Class<?> dataSourceClass = classLoader.loadClass("org.sqlite.SQLiteDataSource");
+			Class<?> dataSourceClass = getClass().getClassLoader().loadClass("org.sqlite.SQLiteDataSource");
 			dataSource = (DataSource) dataSourceClass.getConstructor().newInstance();
 			dataSourceClass.getMethod("setUrl", String.class).invoke(dataSource, databaseUrl);
 		} catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {

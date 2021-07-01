@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>core</artifactId>
 		<groupId>com.alessiodp.core</groupId>
-		<version>1.6.3</version>
+		<version>1.6.4</version>
 	</parent>
 	
 	<artifactId>core-bukkit</artifactId>
@@ -39,7 +39,6 @@
 						<includes>
 							<include>${project.parent.groupId}:${project.artifactId}</include>
 							<include>io.papermc:paperlib</include>
-							<include>net.byteflux:libby-bukkit</include>
 							<include>org.bstats:bstats-base</include>
 							<include>org.bstats:bstats-bukkit</include>
 						</includes>
@@ -91,12 +90,6 @@
 			<groupId>org.bstats</groupId>
 			<artifactId>bstats-bukkit</artifactId>
 			<version>${libs.bstats}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.byteflux</groupId>
-			<artifactId>libby-bukkit</artifactId>
-			<version>${libs.libby}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>

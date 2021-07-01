@@ -1,6 +1,5 @@
 package com.alessiodp.core.common.bootstrap;
 
-import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.logging.ConsoleColor;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
@@ -44,21 +43,6 @@ public abstract class AbstractADPPlugin implements ADPBootstrap {
 	@Override
 	public void stopPlugin() {
 		bootstrap.stopPlugin();
-	}
-	
-	@Override
-	public ADPLibraryManager getLibraryManager() {
-		return bootstrap.getLibraryManager();
-	}
-	
-	@Override
-	public void initLibraryManager() {
-		bootstrap.initLibraryManager();
-	}
-	
-	@Override
-	public boolean areLibrariesSupported() {
-		return bootstrap.areLibrariesSupported();
 	}
 	
 	@Override

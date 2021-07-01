@@ -3,15 +3,12 @@ package com.alessiodp.core.bungeecord.bootstrap;
 import com.alessiodp.core.bungeecord.user.BungeeOfflineUser;
 import com.alessiodp.core.bungeecord.user.BungeeUser;
 import com.alessiodp.core.common.ADPPlugin;
-import com.alessiodp.core.common.addons.ADPLibraryManager;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
 import com.alessiodp.core.common.bootstrap.PluginPlatform;
 import com.alessiodp.core.common.user.OfflineUser;
 import com.alessiodp.core.common.user.User;
 import com.alessiodp.core.common.utils.CommonUtils;
-import lombok.Getter;
 import lombok.NonNull;
-import net.byteflux.libby.BungeeLibraryManager;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -25,11 +22,14 @@ import java.util.logging.Level;
 
 public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap {
 	@NonNull protected ADPPlugin plugin;
-	@Getter private ADPLibraryManager libraryManager;
+	
+	@Override
+	public void onLoad() {
+		plugin.loading();
+	}
 	
 	@Override
 	public void onEnable() {
-		libraryManager = new ADPLibraryManager(plugin);
 		plugin.enabling();
 	}
 	
@@ -68,22 +68,6 @@ public abstract class ADPBungeeBootstrap extends Plugin implements ADPBootstrap 
 		this.onDisable();
 		super.getProxy().getPluginManager().unregisterCommands(this);
 		super.getProxy().getPluginManager().unregisterListeners(this);
-	}
-	
-	@Override
-	public void initLibraryManager() {
-		if (!plugin.isCompiledForJava16()) {
-			libraryManager.init(new BungeeLibraryManager(this));
-		}
-	}
-	
-	@Override
-	public boolean areLibrariesSupported() {
-		try {
-			Class.forName("net.md_5.bungee.api.plugin.LibraryLoader");
-			return true;
-		} catch (Exception ignored) {}
-		return false;
 	}
 	
 	@Override

@@ -86,7 +86,7 @@ public class LoggerManager {
 	public void log(String message, boolean printConsole) {
 		if (printConsole) {
 			// Print it on the console
-			plugin.logConsole(message, ADPBootstrap.LogLevel.WARNING);
+			plugin.logConsole(message);
 		}
 		
 		if (saveToFile) {

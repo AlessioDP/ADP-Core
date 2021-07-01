@@ -1,6 +1,7 @@
 package com.alessiodp.core.common;
 
 import com.alessiodp.core.common.addons.AddonManager;
+import com.alessiodp.core.common.addons.ExternalLibraries;
 import com.alessiodp.core.common.addons.internal.JsonHandler;
 import com.alessiodp.core.common.addons.internal.TitleHandler;
 import com.alessiodp.core.common.bootstrap.ADPBootstrap;
@@ -15,8 +16,12 @@ import com.alessiodp.core.common.players.LoginAlertsManager;
 import com.alessiodp.core.common.scheduling.ADPScheduler;
 import com.alessiodp.core.common.storage.DatabaseManager;
 import com.alessiodp.core.common.utils.IPlayerUtils;
+import io.github.slimjar.app.builder.ApplicationBuilder;
+import io.github.slimjar.resolver.data.DependencyData;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 public abstract class ADPPlugin extends AbstractADPPlugin {
 	// Plugin fields
@@ -44,37 +49,54 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	}
 	
 	/**
+	 * On plugin load
+	 */
+	public void loading() {
+		instance = this;
+		isPluginDisabled = false;
+		logConsole(String.format(Constants.DEBUG_PLUGIN_LOADING, this.getPluginName(), this.getVersion()));
+		try {
+			DependencyData dependencyData = ExternalLibraries.getDependencyData(this);
+			ApplicationBuilder
+					.appending(getPluginName())
+					.downloadDirectoryPath(this.getFolder().resolve("libraries"))
+					.dataProviderFactory((url) -> () -> dependencyData)
+					.build();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logConsole(Constants.DEBUG_PLUGIN_LOADING_FAILED, LogLevel.ERROR);
+			isPluginDisabled = true;
+		}
+	}
+	
+	/**
 	 * On plugin enable
 	 */
 	public void enabling() {
-		// Init
-		instance = this;
-		isPluginDisabled = false;
-		logConsole(String.format(Constants.DEBUG_PLUGIN_ENABLING, this.getPluginName(), this.getVersion()));
-		
-		// Check if plugin can be loaded
-		canBeLoaded();
-		
-		// Initialize library manager if the plugin can be loaded
-		if (!isPluginDisabled)
-			initLibraryManager();
-		
-		// Pre handle
-		if (!isPluginDisabled)
-			preHandle();
-		
-		// Handle
-		if (!isPluginDisabled)
-			handle();
-		
-		// Post handle
-		if (!isPluginDisabled)
-			postHandle();
-		
-		if (isPluginDisabled) {
-			super.getBootstrap().stopPlugin();
-		} else {
-			getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_ENABLED, this.getPluginName(), this.getVersion()), true);
+		if (!isPluginDisabled) {
+			// Init
+			logConsole(String.format(Constants.DEBUG_PLUGIN_ENABLING, this.getPluginName(), this.getVersion()));
+			
+			// Check if plugin can be loaded
+			canBeLoaded();
+			
+			// Pre handle
+			if (!isPluginDisabled)
+				preHandle();
+			
+			// Handle
+			if (!isPluginDisabled)
+				handle();
+			
+			// Post handle
+			if (!isPluginDisabled)
+				postHandle();
+			
+			if (isPluginDisabled) {
+				super.getBootstrap().stopPlugin();
+			} else {
+				getLoggerManager().log(String.format(Constants.DEBUG_PLUGIN_ENABLED, this.getPluginName(), this.getVersion()), true);
+			}
 		}
 	}
 	
@@ -111,43 +133,10 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 * @return True if can be loaded
 	 */
 	protected boolean canBeLoaded() {
-		int version = getJavaVersion();
-		if (version >= 16) {
-			if (isCompiledForJava16()) {
-				if (areLibrariesSupported()) {
-					// Supported
-					return true;
-				} else {
-					// Server not supported with this Java version
-					logConsole(Constants.LOAD_SERVER_NOT_SUPPORTED, LogLevel.ERROR);
-					setPluginDisabled(true);
-					return false;
-				}
-			} else {
-				// The plugin doesn't support this Java version
-				logConsole(String.format(Constants.LOAD_JAVA_VERSION_NOT_SUPPORTED, version), LogLevel.ERROR);
-				setPluginDisabled(true);
-				return false;
-			}
-		} else {
-			if (isCompiledForJava16()) {
-				if (areLibrariesSupported()) {
-					// Supported
-					return true;
-				} else {
-					// Using Java 16+ version in old server
-					logConsole(Constants.LOAD_USING_WRONG_VERSION, LogLevel.ERROR);
-					setPluginDisabled(true);
-					return false;
-				}
-			} else {
-				// Supported
-				return true;
-			}
-		}
+		return true;
 	}
 	
-	protected final int getJavaVersion() {
+	public final int getJavaVersion() {
 		String version = System.getProperty("java.version");
 		if(version.startsWith("1.")) {
 			version = version.substring(2, 3);
@@ -156,18 +145,6 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 			if(dot != -1) { version = version.substring(0, dot); }
 		}
 		return Integer.parseInt(version);
-	}
-	
-	/**
-	 * Check if the current project is compiled for Java 16
-	 * It checks that a library (HikariCP in this case) is correctly relocated.
-	 * If its not relocated it means that the project is compiled for Java 16
-	 *
-	 * @return True if its compiled for Java 16
-	 */
-	@SuppressWarnings("ConstantConditions")
-	public boolean isCompiledForJava16() {
-		return "com.zaxxer.hikari".equals("com{}zaxxer{}hikari".replace("{}", "."));
 	}
 	
 	/**
@@ -220,4 +197,11 @@ public abstract class ADPPlugin extends AbstractADPPlugin {
 	 * Initialize Title Handler instance
 	 */
 	protected abstract void initializeTitleHandler();
+	
+	/**
+	 * Returns a list of usages of libraries to load the plugin
+	 *
+	 * @return Returns a list of usages
+	 */
+	public abstract List<ExternalLibraries.Usage> getLibrariesUsages();
 }

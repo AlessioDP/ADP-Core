@@ -6,7 +6,7 @@
 	
 	<groupId>com.alessiodp.core</groupId>
 	<artifactId>core</artifactId>
-	<version>1.6.3</version>
+	<version>1.6.4</version>
 	<packaging>pom</packaging>
 	
 	<name>ADP Core</name>
@@ -65,19 +65,18 @@
 		
 		<!-- Shaded libraries -->
 		<libs.bstats>2.2.1</libs.bstats>
-		<libs.libby>1.1.0</libs.libby>
+		<libs.slimjar>1.2.3</libs.slimjar>
 		<libs.paperlib>1.0.6</libs.paperlib>
 		<libs.simpleyaml>1.7.2</libs.simpleyaml>
 		
 		<!-- External libraries -->
-		<libs.configurate>4.1.1</libs.configurate>
 		<libs.h2>1.4.200</libs.h2>
 		<libs.hikaricp>4.0.3</libs.hikaricp>
 		<libs.jdbi>3.20.1</libs.jdbi>
 		<libs.mariadb>2.7.2</libs.mariadb>
 		<libs.mysql>8.0.25</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
-		<libs.postgresql>42.2.21</libs.postgresql>
+		<libs.postgresql>42.2.22</libs.postgresql>
 		<libs.slf4j>1.7.30</libs.slf4j>
 		<libs.sqlite>3.34.0</libs.sqlite>
 		
@@ -168,6 +167,11 @@
 			<!-- Sponge repo -->
 			<id>sponge-repo</id>
 			<url>https://repo.spongepowered.org/maven</url>
+		</repository>
+		<repository>
+			<!-- vshnv repo -->
+			<id>vshnv-repo</id>
+			<url>https://repo.vshnv.tech/releases</url>
 		</repository>
 	</repositories>
 	

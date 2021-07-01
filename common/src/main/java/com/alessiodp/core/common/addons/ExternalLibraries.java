@@ -109,18 +109,16 @@ public class ExternalLibraries {
 			}
 		}
 		
-		if (usages.contains(Usage.SCRIPT)) {
+		if (usages.contains(Usage.SCRIPT) && plugin.getJavaVersion() >= 15) {
 			// Load new Nashorn if Java 15+
-			if (plugin.getJavaVersion() >= 15) {
-				dependencies.add(new Dependency(
-						filter("org{}openjdk{}nashorn"), "nashorn-core", versions.getProperty("nashorn"), null, Collections.emptyList()
-				));
-				dependencies.add(new Dependency(
-						filter("org{}ow2{}asm"), "asm", versions.getProperty("asm"), null, Collections.emptyList()
-				));
-				relocations.add(new RelocationRule(filter("org{}openjdk{}nashorn"), plugin.getPackageName() + ".libs.nashorn"));
-				relocations.add(new RelocationRule(filter("org{}objectweb{}asm"), plugin.getPackageName() + ".libs.asm"));
-			}
+			dependencies.add(new Dependency(
+					filter("org{}openjdk{}nashorn"), "nashorn-core", versions.getProperty("nashorn"), null, Collections.emptyList()
+			));
+			dependencies.add(new Dependency(
+					filter("org{}ow2{}asm"), "asm", versions.getProperty("asm"), null, Collections.emptyList()
+			));
+			relocations.add(new RelocationRule(filter("org{}openjdk{}nashorn"), plugin.getPackageName() + ".libs.nashorn"));
+			relocations.add(new RelocationRule(filter("org{}objectweb{}asm"), plugin.getPackageName() + ".libs.asm"));
 		}
 		
 		return new DependencyData(

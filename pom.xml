@@ -72,7 +72,7 @@
 		<!-- External libraries -->
 		<libs.h2>1.4.200</libs.h2>
 		<libs.hikaricp>4.0.3</libs.hikaricp>
-		<libs.jdbi>3.20.1</libs.jdbi>
+		<libs.jdbi>3.21.0</libs.jdbi>
 		<libs.mariadb>2.7.2</libs.mariadb>
 		<libs.mysql>8.0.25</libs.mysql>
 		<libs.nashorn>15.2</libs.nashorn>
